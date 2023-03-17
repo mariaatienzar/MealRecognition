@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layoutHead"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/green"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:background="@drawable/ic_user" />
+
+            <TextView
+                android:id="@+id/edit_text_name"
+                android:layout_width="305dp"
+                android:layout_height="56dp"
+                android:layout_below="@id/image_view"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-6dp"
+                android:enabled="true"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@android:color/white"
+                tools:text="Información del usuario" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:padding="16dp"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:layout_below="@id/layoutHead"
+            android:layout_width="360dp"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/text_weight"
+                android:hint="Peso (kg)"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:drawableLeft="@drawable/ic_email"
+                android:drawablePadding="16dp"
+                android:enabled="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+
+
+            <EditText
+                android:id="@+id/text_height"
+                android:hint="Altura (cm)"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:drawableLeft="@drawable/ic_email"
+                android:drawablePadding="16dp"
+                android:enabled="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+            <EditText
+                android:id="@+id/text_age"
+                android:hint="Edad"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:drawableLeft="@drawable/ic_email"
+                android:drawablePadding="16dp"
+                android:enabled="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            <EditText
+                android:id="@+id/text_sex"
+                android:hint="Sexo"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:drawableLeft="@drawable/ic_email"
+                android:drawablePadding="16dp"
+                android:enabled="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/button_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/green"
+                android:text="Actualizar datos"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

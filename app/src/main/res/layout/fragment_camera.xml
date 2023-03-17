@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CameraActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:background="@color/green"
+            android:id="@+id/toolbar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/camera_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:enabled="true"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/green"
+            tools:text="Capturar Foto" />
+
+
+    </LinearLayout>
+    <androidx.camera.view.PreviewView
+        android:id="@+id/image_view"
+        android:layout_width="199dp"
+        android:layout_height="204dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="136dp"
+        android:background="@drawable/ic_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        ></androidx.camera.view.PreviewView>
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="232dp"
+        app:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <ImageView
+        android:id="@+id/home"
+        android:layout_width="75dp"
+        android:layout_height="85dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="608dp"
+        android:background="@drawable/ic_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    <TextView
+        android:id="@+id/home_text"
+        android:layout_width="137dp"
+        android:layout_height="75dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="690dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.30"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Página inicio" />
+
+
+    <ImageView
+        android:id="@+id/gallery"
+        android:layout_width="75dp"
+        android:layout_height="85dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="608dp"
+        android:background="@drawable/ic_gallery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.78"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+    <TextView
+        android:id="@+id/gallery_text"
+        android:layout_width="137dp"
+        android:layout_height="75dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="690dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.90"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Elegir de galería" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "657604342970",
+    "project_id": "mealrecognition",
+    "storage_bucket": "mealrecognition.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657604342970:android:9c900faaf00186f1817e83",
+        "android_client_info": {
+          "package_name": "com.example.mealrecognition"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657604342970-gskcp2magtqhqtg0a3apku9v9fdn6mk2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBehvr7dnRhMSjBC9Jc5YlAh5wFfYLcYIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657604342970-gskcp2magtqhqtg0a3apku9v9fdn6mk2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657604342970:android:10fdad54cbb39cc1817e83",
+        "android_client_info": {
+          "package_name": "om.example.mealrecognition"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657604342970-gskcp2magtqhqtg0a3apku9v9fdn6mk2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBehvr7dnRhMSjBC9Jc5YlAh5wFfYLcYIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657604342970-gskcp2magtqhqtg0a3apku9v9fdn6mk2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
