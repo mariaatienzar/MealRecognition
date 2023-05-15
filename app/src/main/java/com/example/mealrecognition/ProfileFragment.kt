@@ -24,7 +24,7 @@ class ProfileFragment : Fragment() {
     private lateinit var button: Button
     private lateinit var progressBar: ProgressBar
 
-
+    
     override fun onCreateView(
 
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +44,7 @@ class ProfileFragment : Fragment() {
         ageInput = binding.textAge
         sexInput = binding.textSex
         button = binding.buttonSave
+        progressBar = binding.progressbar
         currentUser?.let { user ->
             weightInput.setText(user.displayName)
             heightInput.setText(user.displayName)

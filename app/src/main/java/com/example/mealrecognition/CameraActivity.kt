@@ -1,5 +1,6 @@
 package com.example.mealrecognition
 
+import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
@@ -36,6 +37,10 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var button : FloatingActionButton
     private lateinit var image_view : PreviewView
 
+    companion object {
+        private const val TAG = "mealRecognition"
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -90,7 +95,7 @@ class CameraActivity : AppCompatActivity() {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures")
+                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/mealRecognition")
             }
         }
 
@@ -108,14 +113,14 @@ class CameraActivity : AppCompatActivity() {
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Log.e("TAG", "Photo capture failed: ${exc.message}", exc)
+                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                 }
 
                 override fun
                         onImageSaved(output: ImageCapture.OutputFileResults){
                     val msg = "Photo capture succeeded: ${output.savedUri}"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                    Log.d("TAG", msg)
+                    Log.d(TAG, msg)
                     Intent("com.example.RESULT_ACTION", Uri.parse("content://result_uri")).also { result ->
                         result.data = output.savedUri
                         setResult(Activity.RESULT_OK, result)

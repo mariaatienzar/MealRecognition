@@ -15,9 +15,5 @@
         android:name="com.example.mealrecognition.ProfileFragment"
         android:label="Perfil"
         tools:layout="@layout/fragment_profile" />
-    <fragment
-        android:id="@+id/cameraFragment"
-        android:name="com.example.mealrecognition.HomeFragment"
-        android:label="Inicio"
-        tools:layout="@layout/fragment_camera" />
+
 </navigation>

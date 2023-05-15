@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Inicio" />
+    <item
+        android:id="@+id/physicalActFragment"
+        android:icon="@drawable/monitoring"
+        android:title="Actividad física" />
+    <item
+        android:id="@+id/bt_page"
+        android:icon="@drawable/ic_bluetooth"
+        android:title="Bluetooth"/>
+    <item
+        android:id="@+id/camFragment"
+        android:icon="@drawable/ic_camera"
+        android:title="Tomar foto" />
+
+    <item
+        android:id="@+id/intake"
+        android:icon="@drawable/ic_folder"
+        android:title="Ingestas anteriores" />
+
+
+
+</menu>

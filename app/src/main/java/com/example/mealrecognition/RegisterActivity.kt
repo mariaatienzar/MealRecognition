@@ -7,8 +7,6 @@ import android.view.View
 import android.widget.*
 import com.example.mealrecognition.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthRegistrar
-import com.google.firebase.auth.FirebaseUser
 
 class RegisterActivity : AppCompatActivity() {
 

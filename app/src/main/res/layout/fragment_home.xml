@@ -1,108 +1,351 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    android:fitsSystemWindows="true"
+    tools:context=".HomeFragment"
+    android:orientation="horizontal">
 
 
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
-            android:background="@color/green"
-            android:id="@+id/toolbar1"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
 
-        <TextView
-            android:id="@+id/camera_text"
+            android:layout_marginTop="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/up_menu_calories_text"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="78dp"
+                android:maxLength="6"
+                android:singleLine="true"
+
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/fragment_home_up_pBar"
+                app:layout_constraintEnd_toEndOf="@+id/fragment_home_up_pBar"
+                app:layout_constraintStart_toStartOf="@+id/fragment_home_up_pBar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/up_menu_sub_text"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="16"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="@+id/fragment_home_up_pBar"
+                app:layout_constraintStart_toStartOf="@+id/fragment_home_up_pBar"
+                app:layout_constraintTop_toBottomOf="@id/up_menu_calories_text" />
+
+            <ProgressBar
+                android:id="@+id/fragment_home_up_pBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="32dp"
+                android:paddingBottom="60dp"
+                android:progressDrawable="@drawable/circleprogressbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ProgressBar>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:enabled="true"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@color/green"
-            tools:text="Capturar Foto" />
-
-
-    </LinearLayout>
-    <androidx.camera.view.PreviewView
-        android:id="@+id/image_view"
-        android:layout_width="199dp"
-        android:layout_height="204dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="136dp"
-        android:background="@drawable/ic_camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        ></androidx.camera.view.PreviewView>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="270dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+             <!--on below line we are creating a text view-->
 
 
 
+            <TextView
+                android:id="@+id/tvCurrent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="20dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Time"
+                android:textAlignment="center"
+                android:textColor="@color/green"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints"
 
 
-    <ImageView
-        android:id="@+id/home"
-        android:layout_width="75dp"
-        android:layout_height="85dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="608dp"
-        android:background="@drawable/ic_home"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+                />
 
-    <TextView
-        android:id="@+id/home_text"
-        android:layout_width="137dp"
-        android:layout_height="75dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="690dp"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="@color/green"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.30"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Página inicio" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="320dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
-    <ImageView
-        android:id="@+id/gallery"
-        android:layout_width="75dp"
-        android:layout_height="85dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="608dp"
-        android:background="@drawable/ic_gallery"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.78"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-    </ImageView>
-    <TextView
-        android:id="@+id/gallery_text"
-        android:layout_width="137dp"
-        android:layout_height="75dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="690dp"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="@color/green"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.90"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Elegir de galería" />
+            <TextView
+                android:id="@+id/up_menu_carbs_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pulsaciones"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/up_menu_carbs_bar"
+                app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/up_menu_proteins_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pasos"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/up_menu_proteins_bar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/up_menu_fats_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="50dp"
+                android:text="Calorias"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/up_menu_fats_bar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/up_menu_carbs_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="80dp"
+                android:layout_height="2.5dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:progressDrawable="@drawable/progressbar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/up_menu_carbs_text" />
+
+            <ProgressBar
+                android:id="@+id/up_menu_proteins_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="80dp"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="10dp"
+                android:progressDrawable="@drawable/progressbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/up_menu_proteins_text" />
+
+            <ProgressBar
+                android:id="@+id/up_menu_fats_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="80dp"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:progressDrawable="@drawable/progressbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/up_menu_fats_text" />
+
+            <TextView
+                android:id="@+id/up_menu_carbs_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:maxWidth="80dp"
+                android:singleLine="true"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/up_menu_carbs_bar"
+                app:layout_constraintTop_toBottomOf="@+id/up_menu_carbs_bar" />
+
+
+
+            <TextView
+                android:id="@+id/up_menu_proteins_left"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:maxWidth="80dp"
+                android:singleLine="true"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/up_menu_proteins_bar"
+                app:layout_constraintTop_toBottomOf="@+id/up_menu_proteins_bar" />
+
+            <TextView
+                android:id="@+id/up_menu_fats_left"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:maxWidth="80dp"
+                android:singleLine="true"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/up_menu_fats_bar"
+                app:layout_constraintTop_toBottomOf="@+id/up_menu_fats_bar" />
+
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/recipe_item"
+        tools:itemCount="3"
+        app:layout_constraintBottom_toTopOf="@+id/constraint"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/fragment_home_nsv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/fragment_home_down_main_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="72dp"
+                android:orientation="vertical">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fragment_home_arrow_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/fragment_home_down_date_button"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+
+                        android:shadowColor="@color/green"
+                        app:cornerRadius="50dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:rippleColor="@color/purple_500"
+                        app:strokeColor="@color/white"
+                        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+                    <TextSwitcher
+                        android:id="@+id/fragment_home_down_date_switcher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </TextSwitcher>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ImageContrastCheck,ImageContrastCheck,ImageContrastCheck" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/fragment_home_down_arrow_right"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        android:layout_width="48dp"
+                        android:layout_height="50dp"
+
+                        android:shadowColor="@color/green"
+                        app:cornerRadius="50dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:rippleColor="@color/purple_500"
+                        app:strokeColor="@color/white"
+                        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_arrow_left"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ImageContrastCheck,ImageContrastCheck" />
+
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

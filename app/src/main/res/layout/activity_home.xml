@@ -6,36 +6,21 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start"
-    tools:context=".HomeActivity">
-    <LinearLayout
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <include
+        layout="@layout/app_bar_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:background="@color/green"
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <fragment
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:navGraph="@navigation/nav_graph"
-            app:defaultNavHost="true"
-            android:id="@+id/fragment"/>
-
-
-
-    </LinearLayout>
     <com.google.android.material.navigation.NavigationView
-        android:id= "@+id/nav_view"
-        app:menu="@menu/nav_menu"
-        app:headerLayout="@layout/nav_header"
-        android:layout_gravity="start"
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
