@@ -95,7 +95,6 @@ class RecognitionActivity : AppCompatActivity() {
             for (i in 0 until foodName.size) {
                 val radio = findViewById<RadioGroup>(i)
                 val checked_button = radio.checkedRadioButtonId
-                //Log.e("TAG",radio.id.toString() + iterac.id +  "$checked_button")
 
                 if (checked_button != -1) {
                     val conf = idDish[0][checked_button - (radioLastItem.id+2)]
@@ -105,8 +104,8 @@ class RecognitionActivity : AppCompatActivity() {
                     Log.e("TAG",listItemPosition.toString())
                 }
             }
-            confirmDish(idImage,item,item, listItemPosition)
-            Log.e("TAG",listItemPosition.toString() + listItemPosition.size + confirmDish(idImage,item,item, listItemPosition))
+            confirmDish(idImage,item[0],"source", listItemPosition[0])
+            Log.e("TAG",listItemPosition.toString() + listItemPosition.size + confirmDish(idImage,item[0],"source", listItemPosition[0]))
 
             //Log.e("TAG", item.toString() )
            /* val listConfirmation= ArrayList<Unit>()
@@ -189,8 +188,8 @@ class RecognitionActivity : AppCompatActivity() {
         return imageId.toInt()
     }
 
-
-    private fun confirmDish(foodId: Int, confirmedClass: List<Any>, source: List<Any>, foodItemPosition: List<Any>) {
+    private fun confirmDish(foodId: Int, confirmedClass: Int, source: String, foodItemPosition: Int) {
+    //private fun confirmDish(foodId: Int, confirmedClass: List<Any>, source: List<Any>, foodItemPosition: List<Any>) {
         //val confirmedClass = ArrayList<Int>()
         //val source = ArrayList<String>()
         //val foodItemPosition = ArrayList<Int>()
@@ -214,11 +213,11 @@ class RecognitionActivity : AppCompatActivity() {
                 }
                 if (response.isSuccessful) {
                     val confirmationResponse = response.body()
-                    // Procesar la respuesta exitosa
+                    // respuesta exitosa
                     // confirmationResponse contiene la respuesta de la API
                     println(confirmationResponse)
                 } else {
-                    // Procesar una respuesta de error
+                    // respuesta de error
                     println("Error en la respuesta: ${response.code()}")
                 }
 

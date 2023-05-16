@@ -78,6 +78,7 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
 
@@ -94,7 +95,6 @@
         android:layout_marginBottom="143dp"
         android:text="@string/confirmar"
         android:textColor="@color/white" />
-
 
 
 
