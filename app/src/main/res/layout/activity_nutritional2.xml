@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     android:theme="@style/CollapsingToolbar"
-    tools:context=".NutritionalActivity">
+    tools:context=".NutritionalActivity2">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -83,7 +80,7 @@
                         android:layout_below="@id/activity_detailed_rl3"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Actualizar" />
+                        android:text="Confirmar" />
 
                     <RelativeLayout
                         android:id="@+id/activity_detailed_rl3"
@@ -236,7 +233,6 @@
                             android:layout_alignParentStart="true"
                             android:layout_alignParentEnd="true"
                             android:layout_marginTop="20dp">
-
                             <TextView
                                 android:id="@+id/totalQuantityText"
                                 android:inputType="numberDecimal"
@@ -261,14 +257,12 @@
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                                 android:layout_centerHorizontal="true"
 
-                                android:layout_width="wrap_content"
+                                android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/borders"
                                 android:fallbackLineSpacing="true"
-                                android:backgroundTint="@color/green"
-                                android:inputType="numberDecimal"
                                 android:selectAllOnFocus="true"
-                                android:text="cantidad"
+                                android:text="  cantidad  "
                                 android:textColor="@color/black"
                                 android:textSize="18dp"
                                 android:textAlignment="center"
@@ -288,15 +282,13 @@
                             </TextView>
 
 
-
                             <LinearLayout
 
                                 android:id="@+id/buttonsView"
                                 android:textSize="18dp"
-                                android:inputType="numberDecimal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
+                                android:layout_marginTop="15dp"
                                 android:layout_marginStart="20dp"
                                 android:layout_gravity="center"
                                 android:orientation="vertical">
@@ -304,6 +296,14 @@
 
 
                             </LinearLayout>
+
+
+
+
+
+
+
+
 
 
 
@@ -317,12 +317,14 @@
 
                             </ProgressBar>
 
+
+
+
                         </RelativeLayout>
 
                     </RelativeLayout>
 
                 </RelativeLayout>
-
 
             </androidx.cardview.widget.CardView>
 
@@ -354,7 +356,7 @@
 
                     <TextView
                         android:id="@+id/detailed_nutrition_calories"
-                         android:layout_width="wrap_content"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/detailed_nutrition_title"
                         android:layout_alignParentStart="true"
@@ -406,7 +408,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Colesterol"
                         android:textColor="@color/black"
-                         />
+                        />
 
                     <TextView
                         android:id="@+id/detailed_nutrition_fiber"
@@ -418,7 +420,7 @@
                         android:layout_marginTop="16dp"
                         android:text="@string/fiber"
                         android:textColor="@color/black"
-                         />
+                        />
 
                     <TextView
                         android:id="@+id/detailed_nutrition_s"
@@ -430,7 +432,7 @@
                         android:layout_marginTop="16dp"
                         android:text="@string/saturated_fats"
                         android:textColor="@color/black"
-                         />
+                        />
 
                     <TextView
                         android:id="@+id/detailed_nutrition_sodium"
@@ -442,7 +444,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Sodio"
                         android:textColor="@color/black"
-                         />
+                        />
 
 
 
@@ -500,7 +502,7 @@
                         android:layout_marginEnd="16dp"
                         android:text="@string/_0_g"
                         android:textColor="@color/black"
-                         />
+                        />
 
                     <TextView
                         android:id="@+id/detailed_nutrition_fiber_value"
@@ -512,7 +514,7 @@
                         android:layout_marginEnd="16dp"
                         android:text="@string/_0_g"
                         android:textColor="@color/black"
-                         />
+                        />
 
 
                     <TextView
@@ -525,7 +527,7 @@
                         android:layout_marginEnd="16dp"
                         android:text="@string/_0_g"
                         android:textColor="@color/black"
-                         />
+                        />
 
                     <TextView
                         android:id="@+id/detailed_nutrition_na_value"

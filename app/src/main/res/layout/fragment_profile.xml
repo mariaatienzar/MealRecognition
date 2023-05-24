@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -6,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+
 
         <LinearLayout
             android:id="@+id/layoutHead"
@@ -15,10 +20,12 @@
             android:gravity="center"
             android:orientation="vertical">
 
+
             <ImageView
                 android:id="@+id/image_view"
                 android:layout_width="90dp"
                 android:layout_height="100dp"
+                android:layout_marginTop="100dp"
                 android:background="@drawable/ic_user" />
 
             <TextView
@@ -27,7 +34,7 @@
                 android:layout_height="56dp"
                 android:layout_below="@id/image_view"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="-6dp"
+                android:layout_marginTop="0.5dp"
                 android:enabled="true"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -38,7 +45,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:padding="16dp"
             android:layout_centerHorizontal="true"
             android:orientation="vertical"
@@ -46,30 +53,30 @@
             android:layout_width="360dp"
             android:layout_height="match_parent">
 
+
             <EditText
                 android:id="@+id/text_weight"
                 android:hint="Peso (kg)"
                 android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="1dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:drawableLeft="@drawable/ic_email"
+                android:drawableLeft="@drawable/icons8_edit"
                 android:drawablePadding="16dp"
                 android:enabled="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
 
-
             <EditText
                 android:id="@+id/text_height"
-                android:hint="Altura (cm)"
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
+                android:layout_width="325dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:drawableLeft="@drawable/ic_email"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/icons8_edit"
                 android:drawablePadding="16dp"
                 android:enabled="true"
+                android:hint="Altura (cm)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
             <EditText
@@ -79,7 +86,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:drawableLeft="@drawable/ic_email"
+                android:drawableLeft="@drawable/icons8_edit"
                 android:drawablePadding="16dp"
                 android:enabled="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
@@ -90,11 +97,23 @@
                 android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:drawableLeft="@drawable/ic_email"
+                android:drawableLeft="@drawable/icons8_edit"
                 android:drawablePadding="16dp"
                 android:enabled="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
+
+
+            <Button
+                android:id="@+id/button_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/green"
+                android:layout_marginTop="15dp"
+                android:text="Actualizar datos"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
 
             <ProgressBar
                 android:id="@+id/progressbar"
@@ -104,17 +123,9 @@
                 android:layout_margin="10dp"
                 android:visibility="invisible" />
 
-            <Button
-                android:id="@+id/button_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/green"
-                android:text="Actualizar datos"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
 
         </LinearLayout>
+
 
     </LinearLayout>
 

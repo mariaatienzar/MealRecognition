@@ -6,13 +6,263 @@
     <!--    HomeActivity-->
     <string name="fats">Fats</string>
     <string name="fatsSmall">fats</string>
-    <string name="proteins">Proteins</string>
+    <string name="proteins">Proteinas</string>
     <string name="proteinsSmall">proteins</string>
-    <string name="carbs">Carbs</string>
+    <string name="carbs">Carbohidratos</string>
     <string name="carbsSmall">carbs</string>
     <string name="kcal_left">kcal left</string>
     <string name="kcal_Over">kcal over</string>
     <string name="dish_name">Dish Name</string>
     <string name="confirmar">Confirmar</string>
+
+
+    <string name="title_my_meals">My Products</string>
+    <string name="title_recipes">Recipes</string>
+    <string name="title_activity_intro">Setting up your profile</string>
+
+    <!--    Introduction-->
+    <string name="intro_privacy">By clicking continue, you agree to the privacy policy</string>
+    <string name="intro_last">You\'re all set!</string>
+    <string name="contin">Continue</string>
+
+    <!--Common-->
+    <string name="date_format" translatable="false">yyyy-MM-dd</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="no_products">There is no products yet</string>
+    <string name="per_100g">in 100g</string>
+    <string name="add_new_product">add product</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="delete_product">Delete product</string>
+    <string name="dialog_sure">Are you sure you want to delete\u0020</string>
+    <string name="toast_initial_day">Initial day showed</string>
+    <string name="lose_weight">Lose weight</string>
+    <string name="eat_healthier">Eat Healthier</string>
+    <string name="gain_weight">Gain Weight</string>
+    <string name="intro_goal">What\'s your goal?</string>
+    <string name="intro_give_us_some_info">Give us some info</string>
+    <string name="intro_your_age">Your age</string>
+    <string name="intro_your_weight">Your weight</string>
+    <string name="intro_your_height">Your height</string>
+    <string name="intro_your_gender">Your gender</string>
+    <string name="intro_your_activity_level">Your activity level</string>
+    <string name="kg">kg</string>
+    <string name="cm">cm</string>
+    <string name="gender">Gender</string>
+    <string name="continue_s">Continue</string>
+    <string name="add_product">Add Product</string>
+    <string name="name">Name</string>
+    <string name="example_chicken">Chicken</string>
+    <string name="hundred" translatable="false">100</string>
+    <string name="required">Required</string>
+    <string name="_0" translatable="false">0</string>
+    <string name="nutrients">Nutrients per portion</string>
+    <string name="optional">optional</string>
+    <string name="additional_info">Additional info</string>
+    <string name="required_small">required</string>
+    <string name="_150" translatable="false">150</string>
+    <string name="_100" translatable="false">100</string>
+    <string name="in_one_portion">In one portion</string>
+    <string name="sugar">Azúcares</string>
+    <string name="saturated_fats">Grasas saturadas</string>
+    <string name="unsaturated_fats">Unsaturated fats</string>
+    <string name="trans_fats">Trans fats</string>
+    <string name="_0_kcal">0 kcal</string>
+    <string name="incorrect_data">Please, input correct data</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="snack">Snack</string>
+    <string name="dinner">Dinner</string>
+    <string name="search">Search</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="add_custom_meal">add custom meal</string>
+    <string name="exercises">Exercises</string>
+    <string name="detailed">Detailed</string>
+    <string name="g">\u0020g</string>
+    <string name="kcal">\u0020kcal</string>
+    <string name="day_item_kcal">%1$d kcal</string>
+    <string name="recipe_nutrient_percentage" translatable="false">%1$d %%</string>
+    <string name="credits">Credits: %1$s</string>
+    <string name="recipe_time">%1$d min</string>
+    <string name="servings_many">per %1$s servings</string>
+    <string name="servings_one">per %1$s serving</string>
+    <string name="recipes_detailed_amount">%1$s\u0020%2$s</string>
+    <string name="mg">\u0020mg</string>
+    <string name="Protein">Protein</string>
+    <!--    errors-->
+    <string name="error_0">Can\'t be 0</string>
+    <string name="error_too_big">Wow! That\'s too much.</string>
+    <string name="error_toast_connection">Please check your connection</string>
+    <string name="error_recipes_no_found">No recipes found by this query</string>
+    <string name="error_connection">Problems with internet connection. Sorry for inconvenience</string>
+    <string name="error_specify_product_name">Please specify product name</string>
+    <string name="error_grams">Grams can\'t be 0</string>
+    <string name="error_calories">Calories can\'t be 0</string>
+    <string name="error_specify_proteins">Please specify proteins</string>
+    <string name="error_specify_fats">Please specify fats</string>
+    <string name="error_specify_carbs">Please specify carbs</string>
+    <string name="error_recipes_query">Please check your query. It could be too short.</string>
+
+    <string name="choose_from_my_meals">Choose from my products</string>
+    <string name="create_new_custom_product">Create new custom product</string>
+    <string name="scan_a_barcode" translatable="false">Scan a barcode</string>
+    <string name="recent">Recent</string>
+    <string name="hint_carbonara" translatable="false">Carbonara</string>
+    <string name="track">TRACK</string>
+    <string name="nutrition_info">Nutrition info</string>
+    <string name="calories">calories</string>
+    <string name="fiber">Fibra</string>
+    <string name="cholesterol">Cholesterol</string>
+    <string name="monounsaturated_fats">Monounsaturated fats</string>
+    <string name="polyunsaturated_fats">Polyunsaturated fats</string>
+    <string name="_0_g">0 g</string>
+    <string name="Calories">Calorias</string>
+    <string name="recipe">Recipe</string>
+    <string name="exit">Tap again to exit</string>
+    <string name="Credits" translatable="false">Credits:</string>
+    <string name="__min">\u0020\u0020min</string>
+    <string name="instructoins">Instructoins</string>
+    <string name="ingredients">Ingredients</string>
+    ç  <!-- Messages Preferences -->
+    <string name="measure_system">Measure system</string>
+    <!-- Sync Preferences -->
+    <string name="personal_data">Personal Data</string>
+    <string name="Daily_calories">Daily calories</string>
+    <string name="Daily_proteins">Daily proteins</string>
+    <string name="Daily_fats">Daily fats</string>
+    <string name="Daily_carbs">Daily carbs</string>
+    <string name="delete_all">Delete all data</string>
+    <string name="dialog_delete_data">Are you sure you want to delete ALL data? Application will be closed after deletion. </string>
+    <string name="dialog_track_recipe">Track recipe</string>
+    <string name="servings">Servings</string>
+    <string name="create">create</string>
+    <string name="dialog_caution_diet_title">Caution</string>
+    <string name="dialog_caution_diet_message">Please note, that selection of diets or intolerances does not guarantee you that all recipe search results will be suitable to you.</string>
+    <string name="ok">OK</string>
+    <string name="statistics">Statistics</string>
+    <string name="over">over</string>
+    <string name="left">left</string>
+    <string name="products">Products</string>
+    <string name="dialog_search_limit">Daily limit exceeded. Please buy premium to search more recipes.</string>
+    <string name="no_products_found">No products found</string>
+    <string name="dialog_no_connection_title">No connection</string>
+    <string name="dialog_no_connection_message">Please check Internet connection and try again.</string>
+    <string name="image_of_the_recipe" translatable="false">Image of the recipe</string>
+    <string name="content_d_time_icon" translatable="false">Time icon</string>
+    <string name="daily_norm_in_portion">daily norm in portion</string>
+    <string name="_0percent" translatable="false">0 %</string>
+    <string name="per_2_servings">per 2 servings</string>
+    <string name="there_is_no_ingredients">There is no ingredients</string>
+    <string name="dessert">Dessert</string>
+    <string name="dialog_firebase_login_error">Please log into your account or create a new one</string>
+    <string name="sync_with_server">Sync with server</string>
+    <string name="override">Override</string>
+    <string name="dialog_days_differ_title">Different versions</string>
+    <string name="error_firebase_save">Failed to save changes to the server</string>
+    <string name="toast_acc_deleted">Account has been deleted</string>
+    <string name="toast_error">Error occurred, please try again</string>
+    <string name="login">Login</string>
+    <string name="loginCaps">log in</string>
+    <string name="signup">sign up</string>
+    <string name="profile_icon" translatable="false">Profile icon</string>
+    <string name="intolerance">Intolerance</string>
+    <string name="diet">Diet</string>
+    <string name="metric_kg">Metric (kg)</string>
+    <string name="us_pound_ounce">US (pound, ounce)</string>
+    <string name="dairy">Dairy</string>
+    <string name="egg">Egg</string>
+    <string name="gluten">Gluten</string>
+    <string name="grain">Grain</string>
+    <string name="seafood">Seafood</string>
+    <string name="peanut">Peanut</string>
+    <string name="sesame">Sesame</string>
+    <string name="shellfish">Shellfish</string>
+    <string name="soy">Soy</string>
+    <string name="sulfite">Sulfite</string>
+    <string name="tree_nut">Tree Nut</string>
+    <string name="wheat">Wheat</string>
+    <string name="gluten_free">Gluten Free</string>
+    <string name="ketogenic">Ketogenic</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="lacto_vegetarian">Lacto-Vegetarian</string>
+    <string name="ovo_vegetarian">Ovo-Vegetarian</string>
+    <string name="vegan">Vegan</string>
+    <string name="pescetarian">Pescetarian</string>
+    <string name="paleo">Paleo</string>
+    <string name="primal">Primal</string>
+    <string name="whole_30" translatable="false">Whole30</string>
+
+    <!--    facebook id -->
+    <string name="facebook_app_id" translatable="false">225570008693546</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb225570008693546</string>
+    <string name="facebook_application_id" translatable="false">225570008693546</string>
+
+    <string name="db_search_not_found">Not found… Tap to search in recipes</string>
+    <string name="no_query">Query is null</string>
+    <string name="dialog_search_limit_title">Search limit</string>
+    <string name="error_dialog_deletion">Failed to delete. Check your internet connection. If problem still persists, please contact with us through email.</string>
+    <string name="dialog_sign_in_again">Please log into your account again to delete it</string>
+    <string name="introduction_add_meals">Click this button to add consumed meals</string>
+    <string name="hint_search_bar_offline">orange</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_about" translatable="false">Credits</string>
+    <string name="save_as_pdf">Save as PDF</string>
+    <string name="dialog_save_pdf_message">In our website you can view detailed statistics and download it as PDF!</string>
+    <string name="download">Download</string>
+    <string name="product">Product</string>
+    <string name="grams">grams</string>
+    <string name="error_exceed_nutrients">Nutrients can not exceed %.1f grams!</string>
+    <string name="dialog_download_local_db_message">It seems like you live in %1$s. Do you want to download %2$s database and use it as default? You can change it later in settings.</string>
+    <string name="dialog_download_local_db_title">Download database</string>
+    <string name="don_t_ask_again">Don\'t ask again</string>
+    <string name="db_local_download_success">Downloaded</string>
+    <string name="db_local_download_failure">Something went wrong…</string>
+    <string name="database_default" translatable="false">Default (EN)</string>
+    <string name="database_local">Local (%1$s)</string>
+    <string name="dialog_settings_database_title">Database</string>
+    <string name="saved_success">Saved!</string>
+    <string name="saved_failed">Failed to save</string>
+    <string name="check_internet_conn">Check Internet connection</string>
+    <string name="more">More…</string>
+    <string name="detailed_kcal">%.0f kcal</string>
+    <string name="detailed_grams">%.1f g</string>
+    <string name="home_liters">%1$s L</string>
+    <string name="title_home">Home</string>
+    <string name="database">Database</string>
+    <string name="month">Month</string>
+    <string name="nutrient">Nutrient</string>
+    <string name="up_nutrient_over_or_left">%1$d %2$s</string>
+    <string name="day">Day</string>
+
+    <string name="activity_little_or_no">Little or no</string>
+    <string name="activity_light_exercise">Light Exercise</string>
+    <string name="activity_moderate_exercise">Moderate exercise</string>
+    <string name="activity_hard_exercise">Hard exercise</string>
+    <string name="activity_very_hard_exercise">Very hard exercise</string>
+    <string name="sex_male">Male</string>
+    <string name="sex_female">Female</string>
+    <string name="intro_my_meals_title">Here you can create your own products!</string>
+    <string name="intro_my_meals_desc">When product is created, you can delete it by swiping left</string>
+    <string name="toast_product_deleted">Product deleted</string>
+    <string name="error_bigger_than">Bigger than %1$d</string>
+    <string name="toast_invalid_number">Invalid number</string>
+
+
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="jule">Jule</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+
 
 </resources>

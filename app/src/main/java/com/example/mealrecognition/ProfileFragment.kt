@@ -58,7 +58,6 @@ class ProfileFragment : Fragment() {
             val sex = sexInput.editableText.toString()
 
             if (weight.isEmpty()) {
-                //Toast.makeText(activity, "La foto seleccionada ya ha sido subida", Toast.LENGTH_LONG).show()
                 weightInput.error = "Indica el peso"
                 //IllegalArgumentException("Indica el peso")
                 weightInput.requestFocus()

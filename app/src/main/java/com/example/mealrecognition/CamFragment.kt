@@ -2,7 +2,6 @@ package com.example.mealrecognition
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -24,8 +23,6 @@ import com.example.mealrecognition.upload.*
 import com.example.mealrecognition.upload.getFileName
 import com.example.mealrecognition.upload.receivers.*
 import com.example.mealrecognition.upload.snackbar
-import com.example.mealrecognition.upload.uploaders.ConfirmationRequest
-import com.example.mealrecognition.upload.uploaders.NutritionRequest
 import com.example.mealrecognition.upload.uploaders.QuantityRequest
 import com.example.mealrecognition.upload.uploaders.UploadRequestBody
 import com.google.gson.Gson
@@ -228,101 +225,6 @@ class CamFragment : Fragment() {
     }
 
 
-
-    private fun obtainNutrients(imageId: Int) {
-        val request = NutritionRequest(imageId.toString())
-
-        progress_bar.progress = 0
-        LogmealAPI().nutrientInformation(request).enqueue(object : Callback<NutrientResponse> {
-            override fun onResponse(
-                call: Call<NutrientResponse>,
-                response: Response<NutrientResponse>
-            ) {
-                response.body()?.let {
-                    val foodName = JSONArray(it.foodName)
-                    val hasNutritionalInfo = it.hasNutritionalInfo
-                    val ids = JSONArray(it.ids)
-                    val imageId = it.imageId
-                    val nutritional_info = JSONObject(Gson().toJson(it.nutritional_info))
-                    val nutritional_info_per_item = JSONArray(Gson().toJson(it.nutritional_info_per_item))
-                    val serving_size = it.serving_size
-
-                    val response_data = JSONObject()
-                    response_data.put("foodName", foodName)
-                    response_data.put("hasNutritionalInfo", hasNutritionalInfo)
-                    response_data.put("ids", ids)
-                    response_data.put("imageId", imageId)
-                    response_data.put("nutritional_info", nutritional_info)
-                    response_data.put("nutritional_info_per_itemval", nutritional_info_per_item)
-                    response_data.put("serving_size", serving_size)
-
-                    val valuesActivity = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DOWNLOADS).toString() + "/nutrientes.json"
-                    val file = File(valuesActivity)
-                    if (!file.exists()) {
-                        file.createNewFile()
-                    }
-
-                    val fileWriter = FileWriter(file)
-                    val bufferedWriter = BufferedWriter(fileWriter)
-                    bufferedWriter.write(response_data.toString())
-                    Thread.sleep(10)
-                    bufferedWriter.close()
-
-                }
-
-            }
-
-            override fun onFailure(call: Call<NutrientResponse>, t: Throwable) {
-                photo_view.snackbar(t.message!!)
-                progress_bar.progress = 0
-            }
-
-        })
-    }
-
-
-    private fun confirmQuantity(imageId: Int){
-        val request = QuantityRequest(imageId.toString())
-        progress_bar.progress = 0
-        LogmealAPI().quantityDish(request).enqueue(object : Callback<QuantityResponse> {
-
-            override fun onResponse(
-                call: Call<QuantityResponse>,
-                response: Response<QuantityResponse>
-            ) {
-                response.body()?.let {
-                    progress_bar.progress = 100
-
-                    val result = it.result
-
-                    val response_data = JSONObject()
-                    response_data.put("result", result)
-
-                    val valuesActivity = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DOWNLOADS).toString() + "/cantidad.json"
-                    val file = File(valuesActivity)
-                    if (!file.exists()) {
-                        file.createNewFile()
-                    }
-
-                    val fileWriter = FileWriter(file)
-                    val bufferedWriter = BufferedWriter(fileWriter)
-                    bufferedWriter.write(response_data.toString())
-                    Thread.sleep(10)
-                    bufferedWriter.close()
-
-
-                }
-            }
-
-            override fun onFailure(call: Call<QuantityResponse>, t: Throwable) {
-                photo_view.snackbar(t.message!!)
-                progress_bar.progress = 0
-            }
-
-        })
-    }
 
 
 

@@ -2,36 +2,18 @@ package com.example.mealrecognition
 
 import android.content.Intent
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
-import com.example.mealrecognition.databinding.ActivityNutritionalBinding
-import com.example.mealrecognition.upload.LogmealAPI
-import com.example.mealrecognition.upload.receivers.NutrientResponse
-import com.example.mealrecognition.upload.receivers.QuantityResponse
-import com.example.mealrecognition.upload.snackbar
-import com.example.mealrecognition.upload.uploaders.NutritionRequest
-import com.example.mealrecognition.upload.uploaders.NutritionRequest2
-import com.example.mealrecognition.upload.uploaders.QuantityRequest
+import com.example.mealrecognition.databinding.ActivityNutritional2Binding
 import com.google.android.material.textfield.TextInputLayout
-import com.google.gson.Gson
 import org.json.JSONArray
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
 import kotlin.math.roundToInt
 
-
-class NutritionalActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityNutritionalBinding
+class NutritionalActivity2 : AppCompatActivity() {
+    private lateinit var binding: ActivityNutritional2Binding
     private lateinit var progress_bar : ProgressBar
     lateinit var image_view: ImageView
 
@@ -39,14 +21,25 @@ class NutritionalActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNutritionalBinding.inflate(layoutInflater)
+        setContentView(R.layout.activity_nutritional2)
+        binding = ActivityNutritional2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        progress_bar = binding.progressBar
-
         val buttonsView = binding.buttonsView
-        val image_view = binding.imageView
+
         val buttonConfirmQuantity = binding.buttonConfirmQuantity
+
+
+        val image_view = binding.imageView
+
+        val json_confirm = intent.getStringExtra("json_updated")
+        val jsonObjectConfirm = JSONObject(json_confirm)
+        val imageUri = intent.getParcelableExtra<Uri>("photo")
+        image_view.setImageURI(imageUri)
+
+
+        val itemsServingSize = parseServingItem(jsonObjectConfirm)
+
 
         val textCarb = binding.detailedCarbsValue
         val textCal = binding.detailedKcalValue
@@ -68,18 +61,13 @@ class NutritionalActivity : AppCompatActivity() {
 
 
 
-        val json_confirm = intent.getStringExtra("json_confirm")
-        val jsonObjectConfirm = JSONObject(json_confirm)
-        val imageUri = intent.getParcelableExtra<Uri>("image")
-        image_view.setImageURI(imageUri)
-
-
         val idImage = parseImageId(jsonObjectConfirm)
 
         val calories = ((parseCalories(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
         val carboh = ((parseCarbohQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
         val carbohUnit = parseCarbohUnit(jsonObjectConfirm)
         val proteins = ((parseProteinQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+
         val proteinsUnit = parseProteinUnit(jsonObjectConfirm)
         val fats = ((parseFatQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
         val fatsUnit = parseFatUnit(jsonObjectConfirm)
@@ -106,32 +94,26 @@ class NutritionalActivity : AppCompatActivity() {
         textNIsodium.text = "$sodium mg"
 
         val totalServingSize = parseDishSize(jsonObjectConfirm)
-        val itemsServingSize = parseServingItem(jsonObjectConfirm)
         val itemPosition = parsePositionItem(jsonObjectConfirm)
-        Log.e("TAG", " ${parsePositionItem(jsonObjectConfirm)}")
 
         val jsonObjectQuantity = parseServingSizeItem(jsonObjectConfirm)
 
-        //val listServingSize = ArrayList<Float>()
         val listServingSize = ArrayList<String>()
         val listPosition = ArrayList<Int>()
 
         val foodName = parseFoodName(jsonObjectConfirm)
-
-        val jsonEdit = JSONObject()
-
 
 
         textUnitQuantity.text = "$totalServingSize g"
 
         for (i in 0 until foodName.length()) {
             var textviewFood = TextView(this)
-            var textviewQuantity = AutoCompleteTextView(this)
+            var textviewQuantity = TextView(this)
             var textInputLayout = TextInputLayout(this)
             val rec = itemsServingSize[i]
             listServingSize.add(rec.toString())
             textviewFood.text = foodName[i].toString()
-            textviewQuantity.setText(listServingSize[i])
+            textviewQuantity.text= listServingSize[i]
 
             val scrollView = ScrollView(this!!)
             buttonsView.addView(textviewFood)
@@ -142,212 +124,29 @@ class NutritionalActivity : AppCompatActivity() {
             scrollView.addView(linearLayout)
 
 
-            val listEdit = ArrayList<Float>()
+            val jsonEdit = JSONObject()
 
             val listJson = ArrayList<JSONObject>()
             listJson.add(jsonObjectQuantity)
 
             listPosition.add(i+1)
-
-            buttonConfirmQuantity.setOnClickListener {
-                confirmQuantity(idImage, jsonEdit)
-                //obtainNutrients()
-
+            for (j in 0 until listPosition.size) {
+                val key = listPosition[j].toString()
+                val value = listServingSize[j].toFloat()
+                jsonEdit.put(key, value)
             }
 
-
-            // Modificar textviewQuantity y guardar los valores en la lista
-            textviewQuantity.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                    // No se necesita implementar
-                }
-
-                override fun onTextChanged(
-                     s: CharSequence?,
-                    start: Int,
-                    before: Int,
-                    count: Int) {
-                    // Validar el valor ingresado como Double
-                    val input = s.toString()
-                    if (input.isNotBlank()) {
-                        try {
-                            val value = input.toDouble()
-                            listServingSize[i] = value.toString()
-                        } catch (e: NumberFormatException) {
-                            Toast.makeText(
-                                this@NutritionalActivity,
-                                "Introduce un valor numérico válido",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            listServingSize[i] = "" // Reiniciar el valor en la lista
-                        }
-                    }
-                    for (j in 0 until foodName.length()){
-                        val key = listPosition[j].toString()
-                        val value = listServingSize[j].toFloat()
-                        jsonEdit.put(key, value)
-
-                    }
-                    Log.e("TAG", " $jsonEdit $listServingSize $listPosition")
-
-
-                }
-
-
-                override fun afterTextChanged(s: Editable?) {
-                    // No se necesita implementar
-                }
-            })
-            buttonConfirmQuantity.setOnClickListener{
-                Log.e("TAG", " $jsonEdit ")
-
-                confirmQuantity(idImage, jsonEdit)
-                if (imageUri != null) {
-                    sendUpdate(jsonObjectConfirm,imageUri)
-                }
-                // sendConfirmation(calories,carboh)
-
-
-
-            }
 
         }
 
+        buttonConfirmQuantity.setOnClickListener{
+            sendConfirmation(calories,carboh)
 
-    }
-
-    private fun confirmQuantity(imageId: Int, jsonObjectQuantity: JSONObject){
-        val request = QuantityRequest(imageId.toString(),jsonObjectQuantity)
-        progress_bar.progress = 0
-        LogmealAPI().quantityDish(request).enqueue(object : Callback<QuantityResponse> {
-
-            override fun onResponse(
-                call: Call<QuantityResponse>,
-                response: Response<QuantityResponse>
-            ) {
-                response.body()?.let {
-                    progress_bar.progress = 100
-
-                    val result = it.result
-
-                    val response_data = JSONObject()
-                    response_data.put("result", result)
-
-
-                    if (response.isSuccessful) {
-                        val confirmationResponse = response.body()
-                        // respuesta exitosa
-                        // confirmationResponse contiene la respuesta de la API
-                        println(confirmationResponse)
-
-                    } else {
-                        // respuesta de error
-                        println("Error en la respuesta: ${response.code()}")
-                    }
-                    obtainNutrients(imageId)
-
-
-                    val valuesActivity = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DOWNLOADS).toString() + "/cantidad.json"
-                    val file = File(valuesActivity)
-                    if (!file.exists()) {
-                        file.createNewFile()
-                    }
-
-                    val fileWriter = FileWriter(file)
-                    val bufferedWriter = BufferedWriter(fileWriter)
-                    bufferedWriter.write(response_data.toString())
-                    Thread.sleep(10)
-                    bufferedWriter.close()
-
-
-
-
-
-
-                }
-            }
-
-            override fun onFailure(call: Call<QuantityResponse>, t: Throwable) {
-                image_view.snackbar(t.message!!)
-                progress_bar.progress = 0
-            }
-
-        })
-    }
-    private fun obtainNutrients(imageId: Int) {
-        val request = NutritionRequest(imageId.toString())
-
-        //progress_bar.progress = 0
-        LogmealAPI().nutrientInformation(request).enqueue(object : Callback<NutrientResponse> {
-            override fun onResponse(
-                call: Call<NutrientResponse>,
-                response: Response<NutrientResponse>
-            ) {
-                response.body()?.let {
-                    val foodName = JSONArray(it.foodName)
-                    val hasNutritionalInfo = it.hasNutritionalInfo
-                    val ids = JSONArray(it.ids)
-                    val imageId = it.imageId
-                    val nutritional_info = JSONObject(Gson().toJson(it.nutritional_info))
-                    val nutritional_info_per_item = JSONArray(Gson().toJson(it.nutritional_info_per_item))
-                    val serving_size = it.serving_size
-
-                    val response_data = JSONObject()
-                    response_data.put("foodName", foodName)
-                    response_data.put("hasNutritionalInfo", hasNutritionalInfo)
-                    response_data.put("ids", ids)
-                    response_data.put("imageId", imageId)
-                    response_data.put("nutritional_info", nutritional_info)
-                    response_data.put("nutritional_info_per_item", nutritional_info_per_item)
-                    response_data.put("serving_size", serving_size)
-
-                     val imageUri = intent.getParcelableExtra<Uri>("image")
-
-                    if (imageUri != null) {
-                        sendUpdate(response_data, imageUri)
-                    }
-
-                    if (response.isSuccessful) {
-                        val confirmationResponse = response.body()
-                        println(confirmationResponse)
-
-                    } else {
-                        println("Error en la respuesta: ${response.code()}")
-                    }
-
-
-                    val valuesActivity = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DOWNLOADS
-                    ).toString() + "/nutrientes.json"
-                    val file = File(valuesActivity)
-                    if (!file.exists()) {
-                        file.createNewFile()
-                    }
-
-                    val fileWriter = FileWriter(file)
-                    val bufferedWriter = BufferedWriter(fileWriter)
-                    bufferedWriter.write(response_data.toString())
-                    Thread.sleep(10)
-                    bufferedWriter.close()
-
-                }
-
-
-            }
-
-            override fun onFailure(call: Call<NutrientResponse>, t: Throwable) {
-
-                //progress_bar.progress = 0
-            }
         }
-        )
+
     }
+
+
 
     fun parseImageId(data: JSONObject): Int { //mirar que lo que devuelve creo que es un string con el nombre
         val id= data.getInt("imageId")
@@ -382,30 +181,7 @@ class NutritionalActivity : AppCompatActivity() {
 
     }
 
-    private fun parseItemNutritionalInfo(data : JSONObject): JSONArray {
-         val nutritionalInfoPerItem = data.getJSONArray("nutritional_info_per_item")
 
-        val allids = ArrayList<Int>()
-        for (i in 0 until nutritionalInfoPerItem.length()) {
-            val result = nutritionalInfoPerItem.getJSONObject(i)
-            val ids = result.getInt("id")
-            allids.add(ids)
-            for (i in 0 until allids.size) {
-
-            }
-            val nutritionalInfo = result.getJSONObject("nutritional_info")
-            val calories = nutritionalInfo.getDouble("calories")
-            val totalNutrients = nutritionalInfo.getJSONObject("totalNutrients")
-            val carbohItem = totalNutrients.getJSONObject("CHOCDF")
-
-
-            for (i in 0 until nutritionalInfoPerItem.length()) {
-
-            }
-
-        }
-        return nutritionalInfoPerItem
-    }
     private fun parseServingSizeItem(data : JSONObject): JSONObject{
         val nutritionalInfoPerItem = data.getJSONArray("nutritional_info_per_item")
         val allServingSize = ArrayList<Float>()
@@ -432,7 +208,7 @@ class NutritionalActivity : AppCompatActivity() {
         for (i in 0 until nutritionalInfoPerItem.length()) {
             val result = nutritionalInfoPerItem.getJSONObject(i)
             val ss = result.getDouble("serving_size").toFloat()
-             allServingSize.add(ss)
+            allServingSize.add(ss)
 
         }
         return allServingSize
@@ -617,23 +393,16 @@ class NutritionalActivity : AppCompatActivity() {
 
     }
 
-    private fun sendUpdate(JObjectConf: JSONObject, Image: Uri) {
-        val intent = Intent(this, NutritionalActivity2::class.java)
-        val jsonObjectConf = JObjectConf.toString()
-        intent.putExtra("photo", Image)
-        intent.putExtra("json_updated", jsonObjectConf)
-        startActivity(intent)
-
-
-    }
-    private fun sendConfirmation(Cal: Int, Carbs: Int) {
+    private fun sendConfirmation(Cal: Float, Carbs: Float) {
         val intent = Intent(this, Calculation::class.java)
-        intent.putExtra("calories", Cal)
-        intent.putExtra("carbs", Carbs)
+        intent.putExtra("calories", Cal.toString())
+        intent.putExtra("carbs", Carbs.toString())
         startActivity(intent)
 
 
     }
+
+
 
 
 

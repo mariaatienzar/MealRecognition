@@ -6,7 +6,7 @@ data class NutrientResponse (
     val ids: List<Int>,
     val imageId: Int,
     val nutritional_info: NutritionalInfo,
-    val nutritional_info_per_item : List<Item>,
+    val nutritional_info_per_item: List<Item>,
     val serving_size: Float
 )
 
