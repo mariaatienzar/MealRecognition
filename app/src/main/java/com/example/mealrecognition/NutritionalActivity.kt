@@ -1,5 +1,6 @@
 package com.example.mealrecognition
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -27,6 +28,8 @@ import retrofit2.Response
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 
@@ -69,6 +72,7 @@ class NutritionalActivity : AppCompatActivity() {
 
 
         val json_confirm = intent.getStringExtra("json_confirm")
+
         val jsonObjectConfirm = JSONObject(json_confirm)
         val imageUri = intent.getParcelableExtra<Uri>("image")
         image_view.setImageURI(imageUri)
@@ -83,11 +87,11 @@ class NutritionalActivity : AppCompatActivity() {
         val proteinsUnit = parseProteinUnit(jsonObjectConfirm)
         val fats = ((parseFatQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
         val fatsUnit = parseFatUnit(jsonObjectConfirm)
-        val sugar = parseSugarQuantity(jsonObjectConfirm)
-        val fiber = parseFiberQuantity(jsonObjectConfirm)
-        val satFats = parseSatFatQuantity(jsonObjectConfirm)
-        val sodium = parseSodiumQuantity(jsonObjectConfirm)
-        val cholest = parseCholestQuantity(jsonObjectConfirm)
+        val sugar = ((parseSugarQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+        val fiber = ((parseFiberQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+        val satFats = ((parseSatFatQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+        val sodium = ((parseSodiumQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+        val cholest = ((parseCholestQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
 
 
         textCarb.text = "$carboh $carbohUnit"
@@ -118,7 +122,7 @@ class NutritionalActivity : AppCompatActivity() {
 
         val foodName = parseFoodName(jsonObjectConfirm)
 
-        val jsonEdit = JSONObject()
+        val jsonEdit = mutableMapOf<String, Float>()
 
 
 
@@ -126,12 +130,14 @@ class NutritionalActivity : AppCompatActivity() {
 
         for (i in 0 until foodName.length()) {
             var textviewFood = TextView(this)
-            var textviewQuantity = AutoCompleteTextView(this)
-            var textInputLayout = TextInputLayout(this)
+            var textviewQuantity = EditText(this)
+                //TextView(this)
+
             val rec = itemsServingSize[i]
             listServingSize.add(rec.toString())
             textviewFood.text = foodName[i].toString()
             textviewQuantity.setText(listServingSize[i])
+            textviewQuantity.id = i
 
             val scrollView = ScrollView(this!!)
             buttonsView.addView(textviewFood)
@@ -142,89 +148,41 @@ class NutritionalActivity : AppCompatActivity() {
             scrollView.addView(linearLayout)
 
 
-            val listEdit = ArrayList<Float>()
-
             val listJson = ArrayList<JSONObject>()
             listJson.add(jsonObjectQuantity)
 
             listPosition.add(i+1)
 
+
+            val listQuantity = ArrayList<String>()
             buttonConfirmQuantity.setOnClickListener {
-                confirmQuantity(idImage, jsonEdit)
-                //obtainNutrients()
+                for (j in 0 until foodName.length()) {
+                    textviewQuantity= findViewById<EditText>(j)
+                    listQuantity.add(textviewQuantity.text.toString())
+                    val key2 = listPosition[j].toString()
+                    val value = listQuantity[j].toFloat()
+                    //jsonEdit.clear()
+                    jsonEdit.put(key2, value)
 
+                }
+                Log.e("TAG", " $jsonEdit $listQuantity $listServingSize $listPosition")
+                confirmQuantity(idImage, jsonEdit)
             }
 
-
-            // Modificar textviewQuantity y guardar los valores en la lista
-            textviewQuantity.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                    // No se necesita implementar
-                }
-
-                override fun onTextChanged(
-                     s: CharSequence?,
-                    start: Int,
-                    before: Int,
-                    count: Int) {
-                    // Validar el valor ingresado como Double
-                    val input = s.toString()
-                    if (input.isNotBlank()) {
-                        try {
-                            val value = input.toDouble()
-                            listServingSize[i] = value.toString()
-                        } catch (e: NumberFormatException) {
-                            Toast.makeText(
-                                this@NutritionalActivity,
-                                "Introduce un valor numérico válido",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            listServingSize[i] = "" // Reiniciar el valor en la lista
-                        }
-                    }
-                    for (j in 0 until foodName.length()){
-                        val key = listPosition[j].toString()
-                        val value = listServingSize[j].toFloat()
-                        jsonEdit.put(key, value)
-
-                    }
-                    Log.e("TAG", " $jsonEdit $listServingSize $listPosition")
-
-
-                }
-
-
-                override fun afterTextChanged(s: Editable?) {
-                    // No se necesita implementar
-                }
-            })
-            buttonConfirmQuantity.setOnClickListener{
-                Log.e("TAG", " $jsonEdit ")
-
-                confirmQuantity(idImage, jsonEdit)
-                if (imageUri != null) {
-                    sendUpdate(jsonObjectConfirm,imageUri)
-                }
-                // sendConfirmation(calories,carboh)
-
-
-
-            }
 
         }
 
 
+
     }
 
-    private fun confirmQuantity(imageId: Int, jsonObjectQuantity: JSONObject){
-        val request = QuantityRequest(imageId.toString(),jsonObjectQuantity)
+    private fun confirmQuantity(imageId: Int, quantity: Map<String, Float>){
+        val request = QuantityRequest(imageId.toString(), quantity)
+        val sharedPrefToken = getSharedPreferences("token_user", Context.MODE_PRIVATE)
+        val token = "Bearer " + sharedPrefToken.getString("token", null)
+
         progress_bar.progress = 0
-        LogmealAPI().quantityDish(request).enqueue(object : Callback<QuantityResponse> {
+        LogmealAPI().quantityDish(token, request).enqueue(object : Callback<QuantityResponse> {
 
             override fun onResponse(
                 call: Call<QuantityResponse>,
@@ -265,11 +223,6 @@ class NutritionalActivity : AppCompatActivity() {
                     Thread.sleep(10)
                     bufferedWriter.close()
 
-
-
-
-
-
                 }
             }
 
@@ -282,9 +235,12 @@ class NutritionalActivity : AppCompatActivity() {
     }
     private fun obtainNutrients(imageId: Int) {
         val request = NutritionRequest(imageId.toString())
+        val sharedPrefToken = getSharedPreferences("token_user", Context.MODE_PRIVATE)
+        val token = "Bearer " + sharedPrefToken.getString("token", null)
+
 
         //progress_bar.progress = 0
-        LogmealAPI().nutrientInformation(request).enqueue(object : Callback<NutrientResponse> {
+        LogmealAPI().nutrientInformation(token,request).enqueue(object : Callback<NutrientResponse> {
             override fun onResponse(
                 call: Call<NutrientResponse>,
                 response: Response<NutrientResponse>
@@ -414,7 +370,7 @@ class NutritionalActivity : AppCompatActivity() {
         for (i in 0 until nutritionalInfoPerItem.length()) {
             val result = nutritionalInfoPerItem.getJSONObject(i)
             val ss = result.getDouble("serving_size").toFloat()
-            val fp = result.getInt("foodItemPosition")
+            val fp = result.getInt("food_item_position")
             allServingSize.add(ss)
             allPositionItem.add(fp)
             for (i in 0 until allServingSize.size){
@@ -445,7 +401,7 @@ class NutritionalActivity : AppCompatActivity() {
         for (i in 0 until nutritionalInfoPerItem.length()) {
             val result = nutritionalInfoPerItem.getJSONObject(i)
             val ss = result.getDouble("serving_size").toFloat()
-            val fp = result.getInt("foodItemPosition")
+            val fp = result.getInt("food_item_position")
             allServingSize.add(ss)
             allPositionItem.add(fp)
 
@@ -620,8 +576,12 @@ class NutritionalActivity : AppCompatActivity() {
     private fun sendUpdate(JObjectConf: JSONObject, Image: Uri) {
         val intent = Intent(this, NutritionalActivity2::class.java)
         val jsonObjectConf = JObjectConf.toString()
+        val grams = intent.getStringExtra("gramsCarb")
+        Log.e("TAG", " $grams")
+
         intent.putExtra("photo", Image)
         intent.putExtra("json_updated", jsonObjectConf)
+        intent.putExtra("chGrams", grams)
         startActivity(intent)
 
 

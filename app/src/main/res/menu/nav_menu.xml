@@ -13,5 +13,9 @@
         android:title="Editar perfil"
         android:textColor="@color/black"
         />
+    <item
+        android:id="@+id/bt_page"
+        android:title = "Bluetooth"/>
+
 
 </menu>

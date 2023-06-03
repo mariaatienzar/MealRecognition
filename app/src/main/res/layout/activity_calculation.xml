@@ -44,10 +44,11 @@
                         android:gravity="center"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Ingesta gramos HC estimada"
-                        android:textColor="@color/green"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Ingesta de Carbohidratos calculada por la app"
+                        android:textColor="@color/black"
                         android:backgroundTint="@color/green"
                         android:textSize="20sp" />
                     <RelativeLayout
@@ -69,30 +70,41 @@
                             android:textStyle="bold"
                             android:elegantTextHeight="true"
                             android:textColor="@color/black"
+
                             android:textSize="18dp"
-                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:background="@drawable/borders"
                             android:layout_marginStart="80dp"
                             android:layout_marginEnd="80dp"
-                            android:background="@drawable/borders"
-
+                            android:textAlignment="center"
                             android:visibility="visible"
+
+                            android:layout_marginBottom="10dp"
+                            android:drawablePadding="10dp"
+                            android:inputType="text"
+                            android:singleLine="true"
+
                             />
+
 
 
                     </RelativeLayout>
 
+
                 </RelativeLayout>
+
 
             </androidx.cardview.widget.CardView>
 
 
 
-            <androidx.cardview.widget.CardView
+            <RelativeLayout
                 android:id="@+id/detailed_cardview1"
                 style="@style/CardViewUsual"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
+                android:layout_marginBottom="0dp"
                 android:layout_below="@id/detailed_cardview0"
 
                 >
@@ -102,15 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp">
 
-                    <Button
-                        android:id="@+id/button_calc"
-                        style="@style/MaterialButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/activity_detailed_rl3"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="15dp"
-                        android:text="Calcular" />
+
 
                     <RelativeLayout
                         android:id="@+id/activity_detailed_rl3"
@@ -121,13 +125,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginStart="16dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="16dp"
-                            android:text="Ingesta gramos HC final"
-                            android:textColor="@color/green"
+                            android:text="Su estimación previa de Carbohidratos "
+                            android:textColor="@color/black"
                             android:textSize="20sp" />
+
 
 
 
@@ -135,57 +138,15 @@
                             android:id="@+id/activity_detailed_rl1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentEnd="true"
+
                             android:layout_marginTop="20dp">
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/detailed_quantity"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                                android:layout_width="180dp"
-                                android:layout_height="wrap_content"
-
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="40dp">
-
-                                <AutoCompleteTextView
-                                    android:id="@+id/detailed_quantity_dropdown"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textStyle="bold"
-                                    android:textSize="18dp"
-                                    android:textAlignment="center"
-                                    android:hapticFeedbackEnabled="false"
-                                    android:popupTheme="@android:style/ThemeOverlay.Material.Light" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <TextView
-                                android:id="@+id/detailed_IRC_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="Define tu relación insulina-carbohidratos (I:C)"
-                                android:textStyle="bold"
-                                android:layout_below="@id/detailed_quantity"
-                                android:autoHandwritingEnabled="true"
-                                android:elegantTextHeight="true"
-                                android:textColor="@color/black"
-                                android:textAlignment="center"
-                                android:layout_marginTop="20dp"
-                                android:textSize="18dp"
-                                android:gravity="center"
-                                android:visibility="visible"
-                                />
-
 
                             <TextView
                                 android:id="@+id/detailed_IRC_text1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:textAlignment="center"
-                                android:text=" (g de CH metabolizados en 1 unidad de insulina) "
                                 android:textStyle="normal"
-                                android:layout_below="@id/detailed_IRC_text"
                                 android:autoHandwritingEnabled="true"
                                 android:elegantTextHeight="true"
                                 android:textColor="@color/black"
@@ -196,124 +157,172 @@
                                 android:visibility="visible"
                                 />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/detailed_IRC"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
-
 
                                 android:textStyle="bold"
                                 android:layout_below="@id/detailed_IRC_text1"
                                 android:elegantTextHeight="true"
                                 android:textColor="@color/black"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="30dp"
                                 android:textSize="18dp"
                                 android:gravity="center"
                                 android:background="@drawable/borders"
                                 android:layout_marginStart="80dp"
                                 android:layout_marginEnd="80dp"
-
                                 android:textAlignment="center"
                                 android:visibility="visible"
 
-                                 android:layout_marginBottom="10dp"
+                                android:layout_marginBottom="10dp"
                                 android:drawablePadding="10dp"
-                                android:hint="Ej: 10 si tu I:C es 1:10"
                                 android:inputType="text"
                                 android:singleLine="true"
-                                />
 
+
+                                android:text=" cantidad HC "
+                                />
 
 
 
 
                         </RelativeLayout>
 
-                    </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="140dp"
+                            android:layout_marginBottom="16dp"
 
+                            >
+
+
+
+                            <RelativeLayout
+                                android:id="@+id/activity_detailed_correc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                >
+                                <TextView
+                                    android:id="@+id/detailed_correc"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginTop="16dp"
+                                    android:text="Tras observar la estimación de la app, \n ¿Quiere corregir su ingesta final de Carbohidratos? "
+                                    android:textColor="@color/black"
+                                    android:textSize="20sp"
+                                    />
+
+
+
+                                <RelativeLayout
+                                    android:id="@+id/activity_detailed_c1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+
+                                    android:layout_marginTop="20dp">
+
+                                    <TextView
+                                        android:id="@+id/detailed_c1_text1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:textAlignment="center"
+                                        android:textStyle="normal"
+
+                                        android:autoHandwritingEnabled="true"
+                                        android:elegantTextHeight="true"
+                                        android:textColor="@color/black"
+                                        android:layout_marginBottom="40dp"
+                                        android:textSize="16dp"
+                                        android:gravity="center"
+
+                                        android:visibility="visible"
+                                        />
+
+                                    <EditText
+                                        android:id="@+id/detailed_c1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+                                        android:hint="Estimación HC final"
+
+                                        android:textStyle="bold"
+                                        android:layout_below="@id/detailed_c1_text1"
+                                        android:elegantTextHeight="true"
+                                        android:textColor="@color/black"
+                                        android:layout_marginTop="40dp"
+                                        android:textSize="18dp"
+                                        android:gravity="center"
+                                        android:background="@drawable/borders"
+                                        android:layout_marginStart="80dp"
+                                        android:layout_marginEnd="80dp"
+                                        android:textAlignment="center"
+                                        android:visibility="visible"
+
+
+                                        android:layout_marginBottom="0dp"
+                                        android:drawablePadding="10dp"
+                                        android:inputType="text"
+                                        android:singleLine="true"
+
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/progress_bar"
+                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="300dp"
+                                        android:max="100"
+                                         tools:progress="40" />
+
+
+                                    <Button
+                                        android:id="@+id/button_calc"
+                                        style="@style/MaterialButtonStyle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/detailed_c1"
+
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginTop="40dp"
+                                        android:text="Corregir" />
+
+
+
+
+
+
+                                </RelativeLayout>
+                            </RelativeLayout>
+                        </RelativeLayout>
+
+
+
+
+
+
+
+
+                    </RelativeLayout>
                 </RelativeLayout>
 
-            </androidx.cardview.widget.CardView>
 
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/detailed_cardview2"
-                style="@style/CardViewUsual"
-                android:layout_width="match_parent"
+            </RelativeLayout>
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/detailed_cardview1"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="8dp">
+                android:layout_centerInParent="true"
+                android:layout_marginTop="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                ></ImageView>
 
-                <RelativeLayout
-                    android:id="@+id/insul"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp">
-
-                    <TextView
-                        android:id="@+id/detailed_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Dosis insulina recomendada"
-                        android:textColor="@color/green"
-                        android:backgroundTint="@color/green"
-                        android:textSize="20sp" />
-                    <RelativeLayout
-                        android:id="@+id/activity_detailed_insulin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="20dp"
-                        android:layout_below="@id/detailed_title">
-
-                        <TextView
-                            android:id="@+id/detailed_insulin"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:text=" cantidad HC "
-                            android:textStyle="bold"
-                            android:elegantTextHeight="true"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
-                            android:textAlignment="center"
-                            android:layout_marginStart="80dp"
-                            android:layout_marginEnd="80dp"
-                            android:background="@drawable/borders"
-
-                            android:visibility="visible"
-                            />
-
-                        <TextView
-                            android:id="@+id/detailed_explain"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textAlignment="center"
-                            android:text=" Dosis de bolo de insulina pre-pandrial "
-                            android:textStyle="normal"
-                            android:layout_below="@id/detailed_insulin"
-                            android:autoHandwritingEnabled="true"
-                            android:elegantTextHeight="true"
-                            android:textColor="@color/black"
-                            android:layout_marginTop="10dp"
-                            android:textSize="16dp"
-                            android:gravity="center"
-
-                            android:visibility="visible"
-                            />
-
-
-                    </RelativeLayout>
-
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
 

@@ -1,7 +1,9 @@
 package com.example.mealrecognition
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +14,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mealrecognition.databinding.ActivityLoginBinding
+import com.example.mealrecognition.upload.LogmealAPI
+import com.example.mealrecognition.upload.receivers.UserResponse
+import com.example.mealrecognition.upload.uploaders.UserRequest
 import com.google.firebase.auth.FirebaseAuth
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class LoginActivity : AppCompatActivity() {
@@ -24,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var viewForgetPsw: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var binding: ActivityLoginBinding
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +56,9 @@ class LoginActivity : AppCompatActivity() {
         btn.setOnClickListener {
             val user = idInput.editableText.toString()
             val password = pswInput.editableText.toString()
+
+            //startActivity(Intent(this, LogmealAPI::class.java).putExtra("user",user))
+
 
             if (user.isEmpty()) {
                 Toast.makeText(this,"Usuario requerido", Toast.LENGTH_LONG).show()
@@ -81,6 +94,8 @@ class LoginActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
                 if(task.isSuccessful){
                     login()
+
+
                 }else{
                     task.exception?.message?.let {
                         toast(it)
@@ -97,6 +112,9 @@ class LoginActivity : AppCompatActivity() {
             login()
         }
     }
+
+
+
 
 
 }

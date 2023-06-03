@@ -10,32 +10,32 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context=".RegisterActivity"
+        tools:context=".LoginActivity"
         android:scrollbarAlwaysDrawVerticalTrack="true">
 
         <RelativeLayout
             android:id="@+id/loginLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="600dp"
             android:layout_centerInParent="true">
-
             <TextView
                 android:id="@+id/login_title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
-                android:text="Registro nuevo usuario"
                 android:textColor="#77A468"
                 android:textSize="26sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:text="Registro nuevo usuario"
+               />
 
             <RelativeLayout
                 android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/login_title"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="113dp"
+                android:layout_marginTop="60dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="0dp"
                 android:background="@color/white"
@@ -103,18 +103,21 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/message_register"
-                android:layout_width="313dp"
-                android:layout_height="65dp"
+                android:id="@+id/message_login"
+                android:layout_width="361dp"
+                android:layout_height="62dp"
                 android:layout_below="@+id/login_title"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="29dp"
-                android:layout_marginEnd="49dp"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="23dp"
                 android:gravity="center_horizontal"
-                android:text="Utilizar el usuario facilitado por su médico"
                 android:textColor="#77A468"
                 android:textSize="18sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+
+                android:text="Utilice su email para el registro"
+                 />
 
         </RelativeLayout>
 

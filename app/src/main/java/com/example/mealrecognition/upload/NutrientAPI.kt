@@ -11,29 +11,31 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 
+interface NutrientAPI { @Multipart
+@POST("Nutrients.php?apicall=photo")
+fun uploadImage(
+    @Part image: MultipartBody.Part,
+    @Part json: MultipartBody.Part,
+    @Part("patient_id") desc: RequestBody,
+    @Part("patient_estimation") est: RequestBody,
+    @Part("patient_correction") cor: RequestBody,
+    @Part("meal_occasion") occ: RequestBody
 
-interface PhotoAPI {
-    @Multipart
-    @POST("Api.php?apicall=photo")
-    fun uploadImage(
-        @Part image: MultipartBody.Part,
-        @Part("patient_id") desc: RequestBody,
-
-    ): Call<UploadResponse>
+): Call<UploadResponse>
 
 
 
     companion object{
-        operator fun invoke() : PhotoAPI {
+        operator fun invoke() : NutrientAPI {
             return Retrofit.Builder()
                 .baseUrl("http://138.4.10.37:8443/ImageUploader/")  //cambiar la IP en servidor 138.4.10.37:8443//192.168.1.81
-                .addConverterFactory(GsonConverterFactory.create(GsonBuilder()
+                .addConverterFactory(
+                    GsonConverterFactory.create(
+                        GsonBuilder()
                     .setLenient()
                     .create()))
                 .build()
-                .create(PhotoAPI::class.java)
+                .create(NutrientAPI::class.java)
         }
     }
 }
-
-

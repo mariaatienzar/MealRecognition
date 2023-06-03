@@ -3,37 +3,27 @@ package com.example.mealrecognition
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.mealrecognition.databinding.FragmentGalleryBinding
 import com.example.mealrecognition.upload.LogmealAPI
-import com.example.mealrecognition.upload.PhotoAPI
-import com.example.mealrecognition.upload.getFileName
 import com.example.mealrecognition.upload.receivers.SegmentationResponse
-import com.example.mealrecognition.upload.receivers.UploadResponse
 import com.example.mealrecognition.upload.snackbar
-import com.example.mealrecognition.upload.uploaders.UploadRequestBody
 import com.example.mealrecognition.upload.uploaders.UploadRequestBody2
-import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import okhttp3.MediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
@@ -49,6 +39,8 @@ class GalleryFragment : Fragment() {
     lateinit var selectedImageUri: Uri
     lateinit var requestLauncher: ActivityResultLauncher<Intent>
     lateinit var progress_bar: ProgressBar
+    lateinit var autocomplete: AutoCompleteTextView
+    lateinit var ch_text : EditText
     lateinit var layout_root: ConstraintLayout
 
     // constant to compare the activity result code
@@ -68,7 +60,27 @@ class GalleryFragment : Fragment() {
         BUpload = binding.buttonUpload
         progress_bar = binding.progressBar
         layout_root= binding.layoutRoot
+        autocomplete = binding.detailedQuantityDropdown
+
+
+        ch_text = binding.ch
+
         //initiateActivityResult()
+
+        val quantityList = arrayListOf<String>()
+        val adapter1 = activity?.applicationContext?.let {
+            ArrayAdapter(
+                it, R.layout.spinner_default,
+                quantityList
+            )
+        }
+        quantityList.add("Desayuno")
+        quantityList.add("Almuerzo")
+        quantityList.add("Snack")
+        quantityList.add("Cena")
+
+        autocomplete.setAdapter(adapter1)
+
 
 
         SelectImage.setOnClickListener {
@@ -77,63 +89,25 @@ class GalleryFragment : Fragment() {
 
 
         BUpload.setOnClickListener {
-            uploadImage()
+            if (ch_text.text.isEmpty()) {
+                Toast.makeText(activity, "Debe introducir un valor de Carbohidratos", Toast.LENGTH_LONG).show()
+            }
+            else if ( autocomplete.text.isEmpty()) {
+                Toast.makeText(activity, "Debe elegir el momento de su ingesta", Toast.LENGTH_LONG).show()
+            }
+            else{
 
+                uploadSegmentation(selectedImageUri)
+                Log.e("TAG", ch_text.text.toString())
+                Log.e("TAG", autocomplete.text.toString())
+
+            }
 
         }
         return root
 
     }
-    private fun uploadImage() {
 
-        if (selectedImageUri == null) {
-            layout_root.snackbar("Select an Image First")
-            return
-        }
-        val targetPackage = "com.example.mealrecognition"
-        val flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        context?.grantUriPermission(targetPackage, selectedImageUri, flags)
-
-
-        val contentResolver = context?.contentResolver
-        val parcelFileDescriptor = contentResolver?.openFileDescriptor(selectedImageUri, "r", null)
-            ?: return
-        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-        val file = File(context?.cacheDir, contentResolver.getFileName(selectedImageUri!!))
-        val outputStream = FileOutputStream(file)
-        inputStream.copyTo(outputStream)
-
-        progress_bar.progress = 0
-        val body = UploadRequestBody2(file,"image",this)
-
-        PhotoAPI().uploadImage(MultipartBody.Part.createFormData(
-            "image",
-            file.name,
-            body
-        ),
-            RequestBody.create(MediaType.parse("multipart/form-data"),"json")
-        ).enqueue(object : Callback<UploadResponse>{
-            override fun onResponse(
-                call: Call<UploadResponse>,
-                response: Response<UploadResponse>
-            ) {
-                response.body()?.let {
-                    layout_root.snackbar(it.message)
-                    progress_bar.progress = 100
-                    uploadSegmentation(selectedImageUri)
-                    //selectedImageUri.path?.let { it -> openListMeal(it) }
-                }
-            }
-
-            override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
-                layout_root.snackbar("No es posible subir la imagen, guardada en la galería")
-                progress_bar.progress = 0
-            }
-
-        })
-
-
-    }
     private fun uploadSegmentation(uriFile : Uri) {
         val parcelFileDescriptor = activity?.contentResolver?.openFileDescriptor(uriFile, "r", null)
             ?: return
@@ -141,10 +115,13 @@ class GalleryFragment : Fragment() {
         val file = File(activity?.cacheDir, activity?.contentResolver!!.getFileName(uriFile))
         val outputStream = FileOutputStream(file)
         inputStream.copyTo(outputStream)
+        val sharedPrefToken = activity?.getSharedPreferences("token_user", Context.MODE_PRIVATE)
+        val token = "Bearer " + sharedPrefToken?.getString("token", null  )
+
 
         progress_bar.progress = 0
         val body = UploadRequestBody2(file, "image", this)
-        LogmealAPI().dishesDetection(
+        LogmealAPI().dishesDetection(token,
             MultipartBody.Part.createFormData(
                 "image",
                 file.name,
@@ -182,7 +159,6 @@ class GalleryFragment : Fragment() {
         })
 
     }
-
 
 
     private fun opeinImageChooser() {
@@ -251,7 +227,20 @@ class GalleryFragment : Fragment() {
     }
 
     private fun sendSegmentation(obj: JSONObject, uriFile: Uri) {
+
         val intent = Intent(activity, RecognitionActivity::class.java)
+        val ch = ch_text.text.toString()
+
+
+        autocomplete.setOnItemClickListener { parent, _, position, _ ->
+            parent.adapter.getItem(position) as String
+
+        }
+        val enteredText = autocomplete.text.toString()
+
+        intent.putExtra("carb", ch)
+        intent.putExtra("meal", enteredText)
+
         intent.putExtra("image", uriFile)
         val json = obj.toString()
         intent.putExtra("json", json)

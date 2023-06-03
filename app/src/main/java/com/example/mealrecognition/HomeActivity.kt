@@ -69,39 +69,6 @@ class HomeActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
-
-
-
-
-        /*binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        //replaceFragment(HomeFragment())
-
-        setSupportActionBar(binding.toolbar)
-
-        navView = binding.navView
-        drawerLayout = binding.drawerLayout
-
-        val navV : BottomNavigationView? = findViewById(R.id.bottom_navigation_view)
-        val navControl = findNavController(R.id.nav_host_fragment)
-        val appBarConfigur = AppBarConfiguration(
-            setOf(R.id.homeFragment,R.id.physicalActFragment, R.id.bt_page, R.id.camFragment, R.id.intake),drawerLayout
-        )
-
-        setupActionBarWithNavController(navControl, appBarConfigur)
-        navV?.setupWithNavController(navControl)
-        //navView.setupWithNavController(navControl)
-
-
-
-        val navController = findNavController(R.id.fragment)
-
-
-
-
-
-*/
-
         val prefs = this.getSharedPreferences("id_pref", MODE_PRIVATE)
         patient_id = prefs.getInt("id", 0)
 
@@ -109,7 +76,11 @@ class HomeActivity : AppCompatActivity() {
             val permissions = arrayOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.BLUETOOTH_CONNECT
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_GSERVICES,
+
+
             )
             requestPermission(permissions)
         } else {
@@ -142,13 +113,13 @@ class HomeActivity : AppCompatActivity() {
         if(item.itemId == R.id.action_logout){
             AlertDialog.Builder(this).apply {
                 setTitle("¿Seguro de cerrar sesión?")
-                setPositiveButton("Yes") { _, _ ->
+                setPositiveButton("Si") { _, _ ->
 
                     FirebaseAuth.getInstance().signOut()
                     logout()
 
                 }
-                setNegativeButton("Cancel") { _, _ ->
+                setNegativeButton("Cancelar") { _, _ ->
                 }
             }.create().show()
 

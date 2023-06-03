@@ -16,14 +16,14 @@
         <RelativeLayout
             android:id="@+id/loginLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="600dp"
             android:layout_centerInParent="true">
 
             <TextView
                 android:id="@+id/login_title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:text="Iniciar Sesión"
                 android:textColor="#77A468"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/login_title"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="113dp"
+                android:layout_marginTop="60dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="0dp"
                 android:background="@color/white"
@@ -117,12 +117,11 @@
                 android:layout_height="62dp"
                 android:layout_below="@+id/login_title"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="23dp"
                 android:layout_marginStart="23dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="23dp"
                 android:gravity="center_horizontal"
-                android:text="Inicie sesión con el usuario facilitado por su médico"
+                android:text="Inicie sesión con su email"
                 android:textColor="#77A468"
                 android:textSize="18sp"
                 android:textStyle="normal" />

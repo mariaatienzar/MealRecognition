@@ -9,10 +9,7 @@
         android:id="@+id/physicalActFragment"
         android:icon="@drawable/monitoring"
         android:title="Actividad física" />
-    <item
-        android:id="@+id/bt_page"
-        android:icon="@drawable/ic_bluetooth"
-        android:title="Bluetooth"/>
+   
     <item
         android:id="@+id/camFragment"
         android:icon="@drawable/ic_camera"

@@ -21,6 +21,8 @@ class ProfileFragment : Fragment() {
     private lateinit var heightInput: EditText
     private lateinit var ageInput: EditText
     private lateinit var sexInput: EditText
+    private lateinit var ircInput: EditText
+    private lateinit var correcInput: EditText
     private lateinit var button: Button
     private lateinit var progressBar: ProgressBar
 
@@ -43,19 +45,19 @@ class ProfileFragment : Fragment() {
         heightInput = binding.textHeight
         ageInput = binding.textAge
         sexInput = binding.textSex
+        ircInput = binding.textIRC
+        correcInput=binding.textFactorCorrec
         button = binding.buttonSave
         progressBar = binding.progressbar
-        currentUser?.let { user ->
-            weightInput.setText(user.displayName)
-            heightInput.setText(user.displayName)
-            ageInput.setText(user.displayName)
-            sexInput.setText(user.displayName)
-        }
+
         button.setOnClickListener {
-            val weight = weightInput.editableText.toString()
-            val height = heightInput.editableText.toString()
-            val age = ageInput.editableText.toString()
-            val sex = sexInput.editableText.toString()
+
+            val weight = weightInput.text.toString()
+            val height = heightInput.text.toString()
+            val age = ageInput.text.toString()
+            val sex = sexInput.text.toString()
+            val irc = ircInput.text.toString()
+            val correc = correcInput.text.toString()
 
             if (weight.isEmpty()) {
                 weightInput.error = "Indica el peso"
@@ -80,13 +82,26 @@ class ProfileFragment : Fragment() {
 
             }
 
+            if (irc.isEmpty()) {
+                ircInput.error = "Indica el I:C"
+                ircInput.requestFocus()
+                return@setOnClickListener
+            }
+            if (correc.isEmpty()) {
+                ircInput.error = "Indica el factor de correción de insulina"
+                ircInput.requestFocus()
+                return@setOnClickListener
+            }
+
 
             //MIRAR UPDATING EMAIL 10 TUTORIAL (crear fragmento de actualizacion , no se si se necesita TextView)
             val updates = UserProfileChangeRequest.Builder()
-                .setDisplayName(weight)
-                .setDisplayName(height)
-                .setDisplayName(age)
-                .setDisplayName(sex)
+                .setDisplayName("Peso: $weight kg")
+                .setDisplayName("Altura: $height m")
+                .setDisplayName("Edad: $age años")
+                .setDisplayName("Sexo: $sex")
+                .setDisplayName("Relación insulina-Carbohidratos: $irc")
+                .setDisplayName("Factor correción insulina: $correc")
                 .build()
 
 

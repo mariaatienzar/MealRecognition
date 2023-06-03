@@ -2,6 +2,7 @@ package com.example.mealrecognition.upload.uploaders
 
 import android.os.Handler
 import android.os.Looper
+import com.example.mealrecognition.Calculation
 import com.example.mealrecognition.CamFragment
 import com.example.mealrecognition.RecognitionActivity
 import okhttp3.MediaType
@@ -10,10 +11,10 @@ import okio.BufferedSink
 import java.io.File
 import java.io.FileInputStream
 
-class UploadRequestBody(
+class UploadRequest3 (
     private val file: File,
     private val contentType: String,
-    private val callback: CamFragment
+    private val callback: Calculation
 ) : RequestBody() {
 
 
@@ -27,6 +28,7 @@ class UploadRequestBody(
         private val total: Long
     ): Runnable{
         override fun run() {
+
             callback.onProgressUpdate(( 100 * uploaded / total).toInt())
 
         }

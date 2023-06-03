@@ -73,7 +73,7 @@ class CameraActivity : AppCompatActivity() {
                 cameraProvider?.unbindAll()
                 cameraProvider?.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, previewUseCase, imageCapture)
             } catch (e: Exception) {
-                Log.e("ERROR", "Error starting the camera")
+                Log.e("ERROR", "Error al iniciar la cámara")
                 //Toast.makeText(this, "Error starting the camera", Toast.LENGTH_LONG).show()
             }
 
@@ -113,12 +113,12 @@ class CameraActivity : AppCompatActivity() {
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                    Log.e(TAG, "Fallo en la captura de fotos", exc)
                 }
 
                 override fun
                         onImageSaved(output: ImageCapture.OutputFileResults){
-                    val msg = "Photo capture succeeded: ${output.savedUri}"
+                    val msg = "Foto capturada correctamente"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                     Intent("com.example.RESULT_ACTION", Uri.parse("content://result_uri")).also { result ->

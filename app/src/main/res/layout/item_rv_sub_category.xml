@@ -19,7 +19,8 @@
             android:id="@+id/img_dish"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            tools:ignore="ImageContrastCheck" />
 
 
     </androidx.cardview.widget.CardView>

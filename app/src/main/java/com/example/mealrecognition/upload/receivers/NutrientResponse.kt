@@ -11,7 +11,7 @@ data class NutrientResponse (
 )
 
 data class Item (
-    val foodItemPosition: Int,
+    val food_item_position: Int,
     val hasNutritionalInfo: String,
     val id: Int,
     val nutritional_info: NutritionalInfo,

@@ -15,5 +15,10 @@
         android:name="com.example.mealrecognition.ProfileFragment"
         android:label="Perfil"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/bt_page"
+        android:name="com.example.mealrecognition.BtFragment"
+        android:label="Bluetooth"
+        tools:layout="@layout/fragment_bt" />
 
 </navigation>

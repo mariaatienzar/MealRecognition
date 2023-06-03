@@ -1,6 +1,7 @@
 package com.example.mealrecognition
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -67,15 +68,16 @@ class NutritionalActivity2 : AppCompatActivity() {
         val carboh = ((parseCarbohQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
         val carbohUnit = parseCarbohUnit(jsonObjectConfirm)
         val proteins = ((parseProteinQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
-
         val proteinsUnit = parseProteinUnit(jsonObjectConfirm)
         val fats = ((parseFatQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
         val fatsUnit = parseFatUnit(jsonObjectConfirm)
-        val sugar = parseSugarQuantity(jsonObjectConfirm)
-        val fiber = parseFiberQuantity(jsonObjectConfirm)
-        val satFats = parseSatFatQuantity(jsonObjectConfirm)
-        val sodium = parseSodiumQuantity(jsonObjectConfirm)
-        val cholest = parseCholestQuantity(jsonObjectConfirm)
+        val sugar = ((parseSugarQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+        val fiber = ((parseFiberQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+        val satFats = ((parseSatFatQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+        val sodium = ((parseSodiumQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+        val cholest = ((parseCholestQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+
+
 
 
         textCarb.text = "$carboh $carbohUnit"
@@ -113,7 +115,10 @@ class NutritionalActivity2 : AppCompatActivity() {
             val rec = itemsServingSize[i]
             listServingSize.add(rec.toString())
             textviewFood.text = foodName[i].toString()
-            textviewQuantity.text= listServingSize[i]
+            textviewFood.textSize = 18f
+            textviewQuantity.text= listServingSize[i] + " g"
+            textviewQuantity.textSize= 18f
+            textviewQuantity.setTextColor(Color.parseColor("#84C170"))
 
             val scrollView = ScrollView(this!!)
             buttonsView.addView(textviewFood)
@@ -140,7 +145,9 @@ class NutritionalActivity2 : AppCompatActivity() {
         }
 
         buttonConfirmQuantity.setOnClickListener{
-            sendConfirmation(calories,carboh)
+            if (imageUri != null) {
+                sendConfirmation(calories,carboh,imageUri, jsonObjectConfirm)
+            }
 
         }
 
@@ -190,7 +197,7 @@ class NutritionalActivity2 : AppCompatActivity() {
         for (i in 0 until nutritionalInfoPerItem.length()) {
             val result = nutritionalInfoPerItem.getJSONObject(i)
             val ss = result.getDouble("serving_size").toFloat()
-            val fp = result.getInt("foodItemPosition")
+            val fp = result.getInt("food_item_position")
             allServingSize.add(ss)
             allPositionItem.add(fp)
             for (i in 0 until allServingSize.size){
@@ -221,7 +228,7 @@ class NutritionalActivity2 : AppCompatActivity() {
         for (i in 0 until nutritionalInfoPerItem.length()) {
             val result = nutritionalInfoPerItem.getJSONObject(i)
             val ss = result.getDouble("serving_size").toFloat()
-            val fp = result.getInt("foodItemPosition")
+            val fp = result.getInt("food_item_position")
             allServingSize.add(ss)
             allPositionItem.add(fp)
 
@@ -393,10 +400,15 @@ class NutritionalActivity2 : AppCompatActivity() {
 
     }
 
-    private fun sendConfirmation(Cal: Float, Carbs: Float) {
+    private fun sendConfirmation(Cal: Float, Carbs: Float, Image: Uri, Json: JSONObject) {
         val intent = Intent(this, Calculation::class.java)
+        val grams = intent.getStringExtra("chGrams")
+        val json_upd = Json.toString()
+        intent.putExtra("json_upd", json_upd)
+        intent.putExtra("image", Image)
         intent.putExtra("calories", Cal.toString())
         intent.putExtra("carbs", Carbs.toString())
+        intent.putExtra("carbsUs",grams)
         startActivity(intent)
 
 

@@ -13,28 +13,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:background="@color/green"
+            android:id="@+id/toolbar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_10sdp"
-            android:text="Selecciona tu plato"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:text="Ingesta reconocida"
             android:textColor="@color/black"
-            android:textSize="@dimen/_20ssp" />
+            android:textSize="18dp"
+            android:textStyle="normal"
+            android:elegantTextHeight="true"
 
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="210dp"
-            android:layout_height="250dp"
+            />
+
+        <TextView
+            android:id="@+id/text_view"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_below="@id/tv1"
-            android:background="@drawable/ic_camera"
             android:layout_gravity="center"
-            ></ImageView>
+            ></TextView>
         <ProgressBar
             android:id="@+id/progress_bar"
-            android:layout_below="@+id/image_view"
+            android:layout_below="@+id/text_view"
+            android:layout_marginTop="10dp"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,18 +63,25 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="10dp"
             app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="@dimen/_10sdp">
+            app:cardElevation="@dimen/_10sdp"
+
+            >
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 >
 
                 <LinearLayout
                     android:id="@+id/buttonsView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
@@ -70,6 +93,7 @@
             <LinearLayout
                 android:id="@+id/secondButtonView"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -84,16 +108,16 @@
 
     <Button
         android:id="@+id/btn_conf"
-        android:layout_width="match_parent"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="268dp"
+        android:layout_marginStart="200dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="143dp"
-        android:text="@string/confirmar"
+        android:layout_marginBottom="30dp"
+        android:text="Confirmar"
         android:textColor="@color/white" />
 
 

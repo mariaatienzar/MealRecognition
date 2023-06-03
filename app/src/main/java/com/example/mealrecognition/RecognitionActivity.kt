@@ -1,12 +1,13 @@
 package com.example.mealrecognition
 
 import android.app.ActionBar
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mealrecognition.databinding.ActivityRecognitionBinding
 import com.example.mealrecognition.upload.LogmealAPI
@@ -18,18 +19,19 @@ import com.example.mealrecognition.upload.uploaders.NutritionRequest
 import com.google.gson.Gson
 import org.json.JSONArray
 import org.json.JSONObject
-import retrofit2.*
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class RecognitionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecognitionBinding
     private lateinit var progress_bar: ProgressBar
-    private lateinit var imageView: ImageView
+    private lateinit var imageView: TextView
     lateinit var buttonsView: LinearLayout
     lateinit var confButton: Button
+    lateinit var textView: TextView
+    private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,32 +41,55 @@ class RecognitionActivity : AppCompatActivity() {
         buttonsView = binding.buttonsView
         confButton = binding.btnConf
         progress_bar = binding.progressBar
-        imageView = binding.imageView
+        textView = binding.textView
 
 
-        val imageUri = intent.getParcelableExtra<Uri>("image")
-        imageView.setImageURI(imageUri)
+        imageUri = intent.getParcelableExtra<Uri>("image")!!
+
+        //imageView.setImageURI(imageUri)
         val json = intent.getStringExtra("json")
+        val gramsCH = intent.getStringExtra("carb")
+        val occasion = intent.getStringExtra("meal")
+        Log.e("TAG","$occasion")
+
+        val sharedPref = this.getSharedPreferences("ch_estimation", Context.MODE_PRIVATE)
+        val editor = sharedPref?.edit()
+        editor?.putString("ch", gramsCH)
+        editor?.apply()
+
+        val sharedPrefOccasion = this.getSharedPreferences("meal_occasion", Context.MODE_PRIVATE)
+        val editor1 = sharedPrefOccasion?.edit()
+        editor1?.putString("meal", occasion)
+        editor1?.apply()
+
+
+
         val jsonObject = JSONObject(json)
 
         val foodName = parseSegment(jsonObject)
+        Log.e("TAG", "$jsonObject $foodName")
         val lp = ActionBar.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        lp.setMargins(10, 10, 0, 0)
+        lp.setMargins(10, 10, 0, 20)
         val item = ArrayList<Int>()
         val source = ArrayList<String>()
+
+        val foodSize = foodName.size
+
+        textView.setText("Se han reconocido $foodSize alimentos en su imagen. \r\n\r Selecciona de la lista aquellos que correspondan con su ingesta: ")
 
 
         for (i in 0 until foodName.size) {
             val scrollView = ScrollView(this!!)
             var textview = TextView(this)
-            textview.text = "Item %s reconocido".format(i + 1)
+            textview.text = "Alimento %s reconocido".format(i + 1)
+
             buttonsView.addView(textview)
             buttonsView.addView(scrollView)
             val linearLayout = LinearLayout(this!!)
-            linearLayout.orientation = LinearLayout.VERTICAL
+            linearLayout.orientation = LinearLayout.HORIZONTAL
             scrollView.addView(linearLayout)
 
             val radioGroup = RadioGroup(this)
@@ -97,41 +122,43 @@ class RecognitionActivity : AppCompatActivity() {
                     item.add(conf)
                     source.add("logmeal")
                     listFoodPosition.add(foodPosition[i])
-                    //Log.e("TAG",radio.size.toString() + "/" + checked_button.toString()+ "/" + item.toString() )
-                    //listItemPosition.add(checked_button - (radioLastItem.id + 2))
 
                 }
             }
 
-            confirmDish(idImage, item, source, listFoodPosition)
+            val sizeItem = item.size
+
+            val dialog = AlertDialog.Builder(this)
+
+            dialog.setTitle("Aviso")
+                .setMessage("Has seleccionado $sizeItem de $foodSize alimentos reconocidos. ¿Estás seguro de continuar?")
+                .setPositiveButton("Si") { dialog, whichButton ->
+                    confirmDish(idImage, item, source, listFoodPosition)
+                }
+                .setNegativeButton("NO") { dialog, whichButton ->
+                    // DO YOUR STAFF
+                    // dialog.close()
+                }
+
+            dialog.show()
 
 
-            Log.e("TAG",item.toString() + listFoodPosition)
-
-
-           /* val listConfirmation= ArrayList<Unit>()
-             for (j in 0 until listItemPosition.size) {
-                val objConfirmation = confirmDish(idImage,item[j],item, listItemPosition[j])
-                listConfirmation.add(objConfirmation)
-            }
-
-            Log.e("TAG",listItemPosition.toString() + listItemPosition.size + listConfirmation)
-
-            */
-            //confirmDish(idImage,item[0],"logmeal", listItemPosition[0])
-
-            //}
-            //sendUnit(listConfirmation)
 
 
         }
     }
 
+
+
+
     private fun obtainNutrients(imageId: Int) {
         val request = NutritionRequest(imageId.toString())
+        val sharedPrefToken = getSharedPreferences("token_user", Context.MODE_PRIVATE)
+        val token = "Bearer " + sharedPrefToken.getString("token", null)
+
 
         //progress_bar.progress = 0
-        LogmealAPI().nutrientInformation(request).enqueue(object : Callback<NutrientResponse> {
+        LogmealAPI().nutrientInformation(token,request).enqueue(object : Callback<NutrientResponse> {
             override fun onResponse(
                 call: Call<NutrientResponse>,
                 response: Response<NutrientResponse>
@@ -153,14 +180,15 @@ class RecognitionActivity : AppCompatActivity() {
                     response_data.put("nutritional_info", nutritional_info)
                     response_data.put("nutritional_info_per_item", nutritional_info_per_item)
                     response_data.put("serving_size", serving_size)
-                    Log.e("TAG", parsePositionItem(response_data).toString() )
 
 
-                    val imageUri = intent.getParcelableExtra<Uri>("image")
+
 
                     if (imageUri != null) {
                         sendConfirmation(response_data, imageUri)
                     }
+
+
 
                     if (response.isSuccessful) {
                         val confirmationResponse = response.body()
@@ -170,20 +198,6 @@ class RecognitionActivity : AppCompatActivity() {
                          println("Error en la respuesta: ${response.code()}")
                     }
 
-
-                    val valuesActivity = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DOWNLOADS
-                    ).toString() + "/nutrientes.json"
-                    val file = File(valuesActivity)
-                    if (!file.exists()) {
-                        file.createNewFile()
-                    }
-
-                    val fileWriter = FileWriter(file)
-                    val bufferedWriter = BufferedWriter(fileWriter)
-                    bufferedWriter.write(response_data.toString())
-                    Thread.sleep(10)
-                    bufferedWriter.close()
 
                 }
 
@@ -274,51 +288,58 @@ class RecognitionActivity : AppCompatActivity() {
         foodId: Int,
         confirmedClass: ArrayList<Int>,
         source: ArrayList<String>,
-        foodItemPosition: ArrayList<Int>
+        food_item_position: ArrayList<Int>
     ) {
         val request =
-            ConfirmationRequest(foodId.toString(), confirmedClass, source, foodItemPosition)
+            ConfirmationRequest(foodId.toString(), confirmedClass, source, food_item_position)
         progress_bar.progress = 0
-        LogmealAPI().confirmationDish(request).enqueue(object : Callback<ConfirmationResponse> {
+        val sharedPrefToken = getSharedPreferences("token_user", Context.MODE_PRIVATE)
+        val token = "Bearer " + sharedPrefToken.getString("token", null)
+        Log.e("TAG", "$token")
+        LogmealAPI.invoke()
+        if (token != null) {
+            LogmealAPI().confirmationDish(token, request).enqueue(object : Callback<ConfirmationResponse> {
 
-            override fun onResponse(
-                call: Call<ConfirmationResponse>,
-                response: Response<ConfirmationResponse>
-            ) {
-                response.body()?.let {
-                    progress_bar.progress = 100
-                    val recognition_results = JSONArray(Gson().toJson(it.recognition_results))
-                    val responsedata = JSONObject()
-                    responsedata.put("recognition_results", recognition_results)
+                override fun onResponse(
+                    call: Call<ConfirmationResponse>,
+                    response: Response<ConfirmationResponse>
+                ) {
+                    response.body()?.let {
+                        progress_bar.progress = 100
+                        val recognition_results = JSONArray(Gson().toJson(it.recognition_results))
+                        val responsedata = JSONObject()
+                        responsedata.put("recognition_results", recognition_results)
 
-                    obtainNutrients(foodId)
+                        obtainNutrients(foodId)
+
+                    }
+                    if (response.isSuccessful) {
+                        val confirmationResponse = response.body()
+                        // respuesta exitosa
+                        // confirmationResponse contiene la respuesta de la API
+                        println(confirmationResponse)
+                    } else {
+                        // respuesta de error
+                        println("Error en la respuesta: ${response.code()}")
+                    }
+
 
                 }
-                if (response.isSuccessful) {
-                    val confirmationResponse = response.body()
-                    // respuesta exitosa
-                    // confirmationResponse contiene la respuesta de la API
-                    println(confirmationResponse)
-                } else {
-                    // respuesta de error
-                    println("Error en la respuesta: ${response.code()}")
+
+                override fun onFailure(call: Call<ConfirmationResponse>, t: Throwable) {
+                    imageView.snackbar(t.message!!)
+                    progress_bar.progress = 0
                 }
 
-
-            }
-
-            override fun onFailure(call: Call<ConfirmationResponse>, t: Throwable) {
-                imageView.snackbar(t.message!!)
-                progress_bar.progress = 0
-            }
-
-        })
+            })
+        }
     }
 
 
     private fun sendConfirmation(JObjectConf: JSONObject, Image: Uri) {
         val intent = Intent(this@RecognitionActivity, NutritionalActivity::class.java)
         val jsonObjectConf = JObjectConf.toString()
+
         intent.putExtra("image", Image)
         intent.putExtra("json_confirm", jsonObjectConf)
         startActivity(intent)
@@ -334,7 +355,7 @@ class RecognitionActivity : AppCompatActivity() {
         for (i in 0 until nutritionalInfoPerItem.length()) {
             val result = nutritionalInfoPerItem.getJSONObject(i)
             val ss = result.getDouble("serving_size").toFloat()
-            val fp = result.getInt("foodItemPosition")
+            val fp = result.getInt("food_item_position")
             allServingSize.add(ss)
             allPositionItem.add(fp)
 
