@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/up_menu_calories_text"
-
+                style="@style/MainTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="78dp"
@@ -46,13 +46,14 @@
 
             <TextView
                 android:id="@+id/up_menu_sub_text"
-
+                style="@style/MainTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="16"
                 android:singleLine="true"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="20dp"
+
                 app:layout_constraintEnd_toEndOf="@+id/fragment_home_up_pBar"
                 app:layout_constraintStart_toStartOf="@+id/fragment_home_up_pBar"
                 app:layout_constraintTop_toBottomOf="@id/up_menu_calories_text" />
@@ -93,9 +94,10 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="Time"
+                style="@style/MainTheme"
                 android:textAlignment="center"
                 android:textColor="@color/green"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 tools:ignore="MissingConstraints"
 
@@ -120,9 +122,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pulso"
+                style="@style/MainTheme"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="@id/up_menu_carbs_bar"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,8 +135,9 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:text="Pasos"
+                style="@style/MainTheme"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="@id/up_menu_proteins_bar"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -143,9 +147,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="50dp"
                 android:text="Calorias"
+                style="@style/MainTheme"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="@id/up_menu_fats_bar"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -189,7 +194,7 @@
                 android:layout_marginTop="8dp"
                 android:maxWidth="80dp"
                 android:singleLine="true"
-                android:textSize="16sp"
+                android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="@id/up_menu_carbs_bar"
                 app:layout_constraintTop_toBottomOf="@+id/up_menu_carbs_bar" />
 
@@ -203,7 +208,7 @@
                 android:layout_marginTop="8dp"
                 android:maxWidth="80dp"
                 android:singleLine="true"
-                android:textSize="16sp"
+                android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="@id/up_menu_proteins_bar"
                 app:layout_constraintTop_toBottomOf="@+id/up_menu_proteins_bar" />
 
@@ -215,7 +220,7 @@
                 android:layout_marginTop="8dp"
                 android:maxWidth="80dp"
                 android:singleLine="true"
-                android:textSize="16sp"
+                android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="@id/up_menu_fats_bar"
                 app:layout_constraintTop_toBottomOf="@+id/up_menu_fats_bar" />
 

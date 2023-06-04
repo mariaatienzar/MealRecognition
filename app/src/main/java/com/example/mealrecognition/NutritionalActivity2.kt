@@ -1,5 +1,6 @@
 package com.example.mealrecognition
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -65,6 +66,11 @@ class NutritionalActivity2 : AppCompatActivity() {
         val idImage = parseImageId(jsonObjectConfirm)
 
         val calories = ((parseCalories(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
+        val sharedPrefCalories = getSharedPreferences("calories_consume", Context.MODE_PRIVATE)
+        val editor1 = sharedPrefCalories.edit()
+        editor1?.putString("cal", calories.toString())
+        editor1?.apply()
+
         val carboh = ((parseCarbohQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100
         val carbohUnit = parseCarbohUnit(jsonObjectConfirm)
         val proteins = ((parseProteinQuantity(jsonObjectConfirm)* 100).roundToInt().toFloat())/100

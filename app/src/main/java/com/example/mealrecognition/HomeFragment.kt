@@ -48,7 +48,8 @@ class HomeFragment : Fragment() {
 
         // on below line we are initializing our variables.
         carbohTV = binding.upMenuCarbsLeft
-        stepsTv = binding.upMenuProteinsLeft
+        stepsTv = binding.upMenuSubText
+            //binding.upMenuProteinsLeft
         caloriesTV = binding.upMenuFatsLeft
         currentTV = binding.tvCurrent
 

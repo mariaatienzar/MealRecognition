@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/camFragment"
         android:name="com.example.mealrecognition.CamFragment"
-        android:label="Camara"
+        android:label="Cámara"
         tools:layout="@layout/fragment_cam" />
     <fragment
         android:id="@+id/intake"

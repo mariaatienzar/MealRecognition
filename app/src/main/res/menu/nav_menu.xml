@@ -4,17 +4,20 @@
     tools:showIn="navigation_view">
     <item
         android:id="@+id/homeFragment"
+        style="@style/MainTheme"
         android:title="Página Inicio"
         android:textColor="@color/black"
 
         />
     <item
         android:id="@+id/profileFragment"
+        style="@style/MainTheme"
         android:title="Editar perfil"
         android:textColor="@color/black"
         />
     <item
         android:id="@+id/bt_page"
+        style="@style/MainTheme"
         android:title = "Bluetooth"/>
 
 

@@ -57,6 +57,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textStyle="bold"
+        style="@style/MainTheme"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="16dp"
@@ -92,7 +93,7 @@
             android:id="@+id/detailed_quantity_dropdown"
             android:layout_width="match_parent"
             android:autoHandwritingEnabled="false"
-
+            style="@style/MainTheme"
             android:layout_height="60dp"
             android:textStyle="bold"
             android:textSize="18dp"
@@ -136,6 +137,7 @@
 
         <TextView
             android:id="@+id/camera_text"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
@@ -172,6 +174,7 @@
         android:id="@+id/detailed_IRC_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        style="@style/MainTheme"
         android:text="Indica a continuación su estimación de CH para esta ingesta"
         android:textStyle="bold"
         android:elegantTextHeight="true"
@@ -195,6 +198,7 @@
         android:textStyle="bold"
         android:elegantTextHeight="true"
         android:textColor="@color/black"
+        style="@style/MainTheme"
         android:textSize="18dp"
         android:gravity="center"
         android:background="@drawable/borders"

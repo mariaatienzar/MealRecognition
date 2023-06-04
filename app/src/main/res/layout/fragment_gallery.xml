@@ -35,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            style="@style/MainTheme"
             android:text="Selecciona de la galería una de sus ingestas anteriores para ser analizada"
             android:textAlignment="center"
             android:textColor="#FF7DC2D7"
@@ -66,6 +67,7 @@
             android:id="@+id/detailed_IRC_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            style="@style/MainTheme"
             android:text="Indica a continuación su estimación de CH para esta ingesta"
             android:textStyle="bold"
             android:elegantTextHeight="true"
@@ -90,6 +92,7 @@
             android:elegantTextHeight="true"
             android:textColor="@color/black"
             android:textSize="18dp"
+            style="@style/MainTheme"
             android:gravity="center"
             android:background="@drawable/borders"
             android:layout_marginStart="80dp"
@@ -126,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textStyle="bold"
-
+                style="@style/MainTheme"
                 android:gravity="center"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="100dp"
@@ -146,6 +149,7 @@
 
                 <AutoCompleteTextView
                     android:hint="Ocasión"
+                    style="@style/MainTheme"
                     android:id="@+id/detailed_quantity_dropdown"
                     android:layout_width="match_parent"
                     android:autoHandwritingEnabled="false"
