@@ -26,7 +26,7 @@
                 android:id="@+id/image_view"
                 android:layout_width="90dp"
                 android:layout_height="100dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/ic_user" />
 
 
@@ -67,9 +67,10 @@
                     android:layout_marginBottom="10dp">
 
 
+
                     <EditText
                         android:id="@+id/text_weight"
-                        android:hint="Peso (kg)"
+                        android:hint="Peso  "
                         android:textSize="16dp"
                         android:layout_width="match_parent"
                         android:layout_marginTop="1dp"
@@ -80,6 +81,16 @@
                         android:enabled="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="23dp"
+                         android:layout_marginEnd="186dp"
+                        android:text="(kg)"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
 
                     <EditText
                         android:id="@+id/text_height"
@@ -92,9 +103,30 @@
                         android:layout_below="@+id/text_weight"
                         android:drawablePadding="12dp"
                         android:enabled="true"
-                        android:hint="Altura (cm)"
+                        android:hint="Altura "
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/text_weight"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginEnd="176dp"
+                        android:text="(cm)"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/text_height"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginEnd="170dp"
+                        android:text="(años)"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
                     <EditText
                         android:id="@+id/text_age"
                         android:textSize="16dp"
@@ -109,6 +141,8 @@
                         android:drawablePadding="12dp"
                         android:enabled="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+
                     <EditText
                         android:id="@+id/text_sex"
                         android:hint="Sexo"
@@ -148,9 +182,20 @@
                         android:drawablePadding="12dp"
                         android:enabled="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@+id/text_IRC"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="(mg/dl)"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
 
                 </RelativeLayout>
+
 
             </androidx.cardview.widget.CardView>
 

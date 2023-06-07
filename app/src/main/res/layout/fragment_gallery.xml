@@ -38,7 +38,7 @@
             style="@style/MainTheme"
             android:text="Selecciona de la galería una de sus ingestas anteriores para ser analizada"
             android:textAlignment="center"
-            android:textColor="#FF7DC2D7"
+            android:textColor="@color/green"
             android:textSize="18dp" />
 
         <ProgressBar
@@ -47,6 +47,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_500"
             android:max="100"
             tools:progress="40" />
 

@@ -3,6 +3,8 @@ package com.example.mealrecognition
 import android.app.ActionBar
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -32,6 +34,7 @@ class RecognitionActivity : AppCompatActivity() {
     lateinit var confButton: Button
     lateinit var textView: TextView
     private lateinit var imageUri: Uri
+    private lateinit var button_scroll: HorizontalScrollView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,7 @@ class RecognitionActivity : AppCompatActivity() {
         confButton = binding.btnConf
         progress_bar = binding.progressBar
         textView = binding.textView
+        //button_scroll = binding.scrollbutton
 
 
         imageUri = intent.getParcelableExtra<Uri>("image")!!
@@ -72,39 +76,49 @@ class RecognitionActivity : AppCompatActivity() {
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        lp.setMargins(10, 10, 0, 20)
+        lp.setMargins(10, 10, 0, 30)
         val item = ArrayList<Int>()
         val source = ArrayList<String>()
 
         val foodSize = foodName.size
 
-        textView.setText("Se han reconocido $foodSize alimentos en su imagen. \r\n\r Selecciona de la lista aquellos que correspondan con su ingesta: ")
+        textView.setText("$foodSize alimentos reconocidos en su imagen. \r\n\r Selecciona de la lista aquellos que correspondan con su ingesta: ")
 
 
         for (i in 0 until foodName.size) {
-            val scrollView = ScrollView(this!!)
+            val scrollView = HorizontalScrollView(this!!)
             var textview = TextView(this)
             textview.text = "Alimento %s reconocido".format(i + 1)
+            textview.setTypeface(textview.typeface, Typeface.BOLD);
+            textview.textSize = 16F
+            //textview.setTextColor(Color.parseColor("#FFA63371"))
 
             buttonsView.addView(textview)
             buttonsView.addView(scrollView)
+
             val linearLayout = LinearLayout(this!!)
             linearLayout.orientation = LinearLayout.HORIZONTAL
             scrollView.addView(linearLayout)
 
             val radioGroup = RadioGroup(this)
             radioGroup.id = i
+            radioGroup.orientation = RadioGroup.HORIZONTAL
+            val scrollView2 = HorizontalScrollView(this)
+
             for (j in 0 until foodName[i].size) {
                 val button = RadioButton(this)
                 button.id = foodName.size + j + 1
                 button.layoutParams = lp
                 button.text = foodName[i][j]
+                button.setTextColor(Color.parseColor("#FF009688"))
                 radioGroup.addView(button)
                 button.setBackgroundResource(R.drawable.selection_button)
 
             }
+            scrollView2.addView(radioGroup)
 
-            buttonsView.addView(radioGroup)
+
+            buttonsView.addView(scrollView2)
 
         }
         confButton.setOnClickListener {

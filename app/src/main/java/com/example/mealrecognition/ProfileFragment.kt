@@ -1,6 +1,8 @@
 package com.example.mealrecognition
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +61,7 @@ class ProfileFragment : Fragment() {
             val irc = ircInput.text.toString()
             val correc = correcInput.text.toString()
 
+
             if (weight.isEmpty()) {
                 weightInput.error = "Indica el peso"
                 //IllegalArgumentException("Indica el peso")
@@ -93,6 +96,18 @@ class ProfileFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            Log.e("TAG", "$irc $correc")
+
+            val sharedPrefIRC = activity?.getSharedPreferences("irc_patient", Context.MODE_PRIVATE)
+            val editorIRC = sharedPrefIRC?.edit()
+            editorIRC?.putString("irc", irc)
+            editorIRC?.apply()
+
+            val sharedPrefFactor = activity?.getSharedPreferences("factor_correction", Context.MODE_PRIVATE)
+            val editorFC = sharedPrefFactor?.edit()
+            editorFC?.putString("factor", correc)
+            editorFC?.apply()
+
 
             //MIRAR UPDATING EMAIL 10 TUTORIAL (crear fragmento de actualizacion , no se si se necesita TextView)
             val updates = UserProfileChangeRequest.Builder()
@@ -103,6 +118,9 @@ class ProfileFragment : Fragment() {
                 .setDisplayName("Relación insulina-Carbohidratos: $irc")
                 .setDisplayName("Factor correción insulina: $correc")
                 .build()
+
+
+
 
 
             progressBar.visibility = View.VISIBLE

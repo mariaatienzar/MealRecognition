@@ -85,7 +85,6 @@ class Calculation : AppCompatActivity() {
 
     private fun uploadImage(uriFile : Uri) {
 
-
         /*val sharedPrefCorrection = this.getSharedPreferences("ch_correction", Context.MODE_PRIVATE)
         val editor1 = sharedPrefCorrection?.edit()
         editor1?.putString("chCorrec", gramsCHCorrect)
@@ -138,18 +137,32 @@ class Calculation : AppCompatActivity() {
             Log.e("TAG", meal_occasion)
         }
 
+        val sharedPrefIRC = getSharedPreferences("irc_patient", Context.MODE_PRIVATE)
+        val irc = sharedPrefIRC?.getString("irc",null)
+        if (irc != null) {
+            Log.e("TAG", irc)
+        }
+
+        val sharedPrefFactor = getSharedPreferences("factor_correction", Context.MODE_PRIVATE)
+        val correc = sharedPrefFactor?.getString("factor", null)
+        if (correc != null) {
+            Log.e("TAG", correc)
+        }
+
 
 
         NutrientAPI().uploadImage(
             MultipartBody.Part.createFormData("image", file.name, body),
             MultipartBody.Part.createFormData("json", filenut.name, body),
             RequestBody.create(MediaType.parse("multipart/form-data"), patient_id.toString()),
+            RequestBody.create(MediaType.parse("multipart/form-data"), irc.toString()),
+            RequestBody.create(MediaType.parse("multipart/form-data"), correc.toString()),
             RequestBody.create(MediaType.parse("multipart/form-data"), patient_estimation.toString()),
             RequestBody.create(MediaType.parse("multipart/form-data"), patient_correction.toString()),
             RequestBody.create(MediaType.parse("multipart/form-data"), meal_occasion.toString())
 
 
-        ).enqueue(object : Callback<UploadResponse> {
+            ).enqueue(object : Callback<UploadResponse> {
             override fun onResponse(
                 call: Call<UploadResponse>,
                 response: Response<UploadResponse>

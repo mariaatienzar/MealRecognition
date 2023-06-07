@@ -17,6 +17,8 @@ fun uploadImage(
     @Part image: MultipartBody.Part,
     @Part json: MultipartBody.Part,
     @Part("patient_id") desc: RequestBody,
+    @Part("irc") irc: RequestBody,
+    @Part("correction_factor") fc: RequestBody,
     @Part("patient_estimation") est: RequestBody,
     @Part("patient_correction") cor: RequestBody,
     @Part("meal_occasion") occ: RequestBody

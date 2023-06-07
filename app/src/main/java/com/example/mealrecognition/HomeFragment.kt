@@ -1,5 +1,6 @@
 package com.example.mealrecognition
 
+import android.R
 import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,18 +12,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import com.example.mealrecognition.databinding.FragmentGalleryBinding
+import androidx.fragment.app.FragmentTransaction
 import com.example.mealrecognition.databinding.FragmentHomeBinding
-import com.example.mealrecognition.databinding.FragmentProfileBinding
-import com.example.mealrecognition.upload.LogmealAPI
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.MediaType
-import okhttp3.RequestBody
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,6 +30,12 @@ class HomeFragment : Fragment() {
     lateinit var carbohTV: TextView
     lateinit var stepsTv: TextView
     lateinit var caloriesTV: TextView
+    lateinit var tv: TextView
+    private lateinit var b1 : Button
+    private lateinit var b2: TextView
+    private lateinit var b3: Button
+    private lateinit var fl: FrameLayout
+
 
     private val ACTION_DATA_AVAILABLE = "com.example.bluetooth.le.ACTION_DATA_AVAILABLE"
     private val ACTION_PREVIOUS_DATA = "com.example.bluetooth.le.ACTION_PREVIOUS_DATA"
@@ -52,6 +54,10 @@ class HomeFragment : Fragment() {
             //binding.upMenuProteinsLeft
         caloriesTV = binding.upMenuFatsLeft
         currentTV = binding.tvCurrent
+        b1 = binding.intro1
+        b2 = binding.intro2
+        b3 = binding.intro3
+        tv = binding.tv
 
         // on below line we are creating and initializing
         // variable for simple date format.
@@ -65,9 +71,12 @@ class HomeFragment : Fragment() {
         // on below line we are setting current
         // date and time to our text view.
         currentTV.text = currentDateAndTime
+
+        val fragment = BtFragment()
+
+
+
         return root
-
-
 
 
     }
@@ -119,7 +128,7 @@ class HomeFragment : Fragment() {
         var steps: String? = intent!!.getStringExtra("steps")
         if(steps != null) {
             try {
-                stepsTv?.text = steps
+                stepsTv?.text = "$steps \n pasos"
             } catch (e1:NullPointerException) {
                 Log.e("OVERVIEW FRAGMENT", "STEPS CATCH")
             }
