@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
         var steps: String? = intent!!.getStringExtra("steps")
         if(steps != null) {
             try {
-                stepsTv?.text = "$steps \n pasos"
+                stepsTv?.text = "$steps"
             } catch (e1:NullPointerException) {
                 Log.e("OVERVIEW FRAGMENT", "STEPS CATCH")
             }

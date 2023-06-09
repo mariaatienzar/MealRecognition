@@ -19,7 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="80dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,7 +34,7 @@
                 android:layout_centerInParent="true"
                 android:layout_margin="20dp"
                 android:gravity="center"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:text="Time"
                 style="@style/MainTheme"
                 android:textAlignment="center"
@@ -61,7 +61,7 @@
                 style="@style/MainTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="78dp"
+                android:layout_marginBottom="40dp"
                 android:maxLength="6"
                 android:singleLine="true"
                 android:textAlignment="center"
@@ -76,24 +76,23 @@
             <TextView
                 android:id="@+id/up_menu_sub_text"
                 style="@style/MainTheme"
-
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="16"
                 android:singleLine="true"
                 android:textAlignment="center"
                 android:textSize="20dp"
+
                 app:layout_constraintStart_toStartOf="@+id/fragment_home_up_pBar"
                 app:layout_constraintTop_toBottomOf="@id/up_menu_calories_text" />
 
             <ProgressBar
                 android:id="@+id/fragment_home_up_pBar"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
                 android:layout_marginTop="40dp"
-                android:paddingBottom="60dp"
+                android:paddingBottom="40dp"
                 android:progressDrawable="@drawable/circleprogressbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
@@ -171,23 +170,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
                 android:maxWidth="80dp"
                 android:singleLine="true"
                 android:textSize="18dp"
-                app:layout_constraintStart_toStartOf="@id/up_menu_carbs_bar"
+                app:layout_constraintStart_toStartOf="@id/up_menu_carbs_text"
                 app:layout_constraintTop_toBottomOf="@+id/up_menu_carbs_bar" />
 
 
 
              <TextView
                 android:id="@+id/up_menu_fats_left"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:maxWidth="80dp"
-                android:singleLine="true"
-                android:textSize="18dp"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="8dp"
+                 android:layout_marginStart="45dp"
+                 android:textAlignment="center"
+                 android:textColor="@color/black"
+                 android:maxWidth="80dp"
+                 android:singleLine="true"
+                 android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="@id/up_menu_fats_bar"
                 app:layout_constraintTop_toBottomOf="@+id/up_menu_fats_bar" />
 

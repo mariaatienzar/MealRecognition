@@ -31,7 +31,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
-
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class Calculation : AppCompatActivity() {
@@ -52,7 +53,7 @@ class Calculation : AppCompatActivity() {
         textViewHC = binding.detailedQuantityCarb
         textCal = binding.detailedIRC
         textCorrec = binding.detailedC1
-        imageView = binding.imageView
+        imageView = binding.homereturn
 
         //val spinner = binding.detailedQuantityDropdown
         progress_bar = binding.progressBar
@@ -67,6 +68,10 @@ class Calculation : AppCompatActivity() {
         val patient_estimation = sharedPref.getString("ch", null)
 
         textCal.text = patient_estimation + " g"
+
+        imageView.setOnClickListener{
+            startActivity(Intent(this,HomeActivity::class.java))
+        }
 
 
 
@@ -84,19 +89,16 @@ class Calculation : AppCompatActivity() {
     }
 
     private fun uploadImage(uriFile : Uri) {
+        val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm")
+        val now: LocalDateTime = LocalDateTime.now()
+        val date: String = dtf.format(now).toString()
 
-        /*val sharedPrefCorrection = this.getSharedPreferences("ch_correction", Context.MODE_PRIVATE)
-        val editor1 = sharedPrefCorrection?.edit()
-        editor1?.putString("chCorrec", gramsCHCorrect)
-        editor1?.apply()
 
-         */
-         val parcelFileDescriptor = contentResolver.openFileDescriptor(uriFile, "r", null)
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(uriFile, "r", null)
             ?: return
         val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
         val valuesActivity = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_DOWNLOADS
-        ).toString() + "/nutrientes.json"
+            Environment.DIRECTORY_DOWNLOADS).toString() + "/nutrients_info_%s.json".format(date)
         val filenut = File(valuesActivity)
         if (!filenut.exists()) {
             filenut.createNewFile()

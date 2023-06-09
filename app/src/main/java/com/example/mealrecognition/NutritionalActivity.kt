@@ -37,7 +37,7 @@ class NutritionalActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNutritionalBinding
     private lateinit var progress_bar : ProgressBar
     lateinit var image_view: ImageView
-
+    private var shouldResetItems = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -167,6 +167,14 @@ class NutritionalActivity : AppCompatActivity() {
                 }
                 Log.e("TAG", " $jsonEdit $listQuantity $listServingSize $listPosition")
                 confirmQuantity(idImage, jsonEdit)
+                if (shouldResetItems) {
+                    listQuantity.clear() // Reiniciar la lista de elementos seleccionados
+                    jsonEdit.clear()
+                    shouldResetItems = false // Restablecer la bandera
+                }
+
+
+
             }
 
 
@@ -175,8 +183,13 @@ class NutritionalActivity : AppCompatActivity() {
 
 
     }
+    override fun onResume() {
+        super.onResume()
+        shouldResetItems = true
+    }
 
-    private fun confirmQuantity(imageId: Int, quantity: Map<String, Float>){
+
+    private fun confirmQuantity(imageId: Int, quantity: MutableMap<String, Float>){
         val request = QuantityRequest(imageId.toString(), quantity)
         val sharedPrefToken = getSharedPreferences("token_user", Context.MODE_PRIVATE)
         val token = "Bearer " + sharedPrefToken.getString("token", null)

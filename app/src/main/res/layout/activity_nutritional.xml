@@ -236,7 +236,7 @@
                             android:layout_below="@id/activity_detailed_rl2"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginTop="20dp">
+                            android:layout_marginTop="10dp">
 
                             <TextView
                                 android:id="@+id/totalQuantityText"
@@ -247,7 +247,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="16dp"
-                                android:layout_marginTop="15dp"
+                                android:layout_marginTop="25dp"
                                 android:layout_alignParentEnd="true"
 
 
@@ -260,7 +260,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginStart="20dp"
-                                android:layout_marginTop="15dp"
+                                android:layout_marginTop="25dp"
                                 android:layout_marginEnd="100dp"
                                 android:text="Cantidad alimentos"
                                 android:textColor="@color/green"

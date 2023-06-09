@@ -35,6 +35,7 @@ class RecognitionActivity : AppCompatActivity() {
     lateinit var textView: TextView
     private lateinit var imageUri: Uri
     private lateinit var button_scroll: HorizontalScrollView
+    private var shouldResetItems = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +83,7 @@ class RecognitionActivity : AppCompatActivity() {
 
         val foodSize = foodName.size
 
-        textView.setText("$foodSize alimentos reconocidos en su imagen. \r\n\r Selecciona de la lista aquellos que correspondan con su ingesta: ")
+        textView.setText("$foodSize alimentos reconocidos en su imagen. \n \n Selecciona de la lista aquellos que correspondan con su ingesta: ")
 
 
         for (i in 0 until foodName.size) {
@@ -91,7 +92,8 @@ class RecognitionActivity : AppCompatActivity() {
             textview.text = "Alimento %s reconocido".format(i + 1)
             textview.setTypeface(textview.typeface, Typeface.BOLD);
             textview.textSize = 16F
-            //textview.setTextColor(Color.parseColor("#FFA63371"))
+            textview.setTextColor(Color.parseColor("#FF000000"))
+
 
             buttonsView.addView(textview)
             buttonsView.addView(scrollView)
@@ -148,8 +150,23 @@ class RecognitionActivity : AppCompatActivity() {
                 .setMessage("Has seleccionado $sizeItem de $foodSize alimentos reconocidos. ¿Estás seguro de continuar?")
                 .setPositiveButton("Si") { dialog, whichButton ->
                     confirmDish(idImage, item, source, listFoodPosition)
+                    if (shouldResetItems) {
+                        item.clear() // Reiniciar la lista de elementos seleccionados
+                        listFoodPosition.clear()
+                        source.clear()
+
+                        shouldResetItems = false // Restablecer la bandera
+                    }
+
                 }
                 .setNegativeButton("NO") { dialog, whichButton ->
+                    if (shouldResetItems) {
+                        item.clear() // Reiniciar la lista de elementos seleccionados
+                        listFoodPosition.clear()
+                        source.clear()
+
+                        shouldResetItems = false // Restablecer la bandera
+                    }
                     // DO YOUR STAFF
                     // dialog.close()
                 }
@@ -160,6 +177,10 @@ class RecognitionActivity : AppCompatActivity() {
 
 
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        shouldResetItems = true
     }
 
 
@@ -206,10 +227,10 @@ class RecognitionActivity : AppCompatActivity() {
 
                     if (response.isSuccessful) {
                         val confirmationResponse = response.body()
-                         println(confirmationResponse)
+                        println(confirmationResponse)
 
                     } else {
-                         println("Error en la respuesta: ${response.code()}")
+                        println("Error en la respuesta: ${response.code()}")
                     }
 
 
@@ -379,8 +400,6 @@ class RecognitionActivity : AppCompatActivity() {
 
 
 }
-
-
 
 
 

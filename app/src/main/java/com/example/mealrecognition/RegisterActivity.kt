@@ -25,13 +25,13 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var mAuth : FirebaseAuth
     private lateinit var binding : ActivityRegisterBinding
-    private lateinit var idInput : EditText
+    private lateinit var emailInput : EditText
     private lateinit var pswInput : EditText
     private lateinit var button: Button
     private lateinit var viewLogin : TextView
     private lateinit var progressBar: ProgressBar
-    var authToken: Int = 0
-
+    private lateinit var idInput: EditText
+    var patient_id : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,21 +39,23 @@ class RegisterActivity : AppCompatActivity() {
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        idInput = binding.editText
+        emailInput= binding.editText
+        idInput = binding.editId
         pswInput = binding.editTextPassword
         button = binding.buttonRegister
         viewLogin = binding.textViewLogin
         progressBar = binding.progressbar
         mAuth= FirebaseAuth.getInstance()
 
+        idInput = binding.editId
 
 
-
+        val sp = getSharedPreferences("id_pref", MODE_PRIVATE)
+        patient_id = sp.getInt("id", -1)
 
 
         button.setOnClickListener{
-            val user = idInput.editableText.toString()
+            val user = emailInput.editableText.toString()
             val password = pswInput.editableText.toString()
 
             if (user.isEmpty()) {
@@ -64,9 +66,15 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this,"Contraseña de más de 6 digitos requerida", Toast.LENGTH_LONG).show()
 
             }
+            val idNumber = idInput.editableText.toString()
+            if (idNumber.isEmpty()) {
+                Toast.makeText(this,"Introduzca un ID", Toast.LENGTH_LONG).show()
+            }
 
-            //val intent = Intent(this, HomeActivity::class.java)
-            //startActivity(intent)
+
+            val editor = sp.edit()
+            editor.putInt("id", idNumber.toInt())
+            editor.commit()
             registerUser(user,password)
 
         }
@@ -80,7 +88,7 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-   private fun registerUser (user: String, password: String) {
+    private fun registerUser (user: String, password: String) {
         progressBar.visibility = View.VISIBLE
         mAuth.createUserWithEmailAndPassword(user,password)
             .addOnCompleteListener(this) { task ->
@@ -173,4 +181,3 @@ class RegisterActivity : AppCompatActivity() {
 
 
 }
-

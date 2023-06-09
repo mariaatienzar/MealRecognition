@@ -98,6 +98,7 @@ class GalleryFragment : Fragment() {
             else{
 
                 uploadSegmentation(selectedImageUri)
+                progress_bar.progress = 100
                 Log.e("TAG", ch_text.text.toString())
                 Log.e("TAG", autocomplete.text.toString())
 

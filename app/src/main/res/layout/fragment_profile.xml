@@ -85,11 +85,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginTop="23dp"
+                        android:layout_marginTop="18dp"
                          android:layout_marginEnd="186dp"
                         android:text="(kg)"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="#A7A7A7"
                         android:textSize="16dp" />
 
                     <EditText
@@ -110,22 +110,22 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_below="@id/text_weight"
-                        android:layout_marginTop="23dp"
+                        android:layout_marginTop="18dp"
                         android:layout_marginEnd="176dp"
                         android:text="(cm)"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="#FFA7A7A7"
                         android:textSize="16dp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_below="@id/text_height"
-                        android:layout_marginTop="23dp"
+                        android:layout_marginTop="18dp"
                         android:layout_marginEnd="170dp"
                         android:text="(años)"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="#FFA7A7A7"
                         android:textSize="16dp" />
                     <EditText
                         android:id="@+id/text_age"
@@ -187,11 +187,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_below="@+id/text_IRC"
-                        android:layout_marginTop="23dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="20dp"
                         android:text="(mg/dl)"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="#FFA7A7A7"
                         android:textSize="16dp" />
 
                 </RelativeLayout>
