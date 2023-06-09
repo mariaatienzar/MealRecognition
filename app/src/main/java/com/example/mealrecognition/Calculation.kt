@@ -21,6 +21,7 @@ import com.example.mealrecognition.upload.PhotoAPI
 import com.example.mealrecognition.upload.getFileName
 import com.example.mealrecognition.upload.receivers.UploadResponse
 import com.example.mealrecognition.upload.snackbar
+import com.example.mealrecognition.upload.uploaders.UploadFileBody
 import com.example.mealrecognition.upload.uploaders.UploadRequest3
 import com.example.mealrecognition.upload.uploaders.UploadRequestBody
 import okhttp3.MediaType
@@ -93,7 +94,6 @@ class Calculation : AppCompatActivity() {
         val now: LocalDateTime = LocalDateTime.now()
         val date: String = dtf.format(now).toString()
 
-
         val parcelFileDescriptor = contentResolver.openFileDescriptor(uriFile, "r", null)
             ?: return
         val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
@@ -151,11 +151,14 @@ class Calculation : AppCompatActivity() {
             Log.e("TAG", correc)
         }
 
+        val body_nut = UploadFileBody(filenut, "json")
+
 
 
         NutrientAPI().uploadImage(
+
             MultipartBody.Part.createFormData("image", file.name, body),
-            MultipartBody.Part.createFormData("json", filenut.name, body),
+            MultipartBody.Part.createFormData("json", filenut.name, body_nut),
             RequestBody.create(MediaType.parse("multipart/form-data"), patient_id.toString()),
             RequestBody.create(MediaType.parse("multipart/form-data"), irc.toString()),
             RequestBody.create(MediaType.parse("multipart/form-data"), correc.toString()),
