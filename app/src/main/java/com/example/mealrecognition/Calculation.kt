@@ -178,7 +178,7 @@ class Calculation : AppCompatActivity() {
                 response: Response<UploadResponse>
             ) {
                 response.body()?.let {
-                    imageView.snackbar("Datos registrados correctamente")
+
                     progress_bar.progress = 100
                     inputStream.close()
                     outputStream.close()
@@ -186,6 +186,7 @@ class Calculation : AppCompatActivity() {
                 }
 
                 if (response.isSuccessful) {
+                    imageView.snackbar("Datos registrados correctamente")
                     val confirmationResponse = response.body()
                     println(confirmationResponse)
 
