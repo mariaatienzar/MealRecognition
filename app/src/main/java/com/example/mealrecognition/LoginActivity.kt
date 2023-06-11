@@ -47,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
         idInput = binding.editText
         pswInput = binding.editTextPassword
         viewRegister = binding.textViewRegister
-        viewForgetPsw = binding.textViewForgetPassword
+
         progressBar = binding.progressbar
 
         mAuth = FirebaseAuth.getInstance()

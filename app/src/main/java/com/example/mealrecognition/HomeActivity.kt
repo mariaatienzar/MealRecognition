@@ -127,15 +127,7 @@ class HomeActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun replaceFragment(fragment : Fragment){
 
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.nav_host_fragment,fragment)
-        fragmentTransaction.commit()
-
-
-    }
     private fun requestStoragePermission(permissions: Array<String>) {
         if (ContextCompat.checkSelfPermission(this, permissions[0])
             == PackageManager.PERMISSION_GRANTED && (ContextCompat.checkSelfPermission(

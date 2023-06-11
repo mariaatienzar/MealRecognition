@@ -68,6 +68,8 @@ class Calculation : AppCompatActivity() {
         val sharedPref = getSharedPreferences("ch_estimation", Context.MODE_PRIVATE)
         val patient_estimation = sharedPref.getString("ch", null)
 
+
+
         textCal.text = patient_estimation + " g"
 
         imageView.setOnClickListener{
@@ -79,9 +81,16 @@ class Calculation : AppCompatActivity() {
 
 
         button.setOnClickListener{
+            val patient_correction = textCorrec.text.toString()
             textCorrec.setBackgroundColor(Color.parseColor("#84C170"))
-            if (imageUri != null) {
-                uploadImage(imageUri)
+
+            if (imageUri != null && patient_correction.isNotEmpty()) {
+                uploadImage(imageUri,patient_correction)
+            }
+            else {
+
+                Toast.makeText(this, "Debe introducir un valor de CH", Toast.LENGTH_LONG).show()
+
             }
 
 
@@ -89,7 +98,8 @@ class Calculation : AppCompatActivity() {
 
     }
 
-    private fun uploadImage(uriFile : Uri) {
+    private fun uploadImage(uriFile : Uri, patient_correction: String) {
+        Log.e("TAG", patient_correction)
         val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm")
         val now: LocalDateTime = LocalDateTime.now()
         val date: String = dtf.format(now).toString()
@@ -126,12 +136,7 @@ class Calculation : AppCompatActivity() {
         val patient_id = prefs?.getInt("id", 0)
         val sharedPref = getSharedPreferences("ch_estimation", Context.MODE_PRIVATE)
         val patient_estimation = sharedPref.getString("ch", null)
-        val patient_correction = textCorrec.text.toString()
-        if (patient_correction.isEmpty()) {
-            Toast.makeText(this, "Debe introducir un valor de CH", Toast.LENGTH_LONG).show()
-        } else {
-            Log.e("TAG", patient_correction)
-        }
+
 
         val sharedPrefOccasion = getSharedPreferences("meal_occasion", Context.MODE_PRIVATE)
         val meal_occasion = sharedPrefOccasion?.getString("meal", null)

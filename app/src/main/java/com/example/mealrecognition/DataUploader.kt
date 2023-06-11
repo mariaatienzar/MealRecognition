@@ -19,7 +19,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.mealrecognition.upload.FileAPI
+import com.example.mealrecognition.upload.*
 import com.example.mealrecognition.upload.receivers.UploadResponse
 import com.example.mealrecognition.upload.uploaders.UploadFileBody
 import okhttp3.MediaType
@@ -46,6 +46,7 @@ class DataUploader : Service() {
     val NOTIFICATION_CHANNEL_ID = "example.permanence"
     private var idArray : ArrayList<Int> = ArrayList<Int>()
     private var idArray2 : ArrayList<Int> = ArrayList<Int>()
+    private var idArray3 : ArrayList<Int> = ArrayList<Int>()
 
     private lateinit var db: SQLiteDatabase
     val dbHelper = MyOpenHelper(this)
@@ -69,15 +70,14 @@ class DataUploader : Service() {
         task = object : TimerTask() {
             @SuppressLint("Range")
             override fun run() {
+                val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm")
+                val now: LocalDateTime = LocalDateTime.now()
+                val date: String = dtf.format(now).toString()
 
                 try {
                     checkPreviousFiles()
 
                     val c1: Cursor? = db.rawQuery("SELECT * FROM activityData WHERE isSent='0'", null)
-
-                    val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm")
-                    val now: LocalDateTime = LocalDateTime.now()
-                    val date: String = dtf.format(now).toString()
 
                     if (c1 != null) {
 
@@ -122,9 +122,9 @@ class DataUploader : Service() {
 
                     val c2: Cursor? = db.rawQuery("SELECT * FROM previousData WHERE isSent='0'", null)
 
-                    if (c2 != null) {
+                    if (c2 != null && (c2.getCount() > 0)) {
 
-                        if((c2.getCount() > 0)) {
+                        try {
                             val prevActivityValues = Environment.getExternalStoragePublicDirectory(
                                 Environment.DIRECTORY_DOWNLOADS).toString() + "/previous_%s.json".format(date)
                             val prevFile = File(prevActivityValues)
@@ -160,16 +160,54 @@ class DataUploader : Service() {
 
                             uploadActivityFile(prevFile, 1)
                         }
+                        catch (e: Exception) {
+                            Log.e("DATABASE", "Not readable database")
+                        }
                     }
                     c2!!.close()
+
+                    val c3: Cursor? = db.rawQuery("SELECT * FROM heartRates WHERE isSent='0'", null)
+                    if (c3 != null) {
+
+                        if((c3.getCount() > 0)) {
+
+                            val valuesActivity = Environment.getExternalStoragePublicDirectory(
+                                Environment.DIRECTORY_DOWNLOADS).toString() + "/hr_%s.json".format(date)
+                            val file = File(valuesActivity)
+                            if (!file.exists()) {
+                                file.createNewFile()
+                            }
+
+                            val fileWriter = FileWriter(file)
+                            val bufferedWriter = BufferedWriter(fileWriter)
+                            val message = JSONArray()//Hay datos de glucosa
+
+                            c3.moveToFirst()
+                            do {
+                                val data = JSONObject()
+                                data.put("timestamp", c3.getString(c3.getColumnIndex("DATETIME")))
+                                data.put("bpm", c3.getString(c3.getColumnIndex("lpm")))
+                                message.put(data)
+                                idArray3.add(c3.getInt(c3.getColumnIndex("_id")))
+                                db.execSQL("UPDATE heartRates SET isSent='1' WHERE _id=" + c3.getInt(c3.getColumnIndex("_id")))
+                            } while (c3.moveToNext())
+
+                            bufferedWriter.write(message.toString())
+                            Thread.sleep(10)
+                            bufferedWriter.close()
+
+                            uploadActivityFile(file, 2)
+                        }
+                    }
+                    c3!!.close()
 
                     try {
                         //BORRADO DE DATOS DE LA BBDD LOCAL CADA 7 DIAS
                         db.execSQL("DELETE FROM activityData WHERE DATETIME < datetime('" + date + "','-6 days') AND isSent='1'")
-                        db.execSQL("DELETE FROM heartRates WHERE DATETIME < datetime('" + date + "','-6 days')")
+                        db.execSQL("DELETE FROM heartRates WHERE DATETIME < datetime('" + date + "','-6 days') AND isSent='1'")
                         db.execSQL("DELETE FROM steps_tb WHERE DATETIME < datetime('" + date + "','-6 days')")
                         db.execSQL("DELETE FROM calories_tb WHERE DATETIME < datetime('" + date + "','-6 days')")
-                        db.execSQL("DELETE FROM previousData WHERE DATETIME < datetime('" + date + "','-3 days') AND isSent='1'")
+                        db.execSQL("DELETE FROM previousData WHERE DATETIME < datetime('" + date + "','-6 days') AND isSent='1'")
 
                     } catch (e : Exception) {
                         Log.e("TAG", "No hay 7 dias de datos")
@@ -180,36 +218,47 @@ class DataUploader : Service() {
             }
         }
         //Envio de datos cada hora
-        timer.scheduleAtFixedRate(task, TimeUnit.HOURS.toMillis(0), TimeUnit.HOURS.toMillis(3))
+        timer.scheduleAtFixedRate(task, TimeUnit.MINUTES.toMillis(60), TimeUnit.MINUTES.toMillis(120))
     }
 
     private fun checkPreviousFiles() {
-        val checkFiles = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_DOWNLOADS).toString()
+        /**val checkFiles = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_DOWNLOADS).toString()
         val prevFiles = File(checkFiles)
         val downloadedFiles = prevFiles.list()
         val previousFiles = downloadedFiles.filter {
-            it.contains("previous")
+        it.contains("previous")
         }
         if (previousFiles.isNotEmpty()) {
-            for (i in previousFiles.indices) {
-                val prevActivity = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS).toString() + "/%s.json".format(i)
-                val file = File(prevActivity)
-                uploadActivityFile(file, 1)
-            }
+        for (i in previousFiles.indices) {
+        val prevActivity = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_DOWNLOADS).toString() + "/%s.json".format(i)
+        val file = File(prevActivity)
+        uploadActivityFile(file, 1)
+        }
         }
         val activityFiles = downloadedFiles.filter {
-            it.contains("activity")
+        it.contains("activity")
         }
         if (activityFiles.isNotEmpty()) {
-            for (i in activityFiles.indices) {
-                val prevActivity = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS).toString() + "/%s.json".format(i)
-                val file = File(prevActivity)
-                uploadActivityFile(file, 0)
-            }
+        for (i in activityFiles.indices) {
+        val prevActivity = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_DOWNLOADS).toString() + "/%s.json".format(i)
+        val file = File(prevActivity)
+        uploadActivityFile(file, 0)
         }
+        }
+        val hrFiles = downloadedFiles.filter {
+        it.contains("hr")
+        }
+        if (hrFiles.isNotEmpty()) {
+        for (i in hrFiles.indices) {
+        val prevActivity = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_DOWNLOADS).toString() + "/%s.json".format(i)
+        val file = File(prevActivity)
+        uploadActivityFile(file, 2)
+        }
+        }*/
     }
 
     private fun uploadActivityFile(file : File, prevActivity : Int) {
@@ -231,6 +280,8 @@ class DataUploader : Service() {
                         idArray.clear()
                     if (prevActivity == 1)
                         idArray2.clear()
+                    if (prevActivity == 2)
+                        idArray3.clear()
                     file.delete()
                 }
             }
@@ -247,6 +298,12 @@ class DataUploader : Service() {
                         db.execSQL("UPDATE previousData SET isSent='0' WHERE _id=" + idArray2[i])
                     }
                     idArray2.clear()
+                }
+                if (prevActivity == 2) {
+                    for (i in 0 until idArray3.size) {
+                        db.execSQL("UPDATE heartRates SET isSent='0' WHERE _id=" + idArray3[i])
+                    }
+                    idArray3.clear()
                 }
                 file.delete()
 
@@ -292,7 +349,7 @@ class DataUploader : Service() {
 
     private val mBinder = LocalBinder()
 
-    override fun onBind(p0: Intent?): IBinder? {
+    override fun onBind(p0: Intent?): IBinder {
         return mBinder
     }
 }

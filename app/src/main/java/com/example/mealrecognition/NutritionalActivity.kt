@@ -1,7 +1,9 @@
 package com.example.mealrecognition
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -10,6 +12,8 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.mealrecognition.databinding.ActivityNutritionalBinding
 import com.example.mealrecognition.upload.LogmealAPI
 import com.example.mealrecognition.upload.receivers.NutrientResponse
@@ -38,6 +42,7 @@ class NutritionalActivity : AppCompatActivity() {
     private lateinit var progress_bar : ProgressBar
     lateinit var image_view: ImageView
     private var shouldResetItems = false
+    var REQUEST_CODE_STORAGE_PERMISSION = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -223,18 +228,6 @@ class NutritionalActivity : AppCompatActivity() {
                     obtainNutrients(imageId)
 
 
-                    val valuesActivity = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DOWNLOADS).toString() + "/cantidad.json"
-                    val file = File(valuesActivity)
-                    if (!file.exists()) {
-                        file.createNewFile()
-                    }
-
-                    val fileWriter = FileWriter(file)
-                    val bufferedWriter = BufferedWriter(fileWriter)
-                    bufferedWriter.write(response_data.toString())
-                    Thread.sleep(10)
-                    bufferedWriter.close()
 
                 }
             }
@@ -244,7 +237,25 @@ class NutritionalActivity : AppCompatActivity() {
                 progress_bar.progress = 0
             }
 
+
         })
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_STORAGE_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, continue with your file operations
+                // ...
+            } else {
+
+                // ...
+            }
+        }
     }
     private fun obtainNutrients(imageId: Int) {
         val request = NutritionRequest(imageId.toString())
@@ -290,20 +301,6 @@ class NutritionalActivity : AppCompatActivity() {
                         println("Error en la respuesta: ${response.code()}")
                     }
 
-
-                    val valuesActivity = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DOWNLOADS
-                    ).toString() + "/nutrientes.json"
-                    val file = File(valuesActivity)
-                    if (!file.exists()) {
-                        file.createNewFile()
-                    }
-
-                    val fileWriter = FileWriter(file)
-                    val bufferedWriter = BufferedWriter(fileWriter)
-                    bufferedWriter.write(response_data.toString())
-                    Thread.sleep(10)
-                    bufferedWriter.close()
 
                 }
 

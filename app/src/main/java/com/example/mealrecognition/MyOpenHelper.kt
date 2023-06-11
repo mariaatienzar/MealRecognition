@@ -20,9 +20,9 @@ class MyOpenHelper(context: Context?) : SQLiteOpenHelper(context, DB_NAME, null,
         private const val COMMENTS_TABLE_CREATE_ACTIVITY =
             "CREATE TABLE activityData(_id INTEGER PRIMARY KEY AUTOINCREMENT, DATETIME DEFAULT (datetime('now','localtime')), lpmAvg TEXT, devHR TEXT, maxHR TEXT, minHR TEXT, steps TEXT, calories TEXT, isSent TEXT DEFAULT '0')"
         private const val COMMENTS_TABLE_CREATE_PREVIOUS_ACTIVITY =
-            "CREATE TABLE previousData(_id INTEGER PRIMARY KEY AUTOINCREMENT, DATETIME DEFAULT (datetime('now','localtime')), activityType TEXT, intensity TEXT, steps TEXT, heartRate TEXT, unknow1 TEXT, unknow2 TEXT, unknow3 TEXT, unknow4 TEXT, isSent TEXT DEFAULT '0')"
+            "CREATE TABLE previousData(_id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp TEXT, DATETIME DEFAULT (datetime('now','localtime')), activityType TEXT, intensity TEXT, steps TEXT, heartRate TEXT, unknow1 TEXT, unknow2 TEXT, unknow3 TEXT, unknow4 TEXT, isSent TEXT DEFAULT '0')"
         private const val COMMENTS_TABLE_CREATE_HR =
-            "CREATE TABLE heartRates(_id INTEGER PRIMARY KEY AUTOINCREMENT, DATETIME DEFAULT (datetime('now','localtime')), lpm TEXT)"
+            "CREATE TABLE heartRates(_id INTEGER PRIMARY KEY AUTOINCREMENT, DATETIME DEFAULT (datetime('now','localtime')), lpm TEXT, isSent TEXT DEFAULT '0')"
         private const val COMMENTS_TABLE_CREATE_STEPS =
             "CREATE TABLE steps_tb(_id INTEGER PRIMARY KEY AUTOINCREMENT, steps TEXT, DATETIME DEFAULT (datetime('now','localtime')))"
         private const val COMMENTS_TABLE_CREATE_CAL =
@@ -31,5 +31,3 @@ class MyOpenHelper(context: Context?) : SQLiteOpenHelper(context, DB_NAME, null,
         private const val DB_VERSION = 1
     }
 }
-
-

@@ -104,7 +104,6 @@ class MonitoringFragment : Fragment() {
     }
 
     private val gattUpdateReceiver = object : BroadcastReceiver() {
-        @RequiresApi(Build.VERSION_CODES.O)
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
             when (action){
@@ -157,18 +156,16 @@ class MonitoringFragment : Fragment() {
                 heartRateTv?.setText(heartRate + " lpm")
                 updateHRGraph()
             } catch (e3:NullPointerException) {
-                Log.e("OVERVIEW FRAGMENT", "HR  CATCH")
+                Log.e("OVERVIEW FRAGMENT", e3.toString())
             }
         }
     }
 
-    @SuppressLint("Range")
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateHRGraph() {
         val absoluteHRArray: MutableList<DataPoint> = ArrayList()
         val dbHelper = MyOpenHelper(activity)
         db = dbHelper.writableDatabase
-        val c: Cursor? = db!!.rawQuery("SELECT * FROM heartRates WHERE DATETIME <= datetime('now','localtime') AND DATETIME > datetime('now','localtime','-60 minutes')", null)
+        val c: Cursor? = db!!.rawQuery("SELECT * FROM heartRates WHERE DATETIME <= datetime('now','localtime') AND DATETIME > datetime('now','localtime','-60 minutes') ORDER BY DATETIME ASC", null)
         if (c != null) {
             if((c.getCount() > 0)) {
                 val calendar = Calendar.getInstance()
@@ -194,6 +191,7 @@ class MonitoringFragment : Fragment() {
         val graph : GraphView = binding.graphsLayout.heartRGraph
         graph.series.clear()
 
+        Log.e("GRAPHERROR", absoluteHRArray.toString())
         val series: LineGraphSeries<DataPoint> = LineGraphSeries(Array(absoluteHRArray.size) { i -> absoluteHRArray[i] }).also {
             it.isDrawBackground = true
             it.thickness = 1
@@ -214,13 +212,11 @@ class MonitoringFragment : Fragment() {
         tvGraphHr?.setText("  Frecuencia cardíaca (" + hoursIni + ":" + minutes_s + " h - " + hoursFin + ":" + minutes_s + " h)")
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateStepsGraph() {
         val absoluteStepsArray: MutableList<DataPoint> = java.util.ArrayList()
         val dbHelper = MyOpenHelper(activity)
         db = dbHelper.writableDatabase
-        val c: Cursor? = db!!.rawQuery("SELECT * FROM steps_tb WHERE DATETIME <= datetime('now','localtime') AND DATETIME > datetime('now','localtime','-1 hours')", null)
+        val c: Cursor? = db!!.rawQuery("SELECT * FROM steps_tb WHERE DATETIME <= datetime('now','localtime') AND DATETIME > datetime('now','localtime','-1 hours') ORDER BY DATETIME ASC", null)
         if (c != null) {
             if((c.getCount() > 0)) {
                 val calendar = Calendar.getInstance()
@@ -266,12 +262,11 @@ class MonitoringFragment : Fragment() {
         tvGraphSteps?.text = "  Pasos (" + hoursIni + ":" + minutes_s + " h - " + hoursFin + ":" + minutes_s + " h)"
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateCaloriesGraph() {
         val absoluteCaloriesArray: MutableList<DataPoint> = java.util.ArrayList()
         val dbHelper = MyOpenHelper(activity)
         db = dbHelper.writableDatabase
-        val c: Cursor? = db!!.rawQuery("SELECT * FROM calories_tb WHERE DATETIME <= datetime('now','localtime') AND DATETIME > datetime('now','localtime','-1 hours')", null)
+        val c: Cursor? = db!!.rawQuery("SELECT * FROM calories_tb WHERE DATETIME <= datetime('now','localtime') AND DATETIME > datetime('now','localtime','-1 hours') ORDER BY DATETIME ASC", null)
         if (c != null) {
             if((c.getCount() > 0)) {
                 val calendar = Calendar.getInstance()
@@ -296,7 +291,6 @@ class MonitoringFragment : Fragment() {
 
         val graph : GraphView = binding.graphsLayout.caloriesGraph
         graph.series.clear()
-
         val series: LineGraphSeries<DataPoint> = LineGraphSeries(Array(absoluteCaloriesArray.size) { i -> absoluteCaloriesArray[i] }).also {
             it.isDrawBackground = true
             it.thickness = 1

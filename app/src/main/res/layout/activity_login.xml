@@ -77,13 +77,6 @@
                         android:singleLine="true" />
 
 
-                    <TextView
-                        android:id="@+id/text_view_forget_password"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:paddingTop="5dp"
-                        android:text="Olvidé la contraseña" />
 
 
                     <Button
