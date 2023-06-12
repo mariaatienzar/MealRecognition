@@ -1,5 +1,6 @@
 package com.example.mealrecognition
 
+
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
@@ -263,8 +264,9 @@ class DataUploader : Service() {
 
     private fun uploadActivityFile(file : File, prevActivity : Int) {
         val body = UploadFileBody(file, "image")
-        val prefs = getSharedPreferences("id_pref", AppCompatActivity.MODE_PRIVATE)
+        val prefs = this.getSharedPreferences("id_pref", MODE_PRIVATE)
         val patient_id = prefs?.getInt("id", 0)
+
 
         FileAPI().uploadFile(
             MultipartBody.Part.createFormData("image", file.name, body),

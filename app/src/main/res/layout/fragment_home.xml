@@ -194,9 +194,16 @@
                 app:layout_constraintStart_toStartOf="@id/up_menu_fats_bar"
                 app:layout_constraintTop_toBottomOf="@+id/up_menu_fats_bar" />
 
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
 
 
             <RelativeLayout

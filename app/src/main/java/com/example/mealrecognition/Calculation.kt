@@ -1,6 +1,5 @@
 package com.example.mealrecognition
 
-import android.R.id.button1
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -8,22 +7,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mealrecognition.databinding.ActivityCalculationBinding
 import com.example.mealrecognition.upload.NutrientAPI
-import com.example.mealrecognition.upload.PhotoAPI
 import com.example.mealrecognition.upload.getFileName
 import com.example.mealrecognition.upload.receivers.UploadResponse
 import com.example.mealrecognition.upload.snackbar
 import com.example.mealrecognition.upload.uploaders.UploadFileBody
 import com.example.mealrecognition.upload.uploaders.UploadRequest3
-import com.example.mealrecognition.upload.uploaders.UploadRequestBody
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

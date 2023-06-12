@@ -1,6 +1,5 @@
 package com.example.mealrecognition
 
-import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,7 +7,6 @@ import android.app.Service
 import android.bluetooth.*
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
@@ -18,15 +16,12 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import java.math.BigInteger
 import java.text.DecimalFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.Month
+import java.time.*
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoField
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -42,7 +37,6 @@ private val ACTION_DATA_AVAILABLE = "com.example.bluetooth.le.ACTION_DATA_AVAILA
 private val ACTION_PREVIOUS_DATA = "com.example.bluetooth.le.ACTION_PREVIOUS_DATA"
 private val EXTRA_DATA = "com.example.bluetooth.le.EXTRA_DATA"
 
-/*servicio bt caracteristica HR*/
 private val UUID_HEART_RATE_MEASUREMENT_XIAOMI:UUID = UUID.fromString("00002a37-0000-1000-8000-00805f9b34fb")
 private val UUID_ACTIVITY_MEASUREMENT_XIAOMI = UUID.fromString("00000007-0000-3512-2118-0009af100700")
 private val UUID_MEASUREMENT_FITBIT = UUID.fromString("558dfa01-4fa8-4105-9f02-4eaa93e62980")
@@ -73,6 +67,7 @@ private var address: String = ""
 
 lateinit var task: TimerTask
 lateinit var realDate : LocalDateTime
+lateinit var localDate : LocalDateTime
 private var lastIndex = -1
 private var lastValue: String? = null
 
@@ -90,7 +85,6 @@ class BluetoothLeService : Service() {
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun startMyOwnForeground() {
         val NOTIFICATION_CHANNEL_ID = "example.permanence"
         val channelName = "Background Service"
@@ -207,9 +201,18 @@ class BluetoothLeService : Service() {
 
                 val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm")
                 realDate = LocalDateTime.of(año.toInt(), month, dia.toInt(), hour.toInt(), minute.toInt(), 0)
-                Log.i("ACTIVITY", "Real timestamp: %s".format(realDate.format(dtf)))
+                Log.e("TIMER", "Real timestamp: %s".format(realDate.format(dtf)))
+                val requested = localDate.atZone(ZoneId.of("Europe/Madrid")).toInstant().toEpochMilli()
+                val obtained = realDate.atZone(ZoneId.of("Europe/Madrid")).toInstant().toEpochMilli()
+                val difference = requested - obtained
 
-                startPreviousData(gatt, characteristic)
+                if (difference < 3*3600000) {
+                    startPreviousData(gatt, characteristic)
+                } else {
+                    val byteArray = byteArrayOf(0x03)
+                    characteristic.value = byteArray
+                    gatt.writeCharacteristic(characteristic)
+                }
             } else {
                 broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic)
             }
@@ -242,11 +245,12 @@ class BluetoothLeService : Service() {
                     val timer = Timer()
                     task = object : TimerTask() {
                         override fun run() {
+                            Log.e("TIMER", LocalTime.now().toString())
                             writeActivityData(gatt)
                         }
                     }
                     //Envio de datos cada hora
-                    timer.scheduleAtFixedRate(task, TimeUnit.MINUTES.toMillis(0), TimeUnit.HOURS.toMillis(1))
+                    timer.scheduleAtFixedRate(task, TimeUnit.MINUTES.toMillis(0), TimeUnit.MINUTES.toMillis(15))
                 }
             }
             characteristics2.removeAt(index)
@@ -406,6 +410,8 @@ class BluetoothLeService : Service() {
                 val pastActivity = characteristic.value
                 val packageIndex = pastActivity[0]
                 val numRegistros = (pastActivity.size - 1)/8
+                Log.e("TIMER", "Num regis: %s".format(numRegistros))
+                var lastDate = realDate
 
                 if (lastIndex != packageIndex.toInt()) {
                     lastIndex = packageIndex.toInt()
@@ -420,10 +426,12 @@ class BluetoothLeService : Service() {
                         val unk4 = pastActivity[8+8*i].toInt().and(0xFF)
 
                         val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy HH:mm")
-                        val timestamp = realDate.plusMinutes((2*packageIndex + i).toLong()).format(dtf)
+                        var timestamp = realDate.plusMinutes((i).toLong())
+                        lastDate = timestamp
+                        val millis = lastDate.atZone(ZoneId.of("Europe/Madrid")).toInstant().toEpochMilli()
 
-                        dbS!!.execSQL("INSERT INTO previousData (DATETIME, activityType, intensity, steps, heartRate, unknow1, unknow2, unknow3, unknow4) " +
-                                "VALUES('" + timestamp + "', '" + activity_type + "', '" + intensityV + "', '" + stepsV + "', '" + heartRateV + "', '" + unk1 + "', '" + unk2 + "', '" + unk3 + "', '" + unk4 + "')")
+                        dbS!!.execSQL("INSERT INTO previousData (timestamp, DATETIME, activityType, intensity, steps, heartRate, unknow1, unknow2, unknow3, unknow4) " +
+                                "VALUES('" + millis + "', '" + timestamp.format(dtf) + "', '" + activity_type + "', '" + intensityV + "', '" + stepsV + "', '" + heartRateV + "', '" + unk1 + "', '" + unk2 + "', '" + unk3 + "', '" + unk4 + "')")
                     }
                 }
             }
@@ -437,7 +445,7 @@ class BluetoothLeService : Service() {
                 }
             }
         }
-        dbHelperS.close()
+        //dbHelperS.close()
         sendBroadcast(intent)
     }
 
@@ -496,14 +504,15 @@ class BluetoothLeService : Service() {
         dbS = dbHelperS.writableDatabase
 
         val chara: BluetoothGattCharacteristic = characteristics[0]
-        var stringAño = LocalDate.now().year
-        var año = LocalDate.now().year.toBigInteger().toByteArray()
-        var mes = LocalDate.now().monthValue.toByte()
-        var dia = LocalDate.now().dayOfMonth
-        var hora = LocalTime.now().hour - 5
-        var minuto = LocalTime.now().minute
+        localDate = LocalDateTime.now().minusHours(1)
+        var stringAño = localDate.year
+        var año = localDate.year.toBigInteger().toByteArray()
+        var mes = localDate.monthValue.toByte()
+        var dia = localDate.dayOfMonth
+        var hora = localDate.hour
+        var minuto = localDate.minute
 
-        val c: Cursor? = dbS!!.rawQuery("SELECT max(DATETIME) FROM previousData", null)
+        val c: Cursor? = dbS!!.rawQuery("SELECT DATETIME, timestamp FROM previousData WHERE timestamp = (SELECT max(timestamp) FROM previousData)", null)
         try {
             if (c != null) {
                 if (c.count > 0) {
@@ -516,8 +525,9 @@ class BluetoothLeService : Service() {
                             año = stringAño.toBigInteger().toByteArray()
                             mes = lastValueSplit[1].toInt().toByte()
                             dia = lastValueSplit[0].toInt()
-                            hora = lastValueSplit[3].toInt() + 1
-                            minuto = lastValueSplit[4].toInt()
+                            hora = lastValueSplit[3].toInt()
+                            minuto = lastValueSplit[4].toInt() + 1
+                            localDate = Instant.ofEpochMilli(c.getString(1).toLong()).atZone(ZoneId.of("Europe/Madrid")).toLocalDateTime()
                             lastValue = null
                         }
                     } while (c.moveToNext())
@@ -541,6 +551,7 @@ class BluetoothLeService : Service() {
     private fun startPreviousData (gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
         val byteArray = byteArrayOf(0x02)
         characteristic.value = byteArray
+        lastIndex = -1
         gatt.writeCharacteristic(characteristic)
     }
 
@@ -629,20 +640,6 @@ class BluetoothLeService : Service() {
         Log.i("BLE SERV", "entra en close")
         if (bluetoothGatt == null)
             return
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.BLUETOOTH_CONNECT
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
         bluetoothGatt!!.close()
         bluetoothGatt = null
         esPrimera = true
@@ -651,5 +648,6 @@ class BluetoothLeService : Service() {
     }
 
 }
+
 
 

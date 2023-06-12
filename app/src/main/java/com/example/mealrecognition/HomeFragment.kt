@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -35,6 +36,8 @@ class HomeFragment : Fragment() {
     private lateinit var b2: TextView
     private lateinit var b3: Button
     private lateinit var fl: FrameLayout
+    private lateinit var ll: LinearLayout
+
 
 
     private val ACTION_DATA_AVAILABLE = "com.example.bluetooth.le.ACTION_DATA_AVAILABLE"
@@ -58,7 +61,28 @@ class HomeFragment : Fragment() {
         b2 = binding.intro2
         b3 = binding.intro3
         tv = binding.tv
+        fl = binding.frameLayout
 
+
+/*
+        val mFragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+        val mFragment1 = BtFragment()
+        val mFragment2 = ProfileFragment()
+        val mFragment3 = CamFragment()
+          // On button click, a bundle is initialized and the
+        // text from the EditText is passed in the custom
+        // fragment using this bundle
+        b1.setOnClickListener {
+            mFragmentTransaction.replace(R.id.home, mFragment1).commit()}
+
+        b2.setOnClickListener {
+            mFragmentTransaction.add(R.id.home, mFragment2).commit()}
+
+        b3.setOnClickListener {
+            mFragmentTransaction.add(R.id.home, mFragment3).commit()}
+
+
+*/
         // on below line we are creating and initializing
         // variable for simple date format.
         val sdf = SimpleDateFormat("dd/MM/yyyy     HH:mm")
@@ -72,7 +96,6 @@ class HomeFragment : Fragment() {
         // date and time to our text view.
         currentTV.text = currentDateAndTime
 
-        val fragment = BtFragment()
 
 
 

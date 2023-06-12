@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.mealrecognition.databinding.FragmentBtBinding
 
-
 class BtFragment : Fragment() {
 
     private var _binding: FragmentBtBinding? = null
