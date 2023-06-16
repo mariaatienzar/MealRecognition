@@ -65,6 +65,7 @@ class CameraActivity : AppCompatActivity() {
                 val cameraProvider = processCameraProvider.get()
                 val previewUseCase = Preview.Builder().build()
                 previewUseCase.setSurfaceProvider(image_view.surfaceProvider)
+                previewUseCase.setSurfaceProvider(image_view.surfaceProvider)
                 imageCapture = ImageCapture.Builder()
                     .setTargetResolution(Size(720, 720))
                     .setTargetRotation(image_view.display!!.rotation)

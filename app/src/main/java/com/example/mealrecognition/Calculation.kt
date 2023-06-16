@@ -181,6 +181,7 @@ class Calculation : AppCompatActivity() {
                     imageView.snackbar("Datos registrados correctamente")
                     val confirmationResponse = response.body()
                     println(confirmationResponse)
+                    startActivity(Intent(this@Calculation,HomeActivity::class.java))
 
                 } else {
                     println("Error en la respuesta: ${response.code()}")

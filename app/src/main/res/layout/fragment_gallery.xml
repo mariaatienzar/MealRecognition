@@ -116,81 +116,77 @@
 
 
 
-
-        <RelativeLayout
-            android:id="@+id/activity_detailed_r1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="400dp"
-            tools:ignore="MissingConstraints">
-            <TextView
-                android:id="@+id/detailed_cal"
+            <RelativeLayout
+                android:id="@+id/activity_detailed_r1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textStyle="bold"
-                style="@style/MainTheme"
-                android:gravity="center"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="100dp"
-                android:text="Selecciona momento del dia"
-                android:elegantTextHeight="true"
-                android:textColor="@color/black"
-                android:textSize="18dp" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/detailed_quantity"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="180dp"
-                android:layout_height="70dp"
-
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="120dp">
-
-                <AutoCompleteTextView
-                    android:hint="Ocasión"
-                    style="@style/MainTheme"
-                    android:id="@+id/detailed_quantity_dropdown"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="490dp"
+                tools:ignore="MissingConstraints">
+                <TextView
+                    android:id="@+id/detailed_cal"
                     android:layout_width="match_parent"
-                    android:autoHandwritingEnabled="false"
-                    android:layout_height="60dp"
+                    android:layout_height="match_parent"
                     android:textStyle="bold"
-                    android:textSize="18dp"
-                    android:inputType= "none"
+                    style="@style/MainTheme"
                     android:textAlignment="center"
-                    android:popupTheme="@android:style/ThemeOverlay.Material.Light"
-                     android:singleLine="true"
-
-
-                    android:visibility="visible"
-                    android:layout_marginTop="300dp"
-
+                    android:text="Selecciona momento del dia"
                     android:elegantTextHeight="true"
                     android:textColor="@color/black"
+                    android:textSize="18dp" >
+                </TextView>
 
-                    android:gravity="center"
-                    android:background="@drawable/borders"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/detailed_quantity"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="180dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp">
 
 
+                    <AutoCompleteTextView
+                        android:hint="Ocasión"
+                        android:id="@+id/detailed_quantity_dropdown"
+                        android:layout_width="match_parent"
+                        android:autoHandwritingEnabled="false"
+                        style="@style/MainTheme"
+                        android:layout_height="60dp"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:textAlignment="center"
+                        android:popupTheme="@android:style/ThemeOverlay.Material.Light"
+                        android:inputType= "none"
+                        android:singleLine="true"
 
+
+                        android:visibility="visible"
+                        android:layout_marginTop="360dp"
+
+                        android:elegantTextHeight="true"
+                        android:textColor="@color/black"
+
+                        android:gravity="center"
+                        android:background="@drawable/borders"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/button_upload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subir"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/detailed_quantity"
                     />
+            </RelativeLayout>
 
 
-
-            </com.google.android.material.textfield.TextInputLayout>
-            <Button
-                android:id="@+id/button_upload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Subir"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/detailed_quantity"
-                />
-        </RelativeLayout>
     </RelativeLayout>
-
 
 
 

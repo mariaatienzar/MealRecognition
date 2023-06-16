@@ -93,7 +93,7 @@ class DataUploader : Service() {
 
                             val fileWriter = FileWriter(file)
                             val bufferedWriter = BufferedWriter(fileWriter)
-                            val message = JSONArray()//Hay datos de glucosa
+                            val message = JSONArray()
 
                             c1.moveToFirst()
                             do {

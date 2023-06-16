@@ -3,11 +3,14 @@ package com.example.mealrecognition
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
+import androidx.camera.core.ImageCapture
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.mealrecognition.databinding.FragmentGalleryBinding
@@ -30,6 +34,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class GalleryFragment : Fragment() {
@@ -169,6 +175,9 @@ class GalleryFragment : Fragment() {
             val mimeTypes = arrayOf("image/jpeg", "image/png")
             it.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
             startActivityForResult(it, REQUEST_CODE_IMAGE)
+
+
+
         }
     }
 
@@ -178,7 +187,9 @@ class GalleryFragment : Fragment() {
             when (requestCode) {
                 REQUEST_CODE_IMAGE -> {
                     selectedImageUri = data?.data!!
-                     // Decode the image file into a bitmap
+
+
+                    // Decode the image file into a bitmap
                     val options = BitmapFactory.Options().apply {
                         inJustDecodeBounds = true
                         BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(selectedImageUri), null, this)
