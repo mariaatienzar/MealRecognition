@@ -21,7 +21,9 @@ fun uploadImage(
     @Part("correction_factor") fc: RequestBody,
     @Part("patient_estimation") est: RequestBody,
     @Part("patient_correction") cor: RequestBody,
-    @Part("meal_occasion") occ: RequestBody
+    @Part("meal_occasion") occ: RequestBody,
+    @Part("incorrect_detection") inc: RequestBody
+
 
 ): Call<UploadResponse>
 

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,9 @@ import java.time.format.DateTimeFormatter
 
 
 class Calculation : AppCompatActivity() {
+
+    private val RETRASO_MS: Long = 2000 // 3 segundos
+
     private lateinit var binding: ActivityCalculationBinding
     private lateinit var textViewHC: TextView
     private lateinit var textCal: TextView
@@ -148,6 +152,12 @@ class Calculation : AppCompatActivity() {
             Log.e("TAG", correc)
         }
 
+        val sharedDetec = getSharedPreferences("detec_incorrecta", Context.MODE_PRIVATE)
+        val incorrect_detection = sharedDetec.getString("incorrecto", null)
+        Log.e("TAG", incorrect_detection.toString())
+
+
+
         val body_nut = UploadFileBody(filenut, "json")
 
 
@@ -161,7 +171,8 @@ class Calculation : AppCompatActivity() {
             RequestBody.create(MediaType.parse("multipart/form-data"), correc.toString()),
             RequestBody.create(MediaType.parse("multipart/form-data"), patient_estimation.toString()),
             RequestBody.create(MediaType.parse("multipart/form-data"), patient_correction.toString()),
-            RequestBody.create(MediaType.parse("multipart/form-data"), meal_occasion.toString())
+            RequestBody.create(MediaType.parse("multipart/form-data"), meal_occasion.toString()),
+            RequestBody.create(MediaType.parse("multipart/form-data"), incorrect_detection.toString())
 
 
             ).enqueue(object : Callback<UploadResponse> {
@@ -181,6 +192,15 @@ class Calculation : AppCompatActivity() {
                     imageView.snackbar("Datos registrados correctamente")
                     val confirmationResponse = response.body()
                     println(confirmationResponse)
+                    val handler = Handler()
+                    handler.postDelayed({
+                        // Crear el Intent para iniciar la actividad deseada
+                        startActivity(Intent(this@Calculation,HomeActivity::class.java))
+
+                        // Finalizar la actividad actual si es necesario
+                        finish()
+                    }, RETRASO_MS)
+
 
                 } else {
                     println("Error en la respuesta: ${response.code()}")

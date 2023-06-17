@@ -7,31 +7,41 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mealrecognition.databinding.ActivityRecognitionBinding
 import com.example.mealrecognition.upload.LogmealAPI
+import com.example.mealrecognition.upload.NutrientAPI
+import com.example.mealrecognition.upload.getFileName
 import com.example.mealrecognition.upload.receivers.ConfirmationResponse
 import com.example.mealrecognition.upload.receivers.NutrientResponse
+import com.example.mealrecognition.upload.receivers.UploadResponse
 import com.example.mealrecognition.upload.snackbar
-import com.example.mealrecognition.upload.uploaders.ConfirmationRequest
-import com.example.mealrecognition.upload.uploaders.NutritionRequest
+import com.example.mealrecognition.upload.uploaders.*
 import com.google.gson.Gson
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class RecognitionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecognitionBinding
     private lateinit var progress_bar: ProgressBar
-    private lateinit var imageView: TextView
+    private lateinit var imageView: ImageView
     lateinit var buttonsView: LinearLayout
     lateinit var confButton: Button
+    lateinit var incorrectButton: Button
     lateinit var textView: TextView
     private lateinit var imageUri: Uri
     private lateinit var button_scroll: HorizontalScrollView
@@ -44,9 +54,10 @@ class RecognitionActivity : AppCompatActivity() {
 
         buttonsView = binding.buttonsView
         confButton = binding.btnConf
+        incorrectButton = binding.btnIncorrect
         progress_bar = binding.progressBar
         textView = binding.textView
-        //button_scroll = binding.scrollbutton
+        imageView =binding.imageView
 
 
         imageUri = intent.getParcelableExtra<Uri>("image")!!
@@ -66,6 +77,37 @@ class RecognitionActivity : AppCompatActivity() {
         val editor1 = sharedPrefOccasion?.edit()
         editor1?.putString("meal", occasion)
         editor1?.apply()
+
+        var incorrect_detection: String? = null
+        val sharedDetecc = this.getSharedPreferences("detec_incorrecta", Context.MODE_PRIVATE)
+        val editor2 = sharedDetecc?.edit()
+        editor2?.putString("incorrecto", incorrect_detection)
+        editor2?.apply()
+
+
+
+        incorrectButton.setOnClickListener{
+            incorrect_detection = "Yes"
+            val dialog = AlertDialog.Builder(this)
+            dialog.setTitle("Aviso")
+                .setMessage("Si confirma que ninguno de sus alimentos ha sido reconocido, será redirigido a la página de inicio")
+                .setPositiveButton("Confirmar") { dialog, whichButton ->
+                    uploadImage(imageUri,null)
+
+                    startActivity(Intent(this, HomeActivity::class.java))}
+                    .setNegativeButton("Seleccionar alimentos") { dialog, whichButton ->
+                        if (shouldResetItems) {
+                            shouldResetItems = false // Restablecer la bandera
+                        }
+                        // DO YOUR STAFF
+                        // dialog.close()
+                    }
+
+                    dialog.show()
+
+                }
+
+
 
 
 
@@ -362,7 +404,7 @@ class RecognitionActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<ConfirmationResponse>, t: Throwable) {
-                    imageView.snackbar(t.message!!)
+
                     progress_bar.progress = 0
                 }
 
@@ -398,8 +440,125 @@ class RecognitionActivity : AppCompatActivity() {
         return allPositionItem
     }
 
+    private fun uploadImage(uriFile: Uri, patient_correction: String?) {
+        if (patient_correction != null) {
+            Log.e("TAG", patient_correction)
+        }
+        val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm")
+        val now: LocalDateTime = LocalDateTime.now()
+        val date: String = dtf.format(now).toString()
+
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(uriFile, "r", null)
+            ?: return
+        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+        val valuesActivity = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_DOWNLOADS).toString() + "/nutrients_info_%s.json".format(date)
+        val filenut = File(valuesActivity)
+        if (!filenut.exists()) {
+            filenut.createNewFile()
+        }
+
+
+        val fileWriter = FileWriter(filenut)
+        val bufferedWriter = BufferedWriter(fileWriter)
+
+
+        val json = null
+        bufferedWriter.write(json.toString())
+        Thread.sleep(10)
+        bufferedWriter.close()
+
+
+        val file = File(this.cacheDir, this.contentResolver!!.getFileName(uriFile))
+
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+
+        progress_bar.progress = 0
+        val body = UploadRequest2(file, "image", this)
+        val prefs = this.getSharedPreferences("id_pref", MODE_PRIVATE)
+        val patient_id = prefs?.getInt("id", 0)
+        val sharedPref = getSharedPreferences("ch_estimation", Context.MODE_PRIVATE)
+        val patient_estimation = sharedPref.getString("ch", null)
+
+
+        val sharedPrefOccasion = getSharedPreferences("meal_occasion", Context.MODE_PRIVATE)
+        val meal_occasion = sharedPrefOccasion?.getString("meal", null)
+        if (meal_occasion != null) {
+            Log.e("TAG", meal_occasion)
+        }
+
+        val sharedPrefIRC = getSharedPreferences("irc_patient", Context.MODE_PRIVATE)
+        val irc = sharedPrefIRC?.getString("irc",null)
+        if (irc != null) {
+            Log.e("TAG", irc)
+        }
+
+        val sharedPrefFactor = getSharedPreferences("factor_correction", Context.MODE_PRIVATE)
+        val correc = sharedPrefFactor?.getString("factor", null)
+        if (correc != null) {
+            Log.e("TAG", correc)
+        }
+
+
+
+        val incorrect_detection ="Yes"
+
+
+
+        val body_nut = UploadFileBody(filenut, "json")
+
+
+
+        NutrientAPI().uploadImage(
+
+            MultipartBody.Part.createFormData("image", file.name, body),
+            MultipartBody.Part.createFormData("json", filenut.name, body_nut),
+            RequestBody.create(MediaType.parse("multipart/form-data"), patient_id.toString()),
+            RequestBody.create(MediaType.parse("multipart/form-data"), irc.toString()),
+            RequestBody.create(MediaType.parse("multipart/form-data"), correc.toString()),
+            RequestBody.create(MediaType.parse("multipart/form-data"), patient_estimation.toString()),
+            RequestBody.create(MediaType.parse("multipart/form-data"), patient_correction.toString()),
+            RequestBody.create(MediaType.parse("multipart/form-data"), meal_occasion.toString()),
+            RequestBody.create(MediaType.parse("multipart/form-data"), incorrect_detection)
+
+
+        ).enqueue(object : Callback<UploadResponse> {
+            override fun onResponse(
+                call: Call<UploadResponse>,
+                response: Response<UploadResponse>
+            ) {
+                response.body()?.let {
+
+                    progress_bar.progress = 100
+                    inputStream.close()
+                    outputStream.close()
+
+                }
+
+                if (response.isSuccessful) {
+                    imageView.snackbar("Datos registrados correctamente")
+                    val confirmationResponse = response.body()
+                    println(confirmationResponse)
+                }
+                   else {
+                    println("Error en la respuesta: ${response.code()}")
+                }
+            }
+
+
+            override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
+                imageView.snackbar("Datos registrados correctamente")
+
+                progress_bar.progress = 0
+            }
+
+        })
+    }
+
 
 }
+
 
 
 

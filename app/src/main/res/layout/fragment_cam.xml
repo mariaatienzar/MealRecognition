@@ -9,6 +9,164 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green" />
+
+
+
+
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="210dp"
+        android:layout_height="240dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/ic_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        ></ImageView>
+    <RelativeLayout
+        android:id="@+id/activity_detailed_rl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        tools:ignore="MissingConstraints">
+
+
+        <TextView
+            android:id="@+id/detailed_IRC_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            style="@style/MainTheme"
+            android:text="Indica a continuación su estimación de CH para esta ingesta"
+            android:textStyle="bold"
+            android:elegantTextHeight="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_marginTop="300dp"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:visibility="visible"
+
+
+            >
+        </TextView>
+        <EditText
+            android:id="@+id/ch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="360dp"
+            android:textStyle="bold"
+            android:elegantTextHeight="true"
+            android:textColor="@color/black"
+            style="@style/MainTheme"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:background="@drawable/borders"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
+
+            android:textAlignment="center"
+            android:visibility="visible"
+            android:popupTheme="@android:style/ThemeOverlay.Material.Light"
+            android:layout_marginBottom="10dp"
+            android:drawablePadding="10dp"
+            android:hint="Introduce gramos"
+            android:inputType="text"
+            android:singleLine="true"
+            />
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/activity_detailed_rl3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+
+        <RelativeLayout
+            android:id="@+id/activity_detailed_r1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="435dp"
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:id="@+id/detailed_cal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                style="@style/MainTheme"
+                android:textAlignment="center"
+                android:text="Selecciona momento del dia"
+                android:elegantTextHeight="true"
+                android:textColor="@color/black"
+                android:textSize="18dp" >
+            </TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/detailed_quantity"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="180dp"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp">
+
+
+                <AutoCompleteTextView
+                    android:hint="Ocasión"
+                    android:id="@+id/detailed_quantity_dropdown"
+                    android:layout_width="match_parent"
+                    android:autoHandwritingEnabled="false"
+                    style="@style/MainTheme"
+                    android:layout_height="60dp"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textAlignment="center"
+                    android:popupTheme="@android:style/ThemeOverlay.Material.Light"
+                    android:inputType= "none"
+                    android:singleLine="true"
+
+
+                    android:visibility="visible"
+                    android:layout_marginTop="360dp"
+
+                    android:elegantTextHeight="true"
+                    android:textColor="@color/black"
+
+                    android:gravity="center"
+                    android:background="@drawable/borders"
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+
+
 
 
     <ProgressBar
@@ -45,176 +203,14 @@
             android:layout_weight="1"
             android:text="Repetir" />
 
-    </LinearLayout>
-    <RelativeLayout
-        android:id="@+id/activity_detailed_rl3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
-    <TextView
-        android:id="@+id/detailed_cal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textStyle="bold"
-        style="@style/MainTheme"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="210dp"
-        android:text="Selecciona momento del dia"
-        android:elegantTextHeight="true"
-        android:textColor="@color/black"
-        android:textSize="18dp" />
 
-
-
-    <RelativeLayout
-        android:id="@+id/activity_detailed_r1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="435dp"
-        tools:ignore="MissingConstraints">
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/detailed_quantity"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="180dp"
-        android:layout_height="70dp"
-
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp">
-
-        <AutoCompleteTextView
-            android:hint="Ocasión"
-            android:id="@+id/detailed_quantity_dropdown"
-            android:layout_width="match_parent"
-            android:autoHandwritingEnabled="false"
-            style="@style/MainTheme"
-            android:layout_height="60dp"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:textAlignment="center"
-            android:popupTheme="@android:style/ThemeOverlay.Material.Light"
-            android:inputType= "none"
-            android:singleLine="true"
-
-
-            android:visibility="visible"
-            android:layout_marginTop="360dp"
-
-            android:elegantTextHeight="true"
-            android:textColor="@color/black"
-
-            android:gravity="center"
-            android:background="@drawable/borders"
-
-
-
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-    </RelativeLayout>
-    </RelativeLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/green" />
-
-
-        <TextView
-            android:id="@+id/camera_text"
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:enabled="true"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            tools:text="Capturar Foto" />
 
 
     </LinearLayout>
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="210dp"
-        android:layout_height="240dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/ic_camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        ></ImageView>
-    <RelativeLayout
-        android:id="@+id/activity_detailed_rl1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        tools:ignore="MissingConstraints">
 
 
-    <TextView
-        android:id="@+id/detailed_IRC_text"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        style="@style/MainTheme"
-        android:text="Indica a continuación su estimación de CH para esta ingesta"
-        android:textStyle="bold"
-        android:elegantTextHeight="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:layout_marginTop="300dp"
-        android:textSize="18dp"
-        android:gravity="center"
-        android:visibility="visible"
 
 
-        >
-    </TextView>
-    <EditText
-        android:id="@+id/ch"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="360dp"
-        android:textStyle="bold"
-        android:elegantTextHeight="true"
-        android:textColor="@color/black"
-        style="@style/MainTheme"
-        android:textSize="18dp"
-        android:gravity="center"
-        android:background="@drawable/borders"
-        android:layout_marginStart="80dp"
-        android:layout_marginEnd="80dp"
-
-        android:textAlignment="center"
-        android:visibility="visible"
-        android:popupTheme="@android:style/ThemeOverlay.Material.Light"
-        android:layout_marginBottom="10dp"
-        android:drawablePadding="10dp"
-        android:hint="Introduce gramos"
-        android:inputType="text"
-        android:singleLine="true"
-        />
-    </RelativeLayout>
 
 
 

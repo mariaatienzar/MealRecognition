@@ -10,7 +10,8 @@
         android:id="@+id/tv_graph_hr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        style="@style/MainTheme"
         android:alpha="0.7"
         android:text="Frecuencia cardíaca" />
 
@@ -21,9 +22,11 @@
 
     <TextView
         android:id="@+id/tv_graph_steps"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
+        style="@style/MainTheme"
         android:alpha="0.7"
         android:text="Pasos" />
 
@@ -34,9 +37,11 @@
 
     <TextView
         android:id="@+id/tv_graph_calorias"
+        style="@style/MainTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
         android:alpha="0.7"
         android:text="Calorías" />
 
