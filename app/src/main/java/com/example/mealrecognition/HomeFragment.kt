@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,9 +19,12 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.mealrecognition.databinding.FragmentHomeBinding
+import com.jjoe64.graphview.series.DataPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,8 +42,10 @@ class HomeFragment : Fragment() {
     private lateinit var b3: Button
     private lateinit var fl: FrameLayout
     private lateinit var ll: LinearLayout
+    private lateinit var cont: ConstraintLayout
 
 
+    private var db: SQLiteDatabase? = null
 
     private val ACTION_DATA_AVAILABLE = "com.example.bluetooth.le.ACTION_DATA_AVAILABLE"
     private val ACTION_PREVIOUS_DATA = "com.example.bluetooth.le.ACTION_PREVIOUS_DATA"
@@ -61,28 +68,76 @@ class HomeFragment : Fragment() {
         b2 = binding.intro2
         b3 = binding.intro3
         tv = binding.tv
-        fl = binding.frameLayout
+        fl = binding.fl
+        cont = binding.Container
+
+
+        b1.setOnClickListener {
+            val fragmentManager = requireActivity().supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(fl.id, BtFragment()) // Replace R.id.frameLayout with the actual ID of your FrameLayout
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+
+        }
+
+        b2.setOnClickListener {
+            val fragmentManager = requireActivity().supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+
+            // Remove all fragments from the back stack
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+            // Replace the fragment container with the new fragment
+            fragmentTransaction.replace(fl.id, ProfileFragment()) // Replace R.id.frameLayout with the actual ID of your FrameLayout
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
+
+
+
+        b3.setOnClickListener {
+            startActivity(Intent(this.context, CameraActivity::class.java))
+
+        }
+
+
+
 
 
 /*
-        val mFragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-        val mFragment1 = BtFragment()
-        val mFragment2 = ProfileFragment()
-        val mFragment3 = CamFragment()
-          // On button click, a bundle is initialized and the
+
+        // On button click, a bundle is initialized and the
         // text from the EditText is passed in the custom
         // fragment using this bundle
         b1.setOnClickListener {
-            mFragmentTransaction.replace(R.id.home, mFragment1).commit()}
+            val anotherFragment = BtFragment()
+            val fragmentManager = requireActivity().supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(
+                this.id,
+                anotherFragment
+            ) // Replace R.id.container with the actual container ID of your layout
+            fragmentTransaction.commit()
+        }
 
         b2.setOnClickListener {
-            mFragmentTransaction.add(R.id.home, mFragment2).commit()}
+            val profileFragment = ProfileFragment()
+            val fragmentManager = requireActivity().supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(
+                this.id,
+                profileFragment
+            ) // Replace R.id.container with the actual container ID of your layout
+            fragmentTransaction.commit()
+        }
 
-        b3.setOnClickListener {
-            mFragmentTransaction.add(R.id.home, mFragment3).commit()}
+        b3.setOnClickListener{
+            startActivity(Intent(this.context, HomeActivity::class.java))
+        }
 
+ */
 
-*/
         // on below line we are creating and initializing
         // variable for simple date format.
         val sdf = SimpleDateFormat("dd/MM/yyyy     HH:mm")
@@ -96,6 +151,44 @@ class HomeFragment : Fragment() {
         // date and time to our text view.
         currentTV.text = currentDateAndTime
 
+        val lastHeartRate = getLastHeartRate()
+
+        if (lastHeartRate != null) {
+
+            // Do something with the lastHeartRate value
+            // For example, display it in a TextView
+            carbohTV.text = lastHeartRate + "lpm"
+        } else {
+            // Handle case when no Heart Rate values are available
+            // Display an appropriate message or handle it as needed
+        }
+
+        val lastSteps = getLastSteps()
+
+        if (lastSteps != null) {
+
+            // Do something with the lastHeartRate value
+            // For example, display it in a TextView
+            stepsTv.text = lastSteps
+        } else {
+            // Handle case when no Heart Rate values are available
+            // Display an appropriate message or handle it as needed
+        }
+        val lastCalories = getLastCalories()
+
+        if (lastCalories != null) {
+
+            // Do something with the lastHeartRate value
+            // For example, display it in a TextView
+            caloriesTV.text = lastCalories
+        } else {
+            // Handle case when no Heart Rate values are available
+            // Display an appropriate message or handle it as needed
+        }
+
+
+
+
 
 
 
@@ -103,6 +196,8 @@ class HomeFragment : Fragment() {
 
 
     }
+
+/*
     override fun onResume() {
         super.onResume()
         activity?.registerReceiver(gattUpdateReceiver, makeGattUpdateIntentFilter())
@@ -156,6 +251,12 @@ class HomeFragment : Fragment() {
                 Log.e("OVERVIEW FRAGMENT", "STEPS CATCH")
             }
         }
+        else{
+            val lastSteps = getLastSteps()
+            stepsTv.text = "$lastSteps "
+
+        }
+
         var calories: String? = intent!!.getStringExtra("calories")
         if(calories != null) {
             try {
@@ -165,6 +266,11 @@ class HomeFragment : Fragment() {
                 Log.e("OVERVIEW FRAGMENT", "CALORIES CATCH")
             }
         }
+        else{
+            val lastCalories = getLastCalories()
+            caloriesTV.text = "$lastCalories"
+
+        }
         var heartRate: String? = intent!!.getStringExtra("heart_rate")
         if(heartRate != null) {
             try {
@@ -173,10 +279,102 @@ class HomeFragment : Fragment() {
                 Log.e("OVERVIEW FRAGMENT", "HR  CATCH")
             }
         }
+        else{
+            val lastHeartRate = getLastHeartRate()
+            carbohTV.text = lastHeartRate + " lpm"
+
+        }
     }
 
 
+ */
+
+    fun getLastHeartRate(): String? {
+
+       /* val absoluteHRArray: MutableList<DataPoint> = ArrayList()
+        val dbHelper = MyOpenHelper(activity)
+        db = dbHelper.writableDatabase
+        val c: Cursor? = db!!.rawQuery("SELECT * FROM heartRates WHERE DATETIME <= datetime('now','localtime') AND DATETIME > datetime('now','localtime','-60 minutes') ORDER BY DATETIME ASC", null)
+
+
+        */
+        val dbHelper = MyOpenHelper(activity)
+        val db = dbHelper.readableDatabase
+        val cursor = db.query(
+            "heartRates",
+            arrayOf("lpm"),
+            null,
+            null,
+            null,
+            null,
+            "_id DESC",
+            "1"
+        )
+
+        val lastHeartRate: String? = if (cursor.moveToFirst()) {
+            cursor.getString(cursor.getColumnIndex("lpm"))
+        } else {
+            null
+        }
+
+        cursor.close()
+        return lastHeartRate
+    }
+    fun getLastCalories(): String? {
+
+        val dbHelper = MyOpenHelper(activity)
+        val db = dbHelper.readableDatabase
+        val cursor = db.query(
+            "calories_tb",
+            arrayOf("calories"),
+            null,
+            null,
+            null,
+            null,
+            "_id DESC",
+            "1"
+        )
+
+        val lastCalories: String? = if (cursor.moveToFirst()) {
+            cursor.getString(cursor.getColumnIndex("calories"))
+        } else {
+            null
+        }
+
+        cursor.close()
+        return lastCalories
+    }
+
+    fun getLastSteps(): String? {
+
+        val dbHelper = MyOpenHelper(activity)
+        val db = dbHelper.readableDatabase
+        val cursor = db.query(
+            "steps_tb",
+            arrayOf("steps"),
+            null,
+            null,
+            null,
+            null,
+            "_id DESC",
+            "1"
+        )
+
+        val lastSteps: String? = if (cursor.moveToFirst()) {
+            cursor.getString(cursor.getColumnIndex("steps"))
+        } else {
+            null
+        }
+
+        cursor.close()
+        return lastSteps
+    }
+
+
+
+
 }
+
 
 
 
@@ -237,4 +435,6 @@ class HomeFragment : Fragment() {
     }
 
 
-}*/
+}
+
+     */

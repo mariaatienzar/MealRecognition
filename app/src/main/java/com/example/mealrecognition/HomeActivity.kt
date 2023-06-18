@@ -97,9 +97,13 @@ class HomeActivity : AppCompatActivity() {
         }
 
     }
-
-
-
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
+    }
 
 
     override fun onSupportNavigateUp(): Boolean {

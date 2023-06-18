@@ -30,6 +30,11 @@ class MyOpenHelper(context: Context?) : SQLiteOpenHelper(context, DB_NAME, null,
         private const val DB_NAME = "aps.sqlite"
         private const val DB_VERSION = 1
     }
+
+
+
 }
+
+
 
 

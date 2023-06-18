@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/fl"
     tools:context=".HomeFragment"
     android:orientation="horizontal">
 
@@ -238,7 +239,7 @@
                 <Button
                     android:id="@+id/intro3"
                     android:layout_width="290dp"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/intro2"
                     android:text="tomar foto desde una perspectiva correcta:"
@@ -291,4 +292,4 @@
 
 
 
-</LinearLayout>
+</FrameLayout>
