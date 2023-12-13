@@ -99,8 +99,7 @@ class RecognitionActivity : AppCompatActivity() {
                         if (shouldResetItems) {
                             shouldResetItems = false // Restablecer la bandera
                         }
-                        // DO YOUR STAFF
-                        // dialog.close()
+
                     }
 
                     dialog.show()
@@ -135,7 +134,6 @@ class RecognitionActivity : AppCompatActivity() {
             textview.setTypeface(textview.typeface, Typeface.BOLD);
             textview.textSize = 16F
             textview.setTextColor(Color.parseColor("#FF000000"))
-
 
             buttonsView.addView(textview)
             buttonsView.addView(scrollView)
@@ -209,16 +207,20 @@ class RecognitionActivity : AppCompatActivity() {
 
                         shouldResetItems = false // Restablecer la bandera
                     }
-                    // DO YOUR STAFF
-                    // dialog.close()
+                    item.clear() // Reiniciar la lista de elementos seleccionados
+                    listFoodPosition.clear()
+                    source.clear()
+
+                    shouldResetItems = true
+
+
                 }
 
             dialog.show()
 
 
-
-
         }
+
     }
     override fun onResume() {
         super.onResume()
@@ -233,8 +235,6 @@ class RecognitionActivity : AppCompatActivity() {
         val sharedPrefToken = getSharedPreferences("token_user", Context.MODE_PRIVATE)
         val token = "Bearer " + sharedPrefToken.getString("token", null)
 
-
-        //progress_bar.progress = 0
         LogmealAPI().nutrientInformation(token,request).enqueue(object : Callback<NutrientResponse> {
             override fun onResponse(
                 call: Call<NutrientResponse>,
@@ -258,9 +258,6 @@ class RecognitionActivity : AppCompatActivity() {
                     response_data.put("nutritional_info_per_item", nutritional_info_per_item)
                     response_data.put("serving_size", serving_size)
 
-
-
-
                     if (imageUri != null) {
                         sendConfirmation(response_data, imageUri)
                     }
@@ -283,7 +280,6 @@ class RecognitionActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<NutrientResponse>, t: Throwable) {
 
-                //progress_bar.progress = 0
             }
         }
         )

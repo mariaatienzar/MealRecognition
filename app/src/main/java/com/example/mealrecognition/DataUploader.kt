@@ -105,8 +105,6 @@ class DataUploader : Service() {
                                 data.put("minHR", c1.getString(c1.getColumnIndex("minHR")))
                                 data.put("steps", c1.getString(c1.getColumnIndex("steps")))
                                 data.put("calories", c1.getString(c1.getColumnIndex("calories")))
-                                /*Log.e("SENDACTDB", "{" + "\"heartRate\": " + c1.getString(c1.getColumnIndex("lpm")) + "}," + "\n"
-                                    + "\"timestamp\": " + c1.getString(c1.getColumnIndex("DATETIME")) + "}," + "\n")*/
                                 message.put(data)
                                 idArray.add(c1.getInt(c1.getColumnIndex("_id")))
                                 db.execSQL("UPDATE activityData SET isSent='1' WHERE _id=" + c1.getInt(c1.getColumnIndex("_id")))

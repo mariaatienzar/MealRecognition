@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.util.Size
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
@@ -35,6 +36,7 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var imageCapture : ImageCapture
     private lateinit var button : FloatingActionButton
+    private lateinit var backButton: ImageButton
     private lateinit var image_view : PreviewView
 
     companion object {
@@ -50,7 +52,12 @@ class CameraActivity : AppCompatActivity() {
         cameraExecutor = Executors.newSingleThreadExecutor()
         image_view = binding.camImView
         button = binding.floatingActionButton2
+        backButton = binding.buttonBack
         startCamera()
+
+        backButton.setOnClickListener{
+            startActivity(Intent(this,HomeActivity::class.java))
+        }
 
 
         button.setOnClickListener {
@@ -74,7 +81,6 @@ class CameraActivity : AppCompatActivity() {
                 cameraProvider?.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, previewUseCase, imageCapture)
             } catch (e: Exception) {
                 Log.e("ERROR", "Error al iniciar la cámara")
-                //Toast.makeText(this, "Error starting the camera", Toast.LENGTH_LONG).show()
             }
 
         }, ContextCompat.getMainExecutor(this))
@@ -85,9 +91,7 @@ class CameraActivity : AppCompatActivity() {
         val imageCapture = imageCapture ?: return
 
         // Create time stamped name and MediaStore entry.
-        /*val name = SimpleDateFormat("EEEE dd MMM yyyy", Locale.ENGLISH)
-            .format(System.currentTimeMillis())*/
-        val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm")
+         val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm")
         val now: LocalDateTime = LocalDateTime.now()
         val name: String = dtf.format(now).toString()
 

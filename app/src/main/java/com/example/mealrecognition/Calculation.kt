@@ -163,7 +163,6 @@ class Calculation : AppCompatActivity() {
 
 
         NutrientAPI().uploadImage(
-
             MultipartBody.Part.createFormData("image", file.name, body),
             MultipartBody.Part.createFormData("json", filenut.name, body_nut),
             RequestBody.create(MediaType.parse("multipart/form-data"), patient_id.toString()),
@@ -173,21 +172,16 @@ class Calculation : AppCompatActivity() {
             RequestBody.create(MediaType.parse("multipart/form-data"), patient_correction.toString()),
             RequestBody.create(MediaType.parse("multipart/form-data"), meal_occasion.toString()),
             RequestBody.create(MediaType.parse("multipart/form-data"), incorrect_detection.toString())
-
-
             ).enqueue(object : Callback<UploadResponse> {
             override fun onResponse(
                 call: Call<UploadResponse>,
                 response: Response<UploadResponse>
             ) {
                 response.body()?.let {
-
                     progress_bar.progress = 100
                     inputStream.close()
                     outputStream.close()
-
                 }
-
                 if (response.isSuccessful) {
                     imageView.snackbar("Datos registrados correctamente")
                     val confirmationResponse = response.body()

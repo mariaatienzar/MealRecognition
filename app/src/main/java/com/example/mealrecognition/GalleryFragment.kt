@@ -36,7 +36,7 @@ class GalleryFragment : Fragment() {
     lateinit var SelectImage: ImageView
     //lateinit var IVPreviewImage: ImageView
     lateinit var BUpload: Button
-    lateinit var selectedImageUri: Uri
+    private var selectedImageUri: Uri? = null
     lateinit var requestLauncher: ActivityResultLauncher<Intent>
     lateinit var progress_bar: ProgressBar
     lateinit var autocomplete: AutoCompleteTextView
@@ -55,6 +55,7 @@ class GalleryFragment : Fragment() {
     ): View? {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
 
         SelectImage = binding.imageView
         BUpload = binding.buttonUpload
@@ -84,7 +85,8 @@ class GalleryFragment : Fragment() {
 
 
         SelectImage.setOnClickListener {
-            opeinImageChooser()
+
+                openImageChooser()
         }
 
 
@@ -95,10 +97,14 @@ class GalleryFragment : Fragment() {
             else if ( autocomplete.text.isEmpty()) {
                 Toast.makeText(activity, "Debe elegir el momento de su ingesta", Toast.LENGTH_LONG).show()
             }
+            if (selectedImageUri == null) {
+                Toast.makeText(activity, "Debe seleccionar una imagen", Toast.LENGTH_LONG).show()
+            }
+
             else{
 
-                uploadSegmentation(selectedImageUri)
-                progress_bar.progress = 100
+                selectedImageUri?.let { it1 -> uploadSegmentation(it1) }
+                onProgressUpdate(70)
                 Log.e("TAG", ch_text.text.toString())
                 Log.e("TAG", autocomplete.text.toString())
 
@@ -138,7 +144,8 @@ class GalleryFragment : Fragment() {
             override fun onResponse(
                 call: Call<SegmentationResponse>,
                 response: Response<SegmentationResponse>
-            ) {
+            )
+            {
                 response.body()?.let {
                     val imageId = it.imageId
                     val occasion = it.occasion
@@ -156,13 +163,14 @@ class GalleryFragment : Fragment() {
                     sendSegmentation(response_data,uriFile)
 
                 }
+                onProgressUpdate(100)
             }
         })
 
     }
 
 
-    private fun opeinImageChooser() {
+    private fun openImageChooser() {
 
         Intent(Intent.ACTION_PICK).also {
             it.type = "image/*"
@@ -181,7 +189,9 @@ class GalleryFragment : Fragment() {
                      // Decode the image file into a bitmap
                     val options = BitmapFactory.Options().apply {
                         inJustDecodeBounds = true
-                        BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(selectedImageUri), null, this)
+                        BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(
+                            selectedImageUri!!
+                        ), null, this)
                         val imageHeight = outHeight
                         val imageWidth = outWidth
                         val maxSize = 1024 // Set your desired max image size
@@ -189,9 +199,10 @@ class GalleryFragment : Fragment() {
                         inSampleSize = ratio
                         inJustDecodeBounds = false
                     }
-                    val bitmap = BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(selectedImageUri), null,options )
+                    val bitmap = BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(
+                        selectedImageUri!!
+                    ), null,options )
                     SelectImage.setImageBitmap(bitmap)
-                    //SelectImage.setImageURI(selectedImageUri)
 
 
 
@@ -220,11 +231,6 @@ class GalleryFragment : Fragment() {
         }
 
         return name
-    }
-    private fun openListMeal(path: String) {
-        val intent = Intent(activity, IntakeInfoActivity::class.java)
-        intent.putExtra("Food Image", path)
-        startActivity(intent)
     }
 
     private fun sendSegmentation(obj: JSONObject, uriFile: Uri) {

@@ -109,8 +109,7 @@ class ProfileFragment : Fragment() {
             editorFC?.apply()
 
 
-            //MIRAR UPDATING EMAIL 10 TUTORIAL (crear fragmento de actualizacion , no se si se necesita TextView)
-            val updates = UserProfileChangeRequest.Builder()
+             val updates = UserProfileChangeRequest.Builder()
                 .setDisplayName("Peso: $weight kg")
                 .setDisplayName("Altura: $height m")
                 .setDisplayName("Edad: $age años")
@@ -118,8 +117,6 @@ class ProfileFragment : Fragment() {
                 .setDisplayName("Relación insulina-Carbohidratos: $irc")
                 .setDisplayName("Factor correción insulina: $correc")
                 .build()
-
-
 
 
 

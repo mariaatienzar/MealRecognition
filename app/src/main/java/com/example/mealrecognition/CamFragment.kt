@@ -98,7 +98,6 @@ class CamFragment : Fragment() {
         upload_bt.setOnClickListener {
             if (::image_uri.isInitialized) {
                 if (image_uri != "".toUri()) {
-                    //uploadImage(image_uri)
                     if (ch_text.text.isEmpty()) {
                         Toast.makeText(activity, "Debe introducir un valor de Carbohidratos", Toast.LENGTH_LONG).show()
                     }
@@ -121,10 +120,8 @@ class CamFragment : Fragment() {
 
         }
         repeat_bt.setOnClickListener {
-            buttonsView.removeAllViews()
             requestLauncher.launch(Intent(activity, CameraActivity::class.java))
         }
-
         return root
     }
 
@@ -184,7 +181,6 @@ class CamFragment : Fragment() {
                     progress_bar.progress = 100
                     inputStream.close()
                     outputStream.close()
-                    //image_uri = "".toUri()
 
                     val delete_file = File(
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
@@ -216,7 +212,6 @@ class CamFragment : Fragment() {
         val body = UploadRequestBody(file, "image", this)
         val sharedPrefToken = activity?.getSharedPreferences("token_user", Context.MODE_PRIVATE)
         val token = "Bearer " + sharedPrefToken?.getString("token", null)
-        Log.e("TAG", "$token")
         LogmealAPI.invoke()
         if (token != null) {
             LogmealAPI().dishesDetection(

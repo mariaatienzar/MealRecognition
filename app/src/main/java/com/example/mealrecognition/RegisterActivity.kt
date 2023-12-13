@@ -57,25 +57,19 @@ class RegisterActivity : AppCompatActivity() {
         button.setOnClickListener{
             val user = emailInput.editableText.toString()
             val password = pswInput.editableText.toString()
-
-            if (user.isEmpty()) {
-                Toast.makeText(this,"Usuario requerido", Toast.LENGTH_LONG).show()
-            }
-
-            if(password.isEmpty() || password.length <6){
-                Toast.makeText(this,"Contraseña de más de 6 digitos requerida", Toast.LENGTH_LONG).show()
-
-            }
             val idNumber = idInput.editableText.toString()
-            if (idNumber.isEmpty()) {
-                Toast.makeText(this,"Introduzca un ID", Toast.LENGTH_LONG).show()
+
+
+            if (idNumber.isNotEmpty()) {
+                val editor = sp.edit()
+                editor.putInt("id", idNumber.toInt())
+                editor.commit()
+
             }
+            registerUser(user,idNumber,password)
 
 
-            val editor = sp.edit()
-            editor.putInt("id", idNumber.toInt())
-            editor.commit()
-            registerUser(user,password)
+
 
         }
 
@@ -88,24 +82,41 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    private fun registerUser (user: String, password: String) {
-        progressBar.visibility = View.VISIBLE
-        mAuth.createUserWithEmailAndPassword(user,password)
-            .addOnCompleteListener(this) { task ->
-                progressBar.visibility=View.GONE
-                if (task.isSuccessful) {
-                    login()
-                    obtaintoken(user)
-
-
-
-
-                } else {
-                    task.exception?.message?.let{
-                        toast(it)
+    private fun registerUser (user: String,id:String, password: String ) {
+        if (user.isNotEmpty()&& password.isNotEmpty()&& id.isNotEmpty()) {
+            progressBar.visibility = View.VISIBLE
+            mAuth.createUserWithEmailAndPassword(user,password)
+                .addOnCompleteListener(this) { task ->
+                    progressBar.visibility=View.GONE
+                    if (task.isSuccessful) {
+                        login()
+                        obtaintoken(user)
+                    } else {
+                        task.exception?.message?.let{
+                            toast(it)
+                        }
                     }
                 }
-            }
+
+        }else if (user.isEmpty()){
+            Toast.makeText(this,"Usuario requerido", Toast.LENGTH_LONG).show()
+        }
+        else if(password.isEmpty()){
+            Toast.makeText(this,"Contraseña requerida", Toast.LENGTH_LONG).show()
+
+        }
+
+        else if(password.length <6){
+            Toast.makeText(this,"Contraseña de más de 6 digitos requerida", Toast.LENGTH_LONG).show()
+
+        }
+
+        else if (id.isEmpty()) {
+            Toast.makeText(this,"Introduzca un ID", Toast.LENGTH_LONG).show()
+        }
+
+
+
     }
 
     override fun onStart() {
@@ -149,8 +160,7 @@ class RegisterActivity : AppCompatActivity() {
                     val editor = sharedPrefToken?.edit()
                     editor?.putString("token", token_user)
                     editor?.apply()
-
-
+                    
 
                     if (response.isSuccessful) {
                         val confirmationResponse = response.body()

@@ -33,14 +33,7 @@ import com.google.firebase.auth.FirebaseAuth
 class HomeActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var appBarConfiguration_2: AppBarConfiguration
-    private lateinit var toolBar : Toolbar
-    private lateinit var navView : NavigationView
-    private lateinit var drawerLayout : DrawerLayout
-    private lateinit var navController: NavController
-
-    private val REQUEST_ENABLE_BT: Int = 0
-    private var bluetoothAdapter: BluetoothAdapter? = null
-    var patient_id : Int? = null
+     var patient_id : Int? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,9 +48,7 @@ class HomeActivity : AppCompatActivity() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navBottomView: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration_2 = AppBarConfiguration(
+          appBarConfiguration_2 = AppBarConfiguration(
             setOf(R.id.homeFragment,R.id.physicalActFragment, R.id.bt_page, R.id.camFragment, R.id.intake),drawerLayout
         )
 
@@ -126,7 +117,6 @@ class HomeActivity : AppCompatActivity() {
 
                     FirebaseAuth.getInstance().signOut()
                     logout()
-
                 }
                 setNegativeButton("Cancelar") { _, _ ->
                 }

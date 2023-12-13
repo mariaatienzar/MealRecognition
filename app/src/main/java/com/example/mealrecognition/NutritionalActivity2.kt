@@ -161,7 +161,7 @@ class NutritionalActivity2 : AppCompatActivity() {
 
 
 
-    fun parseImageId(data: JSONObject): Int { //mirar que lo que devuelve creo que es un string con el nombre
+    fun parseImageId(data: JSONObject): Int {
         val id= data.getInt("imageId")
         return id
     }

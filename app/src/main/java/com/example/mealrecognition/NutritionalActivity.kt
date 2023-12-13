@@ -241,30 +241,14 @@ class NutritionalActivity : AppCompatActivity() {
         })
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_STORAGE_PERMISSION) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, continue with your file operations
-                // ...
-            } else {
 
-                // ...
-            }
-        }
-    }
     private fun obtainNutrients(imageId: Int) {
         val request = NutritionRequest(imageId.toString())
         val sharedPrefToken = getSharedPreferences("token_user", Context.MODE_PRIVATE)
         val token = "Bearer " + sharedPrefToken.getString("token", null)
 
 
-        //progress_bar.progress = 0
-        LogmealAPI().nutrientInformation(token,request).enqueue(object : Callback<NutrientResponse> {
+         LogmealAPI().nutrientInformation(token,request).enqueue(object : Callback<NutrientResponse> {
             override fun onResponse(
                 call: Call<NutrientResponse>,
                 response: Response<NutrientResponse>
@@ -309,13 +293,12 @@ class NutritionalActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<NutrientResponse>, t: Throwable) {
 
-                //progress_bar.progress = 0
             }
         }
         )
     }
 
-    fun parseImageId(data: JSONObject): Int { //mirar que lo que devuelve creo que es un string con el nombre
+    fun parseImageId(data: JSONObject): Int {
         val id= data.getInt("imageId")
         return id
     }
@@ -329,10 +312,6 @@ class NutritionalActivity : AppCompatActivity() {
     private fun parseFoodName(data : JSONObject): JSONArray {
         val foodName = data.getJSONArray("foodName")
         return foodName
-    }
-    private fun parseidFood(data : JSONObject): JSONArray {
-        val idsFood = data.getJSONArray("ids")
-        return idsFood
     }
 
     private fun parseCalories(data : JSONObject): Double {
@@ -348,30 +327,7 @@ class NutritionalActivity : AppCompatActivity() {
 
     }
 
-    private fun parseItemNutritionalInfo(data : JSONObject): JSONArray {
-         val nutritionalInfoPerItem = data.getJSONArray("nutritional_info_per_item")
 
-        val allids = ArrayList<Int>()
-        for (i in 0 until nutritionalInfoPerItem.length()) {
-            val result = nutritionalInfoPerItem.getJSONObject(i)
-            val ids = result.getInt("id")
-            allids.add(ids)
-            for (i in 0 until allids.size) {
-
-            }
-            val nutritionalInfo = result.getJSONObject("nutritional_info")
-            val calories = nutritionalInfo.getDouble("calories")
-            val totalNutrients = nutritionalInfo.getJSONObject("totalNutrients")
-            val carbohItem = totalNutrients.getJSONObject("CHOCDF")
-
-
-            for (i in 0 until nutritionalInfoPerItem.length()) {
-
-            }
-
-        }
-        return nutritionalInfoPerItem
-    }
     private fun parseServingSizeItem(data : JSONObject): JSONObject{
         val nutritionalInfoPerItem = data.getJSONArray("nutritional_info_per_item")
         val allServingSize = ArrayList<Float>()
@@ -512,26 +468,6 @@ class NutritionalActivity : AppCompatActivity() {
 
         return quantity
     }
-    private fun parseSodiumUnit(data : JSONObject):  String {
-        val nutritionalInfo = data.getJSONObject("nutritional_info")
-        val totalNutrients = nutritionalInfo.getJSONObject("totalNutrients")
-        val type = totalNutrients.getJSONObject("NA")
-        val quantity = type.getDouble("quantity")
-        val label = type.getString("label")
-        val unit = type.getString("unit")
-
-        return unit
-    }
-    private fun parseCholestmUnit(data : JSONObject):  String {
-        val nutritionalInfo = data.getJSONObject("nutritional_info")
-        val totalNutrients = nutritionalInfo.getJSONObject("totalNutrients")
-        val type = totalNutrients.getJSONObject("CHOLE")
-        val quantity = type.getDouble("quantity")
-        val label = type.getString("label")
-        val unit = type.getString("unit")
-
-        return unit
-    }
 
 
     private fun parseCarbohUnit(data : JSONObject): String {
@@ -570,18 +506,7 @@ class NutritionalActivity : AppCompatActivity() {
         return unit
     }
 
-    private fun parseCarbohLabel(data : JSONObject): String {
-        val nutritionalInfo = data.getJSONObject("nutritional_info")
 
-        val totalNutrients= nutritionalInfo.getJSONObject("totalNutrients")
-        val type = totalNutrients.getJSONObject("CHOCDF")
-        val quantity = type.getDouble("quantity")
-        val label = type.getString("label")
-        val unit = type.getString("unit")
-
-        return label
-
-    }
 
     private fun sendUpdate(JObjectConf: JSONObject, Image: Uri) {
         val intent = Intent(this, NutritionalActivity2::class.java)
@@ -596,14 +521,7 @@ class NutritionalActivity : AppCompatActivity() {
 
 
     }
-    private fun sendConfirmation(Cal: Int, Carbs: Int) {
-        val intent = Intent(this, Calculation::class.java)
-        intent.putExtra("calories", Cal)
-        intent.putExtra("carbs", Carbs)
-        startActivity(intent)
 
-
-    }
 
 
 

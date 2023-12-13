@@ -1,11 +1,7 @@
 package com.example.mealrecognition
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.util.Patterns
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -14,14 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mealrecognition.databinding.ActivityLoginBinding
-import com.example.mealrecognition.upload.LogmealAPI
-import com.example.mealrecognition.upload.receivers.UserResponse
-import com.example.mealrecognition.upload.uploaders.UserRequest
 import com.google.firebase.auth.FirebaseAuth
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class LoginActivity : AppCompatActivity() {
@@ -47,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
         idInput = binding.editText
         pswInput = binding.editTextPassword
         viewRegister = binding.textViewRegister
+        viewForgetPsw =binding.textViewForgetPassword
 
         progressBar = binding.progressbar
 
@@ -60,14 +50,6 @@ class LoginActivity : AppCompatActivity() {
             //startActivity(Intent(this, LogmealAPI::class.java).putExtra("user",user))
 
 
-            if (user.isEmpty()) {
-                Toast.makeText(this,"Usuario requerido", Toast.LENGTH_LONG).show()
-            }
-
-            if(password.isEmpty() || password.length <6){
-                Toast.makeText(this,"Contraseña de más de 6 digitos requerida", Toast.LENGTH_LONG).show()
-
-            }
 
             loginUser(user,password)
 
@@ -78,29 +60,44 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this,RegisterActivity::class.java)
             startActivity(intent)
         }
-        //viewforgetpsw.setOnClickListener{
-          //  val intent2 = Intent(this,ResetPasswordActivity::class.java)
-        //}
+        viewForgetPsw.setOnClickListener{
+            val intent2 = Intent(this,ForgotPasswordActivity::class.java)
+            startActivity(intent2)
+        }
 
 
 
 
     }
     private fun loginUser(user: String, password:String){
-        progressBar.visibility = View.VISIBLE
-        //mAuth.signInWithCustomToken()
-        mAuth.signInWithEmailAndPassword(user,password)
-            .addOnCompleteListener(this){ task->
-                progressBar.visibility = View.GONE
-                if(task.isSuccessful){
-                    login()
-
-
-                }else{
-                    task.exception?.message?.let {
-                        toast(it)
+        if (user.isNotEmpty() && password.isNotEmpty()) {
+            progressBar.visibility = View.VISIBLE
+            mAuth.signInWithEmailAndPassword(user,password)
+                .addOnCompleteListener(this){ task->
+                    progressBar.visibility = View.GONE
+                    if(task.isSuccessful){
+                        login()
                     }
+                    else{
+                        task.exception?.message?.let {
+                            toast(it)
+                        }
+                    }
+
                 }
+
+        }else if (user.isEmpty()){
+            Toast.makeText(this,"Usuario requerido", Toast.LENGTH_LONG).show()
+
+
+        }else if (password.isEmpty()){
+            Toast.makeText(this,"Contraseña requerida", Toast.LENGTH_LONG).show()
+
+        }
+
+
+        if( password.length <6){
+            Toast.makeText(this,"Contraseña de más de 6 digitos requerida", Toast.LENGTH_LONG).show()
 
         }
 
